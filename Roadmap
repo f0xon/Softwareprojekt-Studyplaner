@@ -1,5 +1,7 @@
 | Kapitel | Implementation | Example |
 | --- | --- | --- |
+
+
 | 1 | Static typing | Type hints in all files |
 | 2 | Dataclasses | @dataclass for Task, Course |
 | 3 | Associations | StudyPlan has List[Task] |
