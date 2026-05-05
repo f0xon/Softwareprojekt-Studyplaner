@@ -1,0 +1,14 @@
+| Kapitel | Implementation | Example |
+| --- | --- | --- |
+| 1 | Static typing | Type hints in all files |
+| 2 | Dataclasses | @dataclass for Task, Course |
+| 3 | Associations | StudyPlan has List[Task] |
+| 4 | Entities vs. Value Objects | User (Entity) vs. Task (Value Object) |
+| 5 | Methods | Task.complete() |
+| 6 | Special Methods | __str__, __eq__ in Task |
+| 7 | Constructors & Encapsulation | Validation in Task.__init__ |
+| 8 | Properties & Aggregates | @property is_overdue |
+| 9 | Protocols | Serializable Protocol |
+| 10 | Functional Classes | TaskFactory with __call__ |
+| 11 | Inheritance | RecurringTask(Task) |
+| 12 | Modeling | UML diagram + class relationships |
