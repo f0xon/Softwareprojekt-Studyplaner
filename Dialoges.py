@@ -12,14 +12,34 @@ class Standard(ft.Column):
             ft.ElevatedButton("Refresh", on_click=self.on_refresh),
         ])
 
-    def on_refresh(self, event: ft.ControlEvent):
+    def on_refresh(self, event: ft.Event[ft.Button]):
         event.page.update()
 
 
 class todolist(Standard):
     def __init__(self):
         super().__init__()
-        self.
+        ft.SafeArea(
+            expand=True,
+            content=ft.GridView(
+                expand=True,
+                runs_count=5,
+                max_extent=150,
+                child_aspect_ratio=1.0,
+                spacing=5,
+                run_spacing=5,
+                controls=[
+                    ft.Image(
+                        src=f"https://picsum.photos/150/150?{i}",
+                        fit=ft.BoxFit.NONE,
+                        repeat=ft.ImageRepeat.NO_REPEAT,
+                        border_radius=ft.BorderRadius.all(10),
+                    )
+                    for i in range(0, 60)
+                ],
+            ),
+        )
+        
 
 
 def main(page: ft.Page):
