@@ -9,11 +9,21 @@ class Standard(ft.Column):
         self.controls.extend([
             ft.Text("Dashboard", size=32, weight=ft.FontWeight.BOLD),
             ft.Text("Welcome to the dashboard. Add widgets here to display your content."),
+            ft.ElevatedButton("new ToDo", on_click=self.on_new_todo),
+            ft.ElevatedButton("ToDo01", on_click=self.on_ToDo),
+            ft.ElevatedButton("ToDo02", on_click=self.on_ToDo),
+            ft.ElevatedButton("ToDo03", on_click=self.on_ToDo),
             ft.ElevatedButton("Refresh", on_click=self.on_refresh),
         ])
 
     def on_refresh(self, event: ft.Event[ft.Button]):
         event.page.update()
+
+    def on_new_todo(self, event: ft.Event[ft.Button]):
+         event.page.update()
+    def on_ToDo(self, event: ft.Event[ft.Button]):
+         event.page.update()
+
 
 
 class todolist(Standard):

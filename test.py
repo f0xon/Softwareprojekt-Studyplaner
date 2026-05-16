@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+print('Hallo! ztzr')
+print("test selina")
+print("test selina2")
+=======
 import flet as ft
 
 
@@ -32,3 +37,4 @@ def main(page: ft.Page):
 
 if __name__ == "__main__":
     ft.run(main)
+>>>>>>> 76c2cc4a8832ccba9e10ab0522e8db4970c4e53f
