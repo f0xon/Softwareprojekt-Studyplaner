@@ -4,8 +4,8 @@ import flet as ft
 
 
 class Taschenrechner(ft.Column):
-    result : int
-    accus: list[int]=[]
+    result : float
+    accus: list[float]=[]
     opperator: str = ""
 
     def __init__(self):
@@ -67,10 +67,10 @@ class Taschenrechner(ft.Column):
 
     def on_button_click(self, e: ft.Event[ft.Button]):
         try:
-            int( e.control.data)
+            float( e.control.data)
             self.display.value += e.control.data
 
-            self.accus.append(int(self.display.value))
+            self.accus.append(float(self.display.value))
         except:
             if e.control.data =='+':
                 self.display.value = ""
@@ -103,7 +103,7 @@ class Taschenrechner(ft.Column):
         try:
             accu2 = self.accus.pop()
             accu1 = self.accus.pop()
-            res: int
+            res: float
             if self.opperator == "+":
                 res = accu1 + accu2
             elif self.opperator =="*":
