@@ -5,16 +5,14 @@ from views.settings_view import SettingsView
 
 
 def main(page: ft.Page):
-    page.title = "Studyplaner — UI Mockup"
+    page.title = "Studyplaner — UI beginning"
     page.window_width = 900
     page.window_height = 600
 
-    # instantiate views
     home = HomeView(page)
     todos = TodoView(page)
     settings = SettingsView(page)
 
-    # content area that will be replaced when switching views
     content = ft.Column([home.build()], spacing=10, expand=True)
 
     def show_view(view):
