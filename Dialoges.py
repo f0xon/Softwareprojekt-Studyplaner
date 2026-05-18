@@ -27,7 +27,7 @@ class Standard(ft.Column):
 
 class adding_todo_UI(Standard):
     Titel: str = ""
-    Fälligkeit: Date= 
+    Fälligkeit: str = "18.05.2026"
     Kalender: str = ""
     Erinnerung: str = ""
     Bemerkung: str = ""
@@ -39,53 +39,61 @@ class adding_todo_UI(Standard):
         super().__init__()
 
     def did_mount(self):
-         #pop up fesnster
+        
+         #pop up Fesnster implementieren
+        
+        
+
         self.controls.append(
-            ft.Column([
-                ft.Row([
-                        ft.Text("Titel:"),
-                        ft.TextField(
-                            label="",
-                            value=self.Titel,
-                        ),
-                        ]),
-                ft.Row([
-                        ft.Text("Fälligkeit:"),
-                        ft.TextField(
-                            label="",
-                            value=self.Fälligkeit,
-                        ),
-                        ]),
+            ft.Column(
+                [
+                    ft.Row(
+                        [
+                            ft.Text("Titel:"),
+                            ft.TextField(
+                                label="",
+                                value=self.Titel,
+                            ),
+                        ]
+                    ),
+                    ft.Row([
+                            ft.Text("Fälligkeit:"),
+                            ft.TextField(
+                                label="",
+                                value=self.Fälligkeit,
+                            ),
+                    ]),
 
-                ft.Row([
-                    ft.Text("Kalender")
-                    #ja nein check boxen
-                ])
+                    ft.Row([
+                        ft.Text("Kalender"),
+                        #ja nein check boxen
+                    ]),
 
-                ft.Row([
-                        ft.Text("Erinnerung:"),
-                        ft.TextField(
-                            label="",
-                            value=self.Erinnerung,
-                        ),
-                        ]),
-                ft.Row([
-                        ft.Text("Bemerkung:"),
-                        ft.TextField(
-                            label="",
-                            value=self.Bemerkung,
-                        ),
-                        ]),
-                ft.Row([
-                        ft.Text("Kategorie:"),
-                        ft.TextField(
-                            label="",
-                            value=self.Kategorie,
-                        ),
-                        ]),
-            ])
+                    ft.Row([
+                            ft.Text("Erinnerung:"),
+                            ft.TextField(
+                                label="",
+                                value=self.Erinnerung,
+                            ),
+                            ]),
+                    ft.Row([
+                            ft.Text("Bemerkung:"),
+                            ft.TextField(
+                                label="",
+                                value=self.Bemerkung,
+                            ),
+                            ]),
+                    ft.Row([
+                            ft.Text("Kategorie:"),
+                            ft.TextField(
+                                label="",
+                                value=self.Kategorie,
+                            ),
+                            ]),
+                ]
+            )
         )
-        ...
+        
         
         
 
@@ -148,6 +156,7 @@ class todolist_UI(Standard):
 
 def main(page: ft.Page):
     page.add(todolist_UI())
+    page.add(adding_todo_UI())
 
 
 ft.app(target=main)
