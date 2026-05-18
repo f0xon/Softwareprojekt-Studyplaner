@@ -1,8 +1,13 @@
 # pyright: reportUnknownMemberType=false
 
-#from dataclasses import dataclass
+from dataclasses import dataclass
 
 import flet as ft
+
+
+@dataclass
+class Date():
+    ...
 
 
 # @dataclass
@@ -21,16 +26,64 @@ class Standard(ft.Column):
 
 
 class adding_todo_UI(Standard):
+    Titel: str = ""
+    Fälligkeit: Date= 
+    Kalender: str = ""
+    Erinnerung: str = ""
+    Bemerkung: str = ""
+    Kategorie: str = ""
+
+
+
     def __init__(self):
         super().__init__()
 
     def did_mount(self):
          #pop up fesnster
         self.controls.append(
-            ft.Row([
-                    ft.Text("Titel:"),
-                    ft.IconButton(icon=ft.Icons.ADD , icon_color=ft.Colors.PRIMARY),
-                    ]),
+            ft.Column([
+                ft.Row([
+                        ft.Text("Titel:"),
+                        ft.TextField(
+                            label="",
+                            value=self.Titel,
+                        ),
+                        ]),
+                ft.Row([
+                        ft.Text("Fälligkeit:"),
+                        ft.TextField(
+                            label="",
+                            value=self.Fälligkeit,
+                        ),
+                        ]),
+
+                ft.Row([
+                    ft.Text("Kalender")
+                    #ja nein check boxen
+                ])
+
+                ft.Row([
+                        ft.Text("Erinnerung:"),
+                        ft.TextField(
+                            label="",
+                            value=self.Erinnerung,
+                        ),
+                        ]),
+                ft.Row([
+                        ft.Text("Bemerkung:"),
+                        ft.TextField(
+                            label="",
+                            value=self.Bemerkung,
+                        ),
+                        ]),
+                ft.Row([
+                        ft.Text("Kategorie:"),
+                        ft.TextField(
+                            label="",
+                            value=self.Kategorie,
+                        ),
+                        ]),
+            ])
         )
         ...
         
