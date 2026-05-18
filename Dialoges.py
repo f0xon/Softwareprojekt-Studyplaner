@@ -26,6 +26,8 @@ class Standard(ft.Column):
 
 
 class adding_todo_UI(Standard):
+
+# Standard Werte für Eigaberfelder für die Eingabe eines neuen Todos
     Titel: str = ""
     Fälligkeit: str = "18.05.2026"
     Kalender: str = ""
@@ -41,64 +43,60 @@ class adding_todo_UI(Standard):
     def did_mount(self):
         
          #pop up Fesnster implementieren
-        
-        
-
         self.controls.append(
-            ft.Column(
-                [
-                    ft.Row(
+            ft.Card(                                                #Rahmen in dem die Eingabefelder liegen
+                bgcolor=ft.Colors.SURFACE_CONTAINER_LOW,
+                shadow_color=ft.Colors.ON_SURFACE_VARIANT,
+                content=ft.Container(
+                    width=400,
+                    padding=10,
+                    content=ft.Column(
                         [
-                            ft.Text("Titel:"),
-                            ft.TextField(
-                                label="",
-                                value=self.Titel,
+                            ft.Row(
+                                [
+                                    ft.Text("Titel:"),
+                                    ft.TextField(
+                                        value=self.Titel,
+                                    ),
+                                ]
                             ),
+                            ft.Row([
+                                    ft.Text("Fälligkeit:"),
+                                    ft.TextField(
+                                        value=self.Fälligkeit,
+                                    ),
+                            ]),
+
+                            ft.Row([
+                                ft.Text("Kalender"),
+                                ft.Checkbox(label="Ja"),
+                                ft.Checkbox(label="Nein")  #ja nein check boxen
+                            ]),
+
+                            ft.Row([
+                                    ft.Text("Erinnerung:"),
+                                    ft.TextField(
+                                        value=self.Erinnerung,
+                                    ),
+                                    ]),
+                            ft.Row([
+                                    ft.Text("Bemerkung:"),
+                                    ft.TextField(
+                                        value=self.Bemerkung,
+                                    ),
+                                    ]),
+                            ft.Row([
+                                    ft.Text("Kategorie:"),
+                                    ft.TextField(
+                                        value=self.Kategorie,
+                                    ),
+                                    ]),
                         ]
+                    )
                     ),
-                    ft.Row([
-                            ft.Text("Fälligkeit:"),
-                            ft.TextField(
-                                label="",
-                                value=self.Fälligkeit,
-                            ),
-                    ]),
-
-                    ft.Row([
-                        ft.Text("Kalender"),
-                        #ja nein check boxen
-                    ]),
-
-                    ft.Row([
-                            ft.Text("Erinnerung:"),
-                            ft.TextField(
-                                label="",
-                                value=self.Erinnerung,
-                            ),
-                            ]),
-                    ft.Row([
-                            ft.Text("Bemerkung:"),
-                            ft.TextField(
-                                label="",
-                                value=self.Bemerkung,
-                            ),
-                            ]),
-                    ft.Row([
-                            ft.Text("Kategorie:"),
-                            ft.TextField(
-                                label="",
-                                value=self.Kategorie,
-                            ),
-                            ]),
-                ]
+                ),
             )
-        )
         
-        
-        
-
-
-
 
 class todolist_UI(Standard):
     
