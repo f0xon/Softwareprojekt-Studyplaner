@@ -27,6 +27,7 @@ class TruhePresenter:
     
     @property
     def gewicht(self) -> int:
+        self._model.gewicht
         return 0
     
     @property
