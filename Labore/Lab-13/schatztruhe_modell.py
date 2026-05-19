@@ -58,6 +58,12 @@ class Truhe:
             if i.typ.bezeichnung == bezeichnung:
                 return i
         return None
+    
+    def loesche_item(self, item_bezeichnung: str):
+        item = self.item_by_bezeichnung(item_bezeichnung)
+        if item is None:
+            raise ValueError("Item nicht in Truhe.")
+        self.items.remove(item)
 
     def __repr__(self) -> str:
         return f"Truhe(gew.: {self.gewicht}/{self.kapazitaet} -- {self.items})"

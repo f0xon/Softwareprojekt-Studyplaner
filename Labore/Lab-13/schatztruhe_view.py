@@ -21,7 +21,8 @@ class TruheView(ft.Column):
             columns=[
                 ft.DataColumn(label=ft.Text("Bezeichnung")),
                 ft.DataColumn(label=ft.Text("Anzahl")),
-                ft.DataColumn(label=ft.Text("Gewicht"))
+                ft.DataColumn(label=ft.Text("Gewicht")),
+                # ft.DataColumn(label=ft.Text("Löschen"))
             ]
         )
         self.controls.append(table)
@@ -34,7 +35,8 @@ class TruheView(ft.Column):
                         ft.Row([
                             ft.Button("-", data=item.bezeichnung, on_click=self.on_minus_clicked),
                             ft.Text(str(item.anzahl)),
-                            ft.Button("+", data=item.bezeichnung, on_click=self.on_plus_clicked)
+                            ft.Button("+", data=item.bezeichnung, on_click=self.on_plus_clicked),
+                            ft.Button("X", data=item.bezeichnung, on_click=self.on_x_clicked)
                         ])
                     ),
                     ft.DataCell(ft.Text(str(item.gewicht)))
@@ -45,15 +47,20 @@ class TruheView(ft.Column):
             self.controls.append(ft.Text(f"Fehler: {self.presenter.letzter_fehler}", color=ft.Colors.RED))
 
     def on_plus_clicked(self, e: ft.Event[ft.Button]):
-        # bezeichnung = e.control.data
-        # self.presenter.erhoehe_menge(bezeichnung)
+        bezeichnung = e.control.data
+        self.presenter.erhoehe_menge(bezeichnung)
         self.update_view()
+        
 
     def on_minus_clicked(self, e: ft.Event[ft.Button]):
-        # bezeichnung = e.control.data
-        # self.presenter.verringere_menge(bezeichnung)
+        bezeichnung = e.control.data
+        self.presenter.verringere_menge(bezeichnung)
         self.update_view()
 
+    def on_x_clicked(self, e: ft.Event[ft.Button]):
+        bezeichnung = e.control.data
+        self.presenter.loesche_item(bezeichnung)
+        self.update_view()
 
 def main(page: ft.Page):
     page.title = "Schatztruhe"
