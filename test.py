@@ -7,34 +7,40 @@ print("test selina2")
 import flet as ft
 
 
-def main(page: ft.Page):
+
+
+
+
+
+
+
+
+
+def main( page: ft.Page):
     page.title = "GridView Example"
     page.theme_mode = ft.ThemeMode.DARK
     page.padding = 50
+    page.add()
+    page.controls.append(
+    #    ft.dropdown(
+    #         width = 400,
+    #         value="Option 1",
+    #         hint_text="Select an option",
+    #         options=[
+    #             ft.dropdown.Option("Option 1"),
+    #             ft.dropdown.Option("Option 2"),
+    #         ]
+    #     )
 
-    page.add(
-        ft.SafeArea(
-            expand=True,
-            content=ft.GridView(
-                expand=True,
-                runs_count=5,
-                max_extent=150,
-                child_aspect_ratio=1.0,
-                spacing=5,
-                run_spacing=5,
-                controls=[
-                    ft.Image(
-                        src=f"https://picsum.photos/150/150?{i}",
-                        fit=ft.BoxFit.NONE,
-                        repeat=ft.ImageRepeat.NO_REPEAT,
-                        border_radius=ft.BorderRadius.all(10),
-                    )
-                    for i in range(0, 60)
-                ],
-            ),
-        )
+
+        # Option A: Mit Spacer()
+        ft.Row([
+            ft.Text("Links"),
+            ft.Container(expand=True),  # füllt den Platz
+            ft.Text("Rechts")
+        ])
+        
     )
-
 
 if __name__ == "__main__":
     ft.run(main)
