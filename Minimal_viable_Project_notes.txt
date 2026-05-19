@@ -1,0 +1,4 @@
+minimal viable Project viable Project
+-Todos Erstellen
+-Todos Lesen /anzeigen lassen
+-Todos nach Fälligkeit sortieren
