@@ -139,7 +139,6 @@ class todolist_UI(Standard):
                 #     ft.Checkbox(label="todo1"), ft.Text("Fällig: 20.05. 18Uhr")
                 # ]),
                 ft.ListTile(
-                    width=500,
                     leading=ft.Checkbox(),
                     title="Todo1",
                     subtitle="Categorie",
@@ -147,7 +146,6 @@ class todolist_UI(Standard):
                     bgcolor=ft.Colors.SURFACE_CONTAINER_LOW,
                 ),
                 ft.ListTile(
-                    width=500,
                     leading=ft.Checkbox(),
                     title="Todo2",
                     subtitle="Categorie",
