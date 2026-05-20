@@ -1,11 +1,5 @@
 # pyright: reportUnknownMemberType=false
-
-
-print('Hallo! ztzr')
-print("test selina")
-print("test selina2")
 import flet as ft
-
 
 
 
@@ -32,15 +26,10 @@ def main( page: ft.Page):
     #         ]
     #     )
 
-
-        # Option A: Mit Spacer()
-        ft.Row([
-            ft.Text("Links"),
-            ft.Container(expand=True),  # füllt den Platz
-            ft.Text("Rechts")
-        ])
-        
+        ft.Text("Hallo"),
     )
+        
+    
 
 if __name__ == "__main__":
     ft.run(main)

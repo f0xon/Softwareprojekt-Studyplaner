@@ -41,7 +41,7 @@ class TodoView(Standard):
             [
                 ft.Row([
                     #ft.Button(content= ft.Container(ft.Text("Sortieren"), ft.Icons.KEYBOARD_ARROW_DOWN_ROUNDED)),
-                    ft.IconButton(icon=ft.Icons.ADD , icon_color=ft.Colors.PRIMARY),
+                    ft.IconButton(icon=ft.Icons.ADD , icon_color=ft.Colors.PRIMARY, on_click=self.on_button_click_addingTodoView),
                     ]),
                 # ft.Row([
                 #     ft.Checkbox(label="todo1"), ft.Text("Fällig: 20.05. 18Uhr")
@@ -63,3 +63,7 @@ class TodoView(Standard):
             ]
             )
         )
+
+        def on_button_click_addingTodoView(self, e: ft.Event[ft.Button]):
+            if isinstance(self.page, ft.Page):
+                self.page.go("/addingTodo")
