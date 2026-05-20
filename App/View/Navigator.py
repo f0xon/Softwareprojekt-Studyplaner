@@ -1,7 +1,7 @@
 # pyright: reportUnknownMemberType=false
 import flet as ft
-from App.View.TodoView import TodoView
-from App.View.addingTodoView import addingTodoView
+from .TodoView import TodoView
+from .addingTodoView import addingTodoView
 
 class Navigator:
     page: ft.Page

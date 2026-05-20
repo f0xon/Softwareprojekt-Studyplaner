@@ -1,6 +1,6 @@
 # pyright: reportUnknownMemberType=false
 import flet as ft
-from App.View.StandardView import Standard
+from .StandardView import Standard
 
 class addingTodoView(Standard):
 
