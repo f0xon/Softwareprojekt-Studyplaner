@@ -1,20 +1,22 @@
-
+# pyright: reportUnknownMemberType=false
 import flet as ft
+from App.View.TodoView import TodoView
+from App.View.addingTodoView import addingTodoView
 
-class FletNavigator:
+class Navigator:
     page: ft.Page
 
     def __init__(self, page: ft.Page):
         self.page = page
         page.on_route_change = self.on_route_change
-        page.go("/bob")
+        page.go("/Todo")
 
     def on_route_change(self):
         self.page.clean()
-        if self.page.route == "/bob":
-            self.page.add(BobView())
-        elif self.page.route == "/kevin":
-            self.page.add(KevinView())
+        if self.page.route == "/Todo":
+            self.page.add(TodoView())
+        elif self.page.route == "/addingTodo":
+            self.page.add(addingTodoView())
 
 #Beispeil für Viewchange:
 
