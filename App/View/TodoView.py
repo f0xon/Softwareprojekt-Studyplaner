@@ -34,8 +34,7 @@ class TodoView(Standard):
                 ft.Row([
                     #ft.Button(content= ft.Container(ft.Text("Sortieren"), ft.Icons.KEYBOARD_ARROW_DOWN_ROUNDED)),
                     
-                    #warum sprigt es ohne den knopf zu drücken immer in in die ander view?
-                    ft.IconButton(icon=ft.Icons.ADD , icon_color=ft.Colors.PRIMARY, on_click=self.on_button_click_addingTodoView()),
+                    ft.IconButton(icon=ft.Icons.ADD , icon_color=ft.Colors.PRIMARY, on_click=self.on_button_click_addingTodoView),
                     ]),
                 # ft.Row([
                 #     ft.Checkbox(label="todo1"), ft.Text("Fällig: 20.05. 18Uhr")

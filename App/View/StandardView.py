@@ -5,7 +5,7 @@ import flet as ft
 
 class Standard(ft.Column):
     def __init__(self):
-        super().__init__(spacing=16, horizontal_alignment=ft.CrossAxisAlignment.START)
+        super().__init__(spacing=16)#, horizontal_alignment=ft.CrossAxisAlignment.START)
         self.controls =[]
         self.controls.append(
             ft.Pagelet(
