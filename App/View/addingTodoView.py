@@ -11,6 +11,7 @@ class addingTodoView(Standard):
     Erinnerung: str = ""
     Bemerkung: str = ""
     Kategorie: str = ""
+    #Done=False um später abhaken zu können?
 
 
 
