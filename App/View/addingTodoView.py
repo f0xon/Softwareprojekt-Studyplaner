@@ -4,7 +4,7 @@ from .StandardView import Standard
 
 class addingTodoView(Standard):
 
-# Standard Werte für Eigaberfelder für die Eingabe eines neuen Todos
+# Standard Werte für Eingabefelder für die Eingabe eines neuen Todos
     Titel: str = ""
     Fälligkeit: str = "18.05.2026"
     Kalender: str = ""
@@ -19,7 +19,7 @@ class addingTodoView(Standard):
 
     def did_mount(self):
         
-         #pop up Fesnster implementieren
+         #pop up Fenster implementieren
         self.controls.append(
             ft.Card(
                 bgcolor=ft.Colors.SURFACE_CONTAINER_LOW,

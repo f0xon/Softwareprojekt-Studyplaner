@@ -33,9 +33,9 @@ class Standard(ft.Column):
             if isinstance(self.page, ft.Page):
                 self.page.go("/Todo")
         elif index == 1:
-            ft.Text("Selected index: Mein Studium ist ncoh nicht implementiert")
+            print("Selected index: Mein Studium ist ncoh nicht implementiert")
         elif index == 2:
-            ft.Text("Selected index: Settings ist ncoh nicht implementiert")
+            print("Selected index: Settings ist ncoh nicht implementiert")
 
 
 
