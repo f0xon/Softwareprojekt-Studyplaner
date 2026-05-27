@@ -18,3 +18,6 @@ class TodosPresenter:
 
     def erzeuge_todo(self):
         self.router.go_to_erzeuge_todo()
+    
+    def filtere_todo(self):
+        self.router.go_to_filtere_todo()

@@ -5,6 +5,7 @@ from view.einstellungen_view import EinstellungenView
 from view.erzeuge_todo_view import ErzeugeTodoView
 from view.meinStudium_view import MeinStudiumView
 from view.todos_view import TodosView
+from view.filtere_todo_view import FiltereTodoView
 from model.todos_model import TodosModel
 
 class Router:
@@ -46,6 +47,8 @@ class Router:
             self.page.add(EinstellungenView())
         elif self.page.route == "/erzeugeTodo":
             self.page.add(ErzeugeTodoView(self)) 
+        elif self.page.route == "/filtereTodo":
+            self.page.add(FiltereTodoView()) 
 
 
     def on_nav_change(self, e:ft.ControlEvent):
@@ -70,3 +73,6 @@ class Router:
 
     def go_to_todos(self):
         self.page.go ("/Todo") #mit Index machen?
+
+    def go_to_filtere_todo(self):
+        self.page.go ("/filtereTodo")
