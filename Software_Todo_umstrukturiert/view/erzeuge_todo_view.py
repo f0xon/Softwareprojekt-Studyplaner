@@ -1,20 +1,19 @@
 # pyright: reportAttributeAccessIssue=false
 
 import flet as ft
-import datetime
 from presenter.erzeuge_todo_presenter import ErzeugeTodoPresenter
 
 
 class ErzeugeTodoView(ft.Column):
     def __init__(self, router):
         super().__init__()
-        
+
         self.router = router
         self.presenter = ErzeugeTodoPresenter(router)
 
         # Eingabefelder
         self.title = ft.TextField(label="Titel")
-        self.deadline = ft.TextField(label="Fälligkeit")
+        self.deadline = ft.TextField(label="Todo") #eventuell mit Datepicker?
 
         # Dropdown Kategorie
         self.category = ft.Dropdown(
@@ -86,5 +85,5 @@ class ErzeugeTodoView(ft.Column):
             )
         )
 
-    def save(self, e):
+    def save(self, e)->None:
         self.presenter.save_todo(self.title.value, self.deadline.value, self.category.value)  
