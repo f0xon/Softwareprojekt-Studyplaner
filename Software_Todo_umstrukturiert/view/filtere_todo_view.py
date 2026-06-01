@@ -5,7 +5,7 @@ class FiltereTodoView(ft.Column):
     def __init__(self):
         super().__init__()
 
-        self.status_value = "alle"
+        self.status_value = "offen"
         self.kategorie_value = "keine"
         self.datum_value = "nach Deadline neueste zuerst"
 

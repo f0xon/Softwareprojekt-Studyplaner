@@ -1,6 +1,5 @@
-#from model.erzeuge_todo_model import ErzeugeTodoModel
 from model.erzeuge_todo_model import ErzeugeTodoModel
-#from model.todos_model import TodosModel
+from model.todos_model import TodosModel
 
 class ErzeugeTodoPresenter:
     def __init__(self,router):
