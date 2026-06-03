@@ -32,7 +32,7 @@ class Router:
             self.einstellungen: lambda:EinstellungenView(),
             self.erzeuge_todo: lambda: ErzeugeTodoView(self),
             self.filtere_todo: lambda: FiltereTodoView(),
-            self.filtered_todos: lambda: TodosView() #noch nicht implementiert
+            #self.filtered_todos: lambda: TodosView() #noch nicht implementiert
         }
 
         self.navigation:dict[int, str]={
