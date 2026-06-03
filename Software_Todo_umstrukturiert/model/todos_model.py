@@ -14,22 +14,17 @@ class TodosModel:
     def filter_todos(self, status:str, kategorie:str, datum:str)->list[ErzeugeTodoModel]: #anfang der Logik zum Filtern der Todos basierend auf den Kriterien
         filtered_todos:list[ErzeugeTodoModel] = []
         
-        for todo in filtered_todos:
-            if status != "alle":
-                continue
-            elif status == "offen":
-                if self.todo._done == False:
-                    filtered_todos.append(todo)
-
-
-            filtered_todos = [todo for todo in filtered_todos if todo.status == status]
+        # for todo in self._todos: #alle solt fuktionieren
+        #     if status != "alle":
+        #         filtered_todos.append(todo)
+        #     elif status == "offen":
+        #         if self.todo._done == False:
+        #             filtered_todos.append(todo)
+        #     elif status == "erledigt":
+        #     filtered_todos = [todo for todo in filtered_todos if todo.status == "erledigt"]
         
-            filtered_todos = [todo for todo in filtered_todos if todo.status == "offen"]
-        elif status == "erledigt":
-            filtered_todos = [todo for todo in filtered_todos if todo.status == "erledigt"]
-        
-        if kategorie != "keine":
-            filtered_todos = [todo for todo in filtered_todos if todo.kategorie == kategorie]
+        # if kategorie != "keine":
+        #     filtered_todos = [todo for todo in filtered_todos if todo.kategorie == kategorie]
         
         # Datum-Filterlogik könnte hier hinzugefügt werden
         
