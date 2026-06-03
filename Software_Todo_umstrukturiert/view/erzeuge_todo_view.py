@@ -10,7 +10,8 @@ class ErzeugeTodoView(ft.Column):
 
         self.router = router
         self.presenter = ErzeugeTodoPresenter(router)
-        self.selected_date=datetime.datetime.now()
+        # use date (no time) to match DatePicker value type
+        self.selected_date = datetime.date.today()
 
 
         # Eingabefelder
@@ -21,8 +22,8 @@ class ErzeugeTodoView(ft.Column):
             icon=ft.Icons.CALENDAR_MONTH,
             on_click=lambda e: e.control.page.show_dialog(
                 ft.DatePicker(
-                    first_date=datetime.datetime(2023, 10, 1),
-                    last_date=datetime.datetime(2026, 12, 1),
+                    first_date=datetime.date(2023, 10, 1),
+                    last_date=datetime.date(2026, 12, 1),
                     value=self.selected_date,
                     on_change=self.date_changed,
                 )
@@ -79,7 +80,7 @@ class ErzeugeTodoView(ft.Column):
                                     ft.Text("Fälligkeit:"),
                                     ft.Container(expand=True),
                                     self.deadline,
-                                    ft.Text(self.selected_date),
+                                    ft.Text(str(self.selected_date)),
                                 ]
                             ),
                             ft.Row(
@@ -106,8 +107,9 @@ class ErzeugeTodoView(ft.Column):
                 ),
             )
         )
-    def date_changed(self, e):
-        self.selected_date=e.control.value
+    def date_changed(self, e: datetime.date):
+        # value from DatePicker is a date
+        self.selected_date: datetime.date = e.control.value
 
     def save(self, e)->None:
         self.presenter.save_todo(self.title.value, self.selected_date, self.category.value)  
