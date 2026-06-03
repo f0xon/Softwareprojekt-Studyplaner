@@ -117,9 +117,10 @@ class ErzeugeTodoView(ft.Column):
                 ),
             )
         )
-    def date_changed(self, e: datetime.date):
-        # value from DatePicker is a date
-        self.selected_date: datetime.date = e.control.value
+def date_changed(self, e):
+        # value from DatePicker event is a date
+        self.selected_date = e.control.value
 
-    def save(self, e)->None:
-        self.presenter.save_todo(self.title.value, self.selected_date, self.category.value)  
+def save(self, e) -> None:
+    self.presenter.save_todo(self.title.value, self.selected_date, self.category.value)  
+
