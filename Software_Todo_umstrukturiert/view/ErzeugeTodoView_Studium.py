@@ -1,13 +1,51 @@
+# pyright: reportAttributeAccessIssue=false
 from erzeuge_todo_view import ErzeugeTodoView
 import datetime
+import flet as ft
 
 class ErzeugeTodoView_Studuium(ErzeugeTodoView):
     def __init__(self, router):
         super().__init__(router)
-        self.category.value="Studium"
-        self.fach: str = ""
-        self.dozent: str = ""
-        self.raum: str = ""
-        self.abgebedatum: datetime.date
+        self.category.value = "Studium"
+        self.fach = ft.TextField()
+        self.dozent = ft.TextField()
+        self.raum = ft.TextField()
+        self.abgebedatum = ft.DatePicker()
 
-        self.control=ft.Column(
+        self.controls.append(
+            ft.Column(
+                controls = [
+                    ft.Row(
+                        controls=[
+                            ft.Text("Fach:"),
+                            ft.Container(expand=True),
+                            self.fach,
+                        ]
+                    ),
+                    ft.Row(
+                        controls=[
+                            ft.Text("dozent:"),
+                            ft.Container(expand=True),
+                            self.dozent,
+                        ]
+                    ),
+                    ft.Row(
+                        controls=[
+                            ft.Text("Raum:"),
+                            ft.Container(expand=True),
+                            self.raum,
+                        ]
+                    ),
+                    ft.Row(
+                        controls=[
+                            ft.Text("Abgabedatum:"),
+                            ft.Container(expand=True),
+                            self.abgebedatum,
+                        ]
+                    ),
+                ]
+            )
+        )
+
+    def save(self, e)->None:
+        self.presenter.save_todo(self.title.value, self.selected_date, self.category.value, self.fach, self.dozent, self.raum, self.abgebedatum)  
