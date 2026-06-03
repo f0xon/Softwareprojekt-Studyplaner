@@ -13,11 +13,6 @@ class TodosView(ft.Column):
 
         self.todo_list = ft.Column()
         self.controls.extend([
-            ft.Row([
-                ft.Text("ToDos", style=ft.TextStyle(weight=ft.FontWeight.BOLD, decoration=ft.TextDecoration.UNDERLINE)),
-                #ft.IconButton(icon=ft.Icons.ADD , icon_color=ft.Colors.PRIMARY, on_click=self.on_button_clicked_add),#beim klicken des plus-Button wird page.go("/erzeugeTodo") und springt in ErzeugeTodoView()
-                #ft.IconButton(icon=ft.Icons.FILTER_ALT , icon_color=ft.Colors.PRIMARY, on_click=self.on_button_clicked_filter),
-            ]),
             self.todo_list
         ])
 
