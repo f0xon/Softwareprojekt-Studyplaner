@@ -1,6 +1,4 @@
 # pyright: reportAttributeAccessIssue=false
-from ctypes import alignment
-
 import flet as ft
 
 class FiltereTodoView(ft.Column):
