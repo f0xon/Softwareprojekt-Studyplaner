@@ -2,6 +2,8 @@
 import flet as ft
 from router import Router
 
+os.chdir(os.path.dirname(__file__))
+
 def main(page: ft.Page):
     Router(page)
     page.go("/Todo")
