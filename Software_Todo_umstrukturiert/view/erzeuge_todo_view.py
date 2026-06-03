@@ -29,13 +29,6 @@ class ErzeugeTodoView(ft.Column):
             )
         )
 
-        # self.deadline = ft.DatePicker(
-        #     first_date=datetime.datetime(2023, 10, 1),
-        #     last_date=datetime.datetime(2026, 12, 1),
-        #     value=self.selected_date,
-        #     on_change=self.date_changed,
-        #             )
-
         # Dropdown Kategorie
         self.category = ft.Dropdown(
             value="keine",
@@ -57,6 +50,16 @@ class ErzeugeTodoView(ft.Column):
             )
         )
 
+        self.prio=ft.Dropdown(
+            value="keine",
+            options=[
+                ft.dropdown.Option("keine"),
+                ft.dropdown.Option("niedrig"),
+                ft.dropdown.Option("mittel"),
+                ft.dropdown.Option("hoch"),
+            ],
+        )
+
         # UI 
         self.controls.append(
             ft.Card(
@@ -76,7 +79,7 @@ class ErzeugeTodoView(ft.Column):
                             ),
                             ft.Row(
                                 controls=[
-                                    ft.Text("Fälligkeit:"),
+                                    ft.Text("Fälligkeitsdatum:"),
                                     ft.Container(expand=True),
                                     self.deadline,
                                     ft.Text(self.selected_date),
@@ -94,6 +97,13 @@ class ErzeugeTodoView(ft.Column):
                                     ft.Text("Kategorie:"),
                                     ft.Container(expand=True),
                                     self.category,
+                                ]
+                            ),
+                            ft.Row(
+                                controls=[
+                                    ft.Text("Priorität:"),
+                                    ft.Container(expand=True),
+                                    self.prio,
                                 ]
                             ),
                             ft.Row(
