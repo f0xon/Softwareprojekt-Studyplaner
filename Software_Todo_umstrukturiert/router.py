@@ -17,7 +17,6 @@ class Router:
         self.page = page
         self.todos_model=TodosModel() #für model erzeuge todo model
         self.todo:str="/Todo"
-        self.add:str="/add"
         self.erzeuge_todo:str="/erzeugeTodo"
         self.filtere_todo:str="/filtereTodo"
 
@@ -33,9 +32,9 @@ class Router:
         }
 
         self.navigation:dict[int, str]={
-            0:self.todo,
-            1:self.studium,
-            2:self.einstellungen
+            0:self.erzeuge_todo,
+            1:self.todo,
+            2:self.filtere_todo
         }
 
     def on_route_change(self, e: ft.RouteChangeEvent):
