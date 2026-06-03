@@ -43,7 +43,7 @@ class FiltereTodoView(ft.Column):
                         ],
                     ),
 
-                    ft.Button("Speichern") #Button noch nicht anklickbar
+                    ft.Button("Filtern") #Button noch nicht anklickbar
                 ]
             )
         )
