@@ -1,5 +1,5 @@
 # pyright: reportAttributeAccessIssue=false
-
+import datetime
 import flet as ft
 from presenter.erzeuge_todo_presenter import ErzeugeTodoPresenter
 
@@ -10,10 +10,31 @@ class ErzeugeTodoView(ft.Column):
 
         self.router = router
         self.presenter = ErzeugeTodoPresenter(router)
+        self.selected_date=datetime.datetime.now()
+
 
         # Eingabefelder
         self.title = ft.TextField(label="Titel")
-        self.deadline = ft.TextField(label="Todo") #eventuell mit Datepicker?
+
+        self.deadline=ft.Button(
+            "Pick date",
+            icon=ft.Icons.CALENDAR_MONTH,
+            on_click=lambda e: e.control.page.show_dialog(
+                ft.DatePicker(
+                    first_date=datetime.datetime(2023, 10, 1),
+                    last_date=datetime.datetime(2026, 12, 1),
+                    value=self.selected_date,
+                    on_change=self.date_changed,
+                )
+            )
+        )
+
+        # self.deadline = ft.DatePicker(
+        #     first_date=datetime.datetime(2023, 10, 1),
+        #     last_date=datetime.datetime(2026, 12, 1),
+        #     value=self.selected_date,
+        #     on_change=self.date_changed,
+        #             )
 
         # Dropdown Kategorie
         self.category = ft.Dropdown(
@@ -58,11 +79,12 @@ class ErzeugeTodoView(ft.Column):
                                     ft.Text("Fälligkeit:"),
                                     ft.Container(expand=True),
                                     self.deadline,
+                                    ft.Text(self.selected_date),
                                 ]
                             ),
                             ft.Row(
                                 controls=[
-                                    ft.Text("Kalender"),
+                                    ft.Text("Kalender (noch zu implementieren)"),
                                     ft.Container(expand=True),
                                     self.calendar,
                                 ]
@@ -84,6 +106,8 @@ class ErzeugeTodoView(ft.Column):
                 ),
             )
         )
+    def date_changed(self, e):
+        self.selected_date=e.control.value
 
     def save(self, e)->None:
-        self.presenter.save_todo(self.title.value, self.deadline.value, self.category.value)  
+        self.presenter.save_todo(self.title.value, self.selected_date, self.category.value)  

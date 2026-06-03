@@ -3,9 +3,7 @@ from typing import Callable
 
 import flet as ft
 
-from view.einstellungen_view import EinstellungenView
 from view.erzeuge_todo_view import ErzeugeTodoView
-from view.meinStudium_view import MeinStudiumView
 from view.todos_view import TodosView
 from view.filtere_todo_view import FiltereTodoView
 from view.navigationBar_view import NavigationBarView
