@@ -123,3 +123,9 @@ class ErzeugeTodoView(ft.Column):
 
     def save(self, e)->None:
         self.presenter.save_todo(self.title.value, self.selected_date, self.category.value)  
+
+
+class ErzeugeTodoView_Stududium(ErzeugeTodoView):
+    def __init__(self, router):
+        super().__init__(router)
+        self.category.value="Studium"
