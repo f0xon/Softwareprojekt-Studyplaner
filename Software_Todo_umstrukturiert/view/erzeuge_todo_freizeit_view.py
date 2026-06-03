@@ -1,4 +1,4 @@
-from flet import ft
+import flet as ft
 from erzeuge_todo_view import ErzeugeTodoView
 
 class ErzeugeTodoFreizeitView(ErzeugeTodoView):
