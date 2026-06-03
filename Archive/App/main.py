@@ -5,7 +5,7 @@ import os
 try:
     from .View.Navigator import Navigator
 except ImportError:
-    from View.Navigator import Navigator
+    from Archive.App.View.Navigator import Navigator
 
 os.chdir(os.path.dirname(__file__))
 

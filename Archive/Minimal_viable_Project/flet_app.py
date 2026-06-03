@@ -1,6 +1,6 @@
 import flet as ft
-from views.home_view import HomeView
-from views.todo_view import TodoView
+from Archive.Minimal_viable_Project.views.home_view import HomeView
+from Archive.Minimal_viable_Project.views.todo_view import TodoView
 from views.settings_view import SettingsView
 
 

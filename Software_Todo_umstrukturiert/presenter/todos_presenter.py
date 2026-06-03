@@ -1,3 +1,4 @@
+# pyright: reportUnknownMemberType=false
 from model.todos_model import TodosModel
 
 

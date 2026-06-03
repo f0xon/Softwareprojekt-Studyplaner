@@ -32,6 +32,7 @@ class Router:
             self.einstellungen: lambda:EinstellungenView(),
             self.erzeuge_todo: lambda: ErzeugeTodoView(self),
             self.filtere_todo: lambda: FiltereTodoView(),
+            self.filtered_todos: lambda: TodosView() #noch nicht implementiert
         }
 
         self.navigation:dict[int, str]={
@@ -61,6 +62,9 @@ class Router:
         self.page.go (self.todo) #mit Index machen?
 
     def go_to_filtere_todo(self):
+        self.page.go (self.filtere_todo)
+
+    def go_to_Filterted_todos(self):
         self.page.go (self.filtere_todo)
 
     # page.navigation_bar = ft.CupertinoNavigationBar(
