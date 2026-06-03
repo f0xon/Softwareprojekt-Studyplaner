@@ -3,7 +3,7 @@ from erzeuge_todo_view import ErzeugeTodoView
 import datetime
 import flet as ft
 
-class ErzeugeTodoStuduiumView(ErzeugeTodoView):
+class ErzeugeTodoStudiumView(ErzeugeTodoView):
     def __init__(self, router):
         super().__init__(router)
         self.category.value = "Studium"
