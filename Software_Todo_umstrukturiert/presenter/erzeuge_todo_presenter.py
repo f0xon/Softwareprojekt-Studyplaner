@@ -5,6 +5,7 @@ from model.todos_model import TodosModel
 
 class ErzeugeTodoPresenter:
     def __init__(self,router):
+        ...
         #self.router=router
         #self.model=router.todos_model # Globale Liste über Router aufgerufen
         #self.model = TodosModel() #schlecht --> jeder presenter hat eigene liste --> todo sonst nach speichern weg
