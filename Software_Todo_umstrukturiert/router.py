@@ -3,13 +3,15 @@ from typing import Callable
 
 import flet as ft
 
-from view.erzeuge_todo_view import ErzeugeTodoView
 from view.todos_view import TodosView
 from view.filtere_todo_view import FiltereTodoView
 from view.navigationBar_view import NavigationBarView
+
+from view.erzeuge_todo_view import ErzeugeTodoView
 from view.erzeuge_todo_freizeit_view import ErzeugeTodoFreizeitView
 from view.erzeuge_todo_studium_view import ErzeugeTodoStudiumView
 from view.erzeuge_todo_privat_view import ErzeugeTodoPrivatView
+from view.erzeuge_todo_kategorie_view import ErzeugeTodoKategorieView
 
 from model.todos_model import TodosModel
 
@@ -20,6 +22,11 @@ class Router:
         self.todo:str="/Todo"
         self.erzeuge_todo:str="/erzeugeTodo"
         self.filtere_todo:str="/filtereTodo"
+        #Kategorie
+        self.todo_keine:str="/erzeugeTodo/keine"
+        self.todo_freizeit:str="/erzeugeTodo/freizeit"
+        self.todo_privat:str="/erzeugeTodo/privat"
+        self.todo_studium:str="/erzeugeTodo/studium"
 
         page.on_route_change = self.on_route_change
 
@@ -27,8 +34,10 @@ class Router:
 
         self.routes:dict[str,Callable[[], ft.Column]]={ #richtiges Typing?
             self.todo: lambda:TodosView(self), #lamda definiert Minifunktionen
-            self.erzeuge_todo: lambda: ErzeugeTodoView(self),
+            self.erzeuge_todo: lambda: ErzeugeTodoKategorieView(),
             self.filtere_todo: lambda: FiltereTodoView(),
+
+            self.todo_keine:lambda: ErzeugeTodoView(self),
             self.todo_freizeit: lambda: ErzeugeTodoFreizeitView(self),
             self.todo_privat: lambda: ErzeugeTodoPrivatView(),
             self.todo_studium: lambda: ErzeugeTodoStudiumView(self)

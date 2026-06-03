@@ -1,10 +1,11 @@
 # pyright: reportAttributeAccessIssue=false
 import flet as ft
+from presenter.erzeuge_todo_kategorie_presenter import ErzeugeTodoKategoriePresenter
 
-class ErzeugeTodoKategorie(ft.Column):
+class ErzeugeTodoKategorieView(ft.Column):
     def __init__(self):
         super().__init__()
-
+        self.presenter=ErzeugeTodoKategoriePresenter()
 
         # Dropdown Kategorie
         self.category = ft.Dropdown(
@@ -41,7 +42,8 @@ class ErzeugeTodoKategorie(ft.Column):
             )
         )
 
-    def set_dropdownvalue(self,e, self.value.category):
-        self.presenter.erzeuge_todo_view()
+    def set_dropdownvalue(self,e: ft.ControlEvent):
+        value=e.control.value
+        presenter.erzeuge_todo_view(self,kategorie=value)
 
         
