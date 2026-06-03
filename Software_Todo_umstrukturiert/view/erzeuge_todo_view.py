@@ -95,16 +95,16 @@ class ErzeugeTodoView(ft.Column):
                             ),
                             ft.Row(
                                 controls=[
-                                    ft.Text("Kategorie:"),
+                                    ft.Text("Priorität:"),
                                     ft.Container(expand=True),
-                                    self.category,
+                                    self.prio,
                                 ]
                             ),
                             ft.Row(
                                 controls=[
-                                    ft.Text("Priorität:"),
+                                    ft.Text("Kategorie:"),
                                     ft.Container(expand=True),
-                                    self.prio,
+                                    self.category,
                                 ]
                             ),
                             ft.Row(

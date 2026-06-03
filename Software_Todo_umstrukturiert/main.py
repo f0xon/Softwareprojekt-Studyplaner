@@ -4,7 +4,7 @@ from router import Router
 
 def main(page: ft.Page):
     Router(page)
-    page.go("/meinStudium")
+    page.go("/Todo")
     #page.go("/Startseite")
 
 
