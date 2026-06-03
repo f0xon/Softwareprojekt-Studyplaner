@@ -1,5 +1,5 @@
 # pyright: reportAttributeAccessIssue=false
-from erzeuge_todo_view import ErzeugeTodoView
+from view.erzeuge_todo_view import ErzeugeTodoView
 import datetime
 import flet as ft
 
