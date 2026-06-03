@@ -1,9 +1,9 @@
 import flet as ft
-from erzeuge_todo_view import ErzeugeTodoView
+from view.erzeuge_todo_view import ErzeugeTodoView
 
 class ErzeugeTodoFreizeitView(ErzeugeTodoView):
     def __init__ (self,router):
-        super().__init__()
+        super().__init__(router)
 
         self.ort = ft.TextField(label="Ort")
         self.hobby = ft.Column(
