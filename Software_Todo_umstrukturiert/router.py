@@ -17,8 +17,7 @@ class Router:
         self.page = page
         self.todos_model=TodosModel() #für model erzeuge todo model
         self.todo:str="/Todo"
-        self.studium:str="/meinStudium"
-        self.einstellungen:str="/Einstellungen"
+        self.add:str="/add"
         self.erzeuge_todo:str="/erzeugeTodo"
         self.filtere_todo:str="/filtereTodo"
 
@@ -28,8 +27,6 @@ class Router:
 
         self.routes:dict[str,Callable[[], ft.Column]]={ #richtiges Typing?
             self.todo: lambda:TodosView(self), #lamda definiert Minifunktionen
-            self.studium: lambda: MeinStudiumView(), #auch möglich MeinStudiumView()
-            self.einstellungen: lambda:EinstellungenView(),
             self.erzeuge_todo: lambda: ErzeugeTodoView(self),
             self.filtere_todo: lambda: FiltereTodoView(),
             self.filtered_todos: lambda: TodosView() #noch nicht implementiert

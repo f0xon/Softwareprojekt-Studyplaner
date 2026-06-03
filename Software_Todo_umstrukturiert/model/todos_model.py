@@ -17,7 +17,7 @@ class TodosModel:
         for todo in filtered_todos:
             if status != "alle":
                 continue
-            elif status == "offen:
+            elif status == "offen":
                 if self.todo._done == False:
                     filtered_todos.append(todo)
 
