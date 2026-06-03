@@ -28,7 +28,7 @@ class Router:
 
         self.routes:dict[str,Callable[[], ft.Column]]={ #richtiges Typing?
             self.todo: lambda:TodosView(self), #lamda definiert Minifunktionen
-            self.studium: lambda: MeinStudiumView(), #auch möglich lambda: MeinStudiumView()
+            self.studium: lambda: MeinStudiumView(), #auch möglich MeinStudiumView()
             self.einstellungen: lambda:EinstellungenView(),
             self.erzeuge_todo: lambda: ErzeugeTodoView(self),
             self.filtere_todo: lambda: FiltereTodoView(),
