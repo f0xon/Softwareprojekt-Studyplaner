@@ -46,7 +46,7 @@ class Router:
         index:int = e.control.selected_index
         route=self.navigation.get(index)
         if route:
-            if isinstance(self.page, ft.Page):
+            if isinstance(self.page, ft.Page): # pyright: ignore[reportUnnecessaryIsInstance]
                 self.page.go(route)
 
     def go_to_erzeuge_todo(self):
@@ -61,52 +61,4 @@ class Router:
     def go_to_Filterted_todos(self):
         self.page.go (self.filtere_todo)
 
-    # page.navigation_bar = ft.CupertinoNavigationBar(
-    #     selected_index=0,
-    #     on_change=self.on_nav_change, 
-    #     bgcolor=ft.Colors.BLUE_100,
-    #     inactive_color=ft.Colors.BLUE_GREY_600,
-    #     active_color=ft.Colors.BLACK,
-    #     destinations=[
-    #         ft.NavigationBarDestination(
-    #             icon=ft.Icons.CHECKLIST_RTL,
-    #             label="ToDos",
-    #         ),
-    #         ft.NavigationBarDestination(
-    #             icon=ft.Icons.EDIT_NOTE_ROUNDED,
-    #             label="Mein Studium",
-    #         ),
-    #         ft.NavigationBarDestination(
-    #             icon=ft.Icons.SETTINGS_OUTLINED,
-    #             selected_icon=ft.Icons.SETTINGS,
-    #             label="Settings",
-    #         ),
-    #     ],
-    # )
-
-    #def on_route_change (self, e: ft.RouteChangeEvent):
-        # if self.page.route == "/meinStudium":
-        #     self.page.add(MeinStudiumView())
-        # elif self.page.route == "/Todo":
-        #     self.page.add(TodosView(self))
-        # elif self.page.route == "/Einstellungen":
-        #     self.page.add(EinstellungenView())
-        # elif self.page.route == "/erzeugeTodo":
-        #     self.page.add(ErzeugeTodoView(self)) 
-        # elif self.page.route == "/filtereTodo":
-        #     self.page.add(FiltereTodoView()) 
-    # def on_nav_change(self, e:ft.ControlEvent):
-        # index:int = e.control.selected_index
-        # if index == 0:
-        #     if isinstance(self.page, ft.Page):
-        #         self.page.go("/Todo")
-
-        # elif index == 1:
-        #     if isinstance(self.page, ft.Page):
-        #         self.page.go("/meinStudium")
-        
-        # elif index == 2:
-        #     if isinstance(self.page, ft.Page):
-        #         self.page.go("/Einstellungen")
-
-        # self.page.update()
+    
