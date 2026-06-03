@@ -7,6 +7,7 @@ from view.erzeuge_todo_view import ErzeugeTodoView
 from view.todos_view import TodosView
 from view.filtere_todo_view import FiltereTodoView
 from view.navigationBar_view import NavigationBarView
+from view.erzeuge_todo_freizeit_view import ErzeugeTodoFreizeitView
 
 from model.todos_model import TodosModel
 
@@ -26,6 +27,9 @@ class Router:
             self.todo: lambda:TodosView(self), #lamda definiert Minifunktionen
             self.erzeuge_todo: lambda: ErzeugeTodoView(self),
             self.filtere_todo: lambda: FiltereTodoView(),
+            self.todo_freizeit: lambda: ErzeugeTodoFreizeitView(),
+            self.todo_privat: lambda: ErzeugeTodoPrivatView(),
+            self.todo_studium: lambda: ErzeugeTodoStudiumView()
             #self.filtered_todos: lambda: TodosView() #noch nicht implementiert
         }
 
@@ -49,16 +53,17 @@ class Router:
             if isinstance(self.page, ft.Page): # pyright: ignore[reportUnnecessaryIsInstance]
                 self.page.go(route)
 
-    def go_to_erzeuge_todo(self):
-        self.page.go (self.erzeuge_todo)
+    # def go_to_erzeuge_todo(self):
+    #     self.page.go (self.erzeuge_todo)
 
     def go_to_todos(self):
         self.page.go (self.todo) #mit Index machen?
 
-    def go_to_filtere_todo(self):
-        self.page.go (self.filtere_todo)
+    # def go_to_filtere_todo(self):
+    #     self.page.go (self.filtere_todo)
 
     def go_to_Filterted_todos(self):
         self.page.go (self.filtere_todo)
 
-    
+    def go_to_erzeuge_todo_view(self,kategorie:str):
+        self.page.go (kategorie)
