@@ -12,6 +12,8 @@ class ErzeugeTodoView_Studuium(ErzeugeTodoView):
         self.raum = ft.TextField()
         self.abgebedatum = ft.DatePicker()
 
+
+        self.selected_date = datetime.date.today()
         self.controls.append(
             ft.Column(
                 controls = [
@@ -40,12 +42,17 @@ class ErzeugeTodoView_Studuium(ErzeugeTodoView):
                         controls=[
                             ft.Text("Abgabedatum:"),
                             ft.Container(expand=True),
-                            self.abgebedatum,
+                            self.deadline,
+                            ft.Text(str(self.selected_date)),
                         ]
-                    ),
+                    )
                 ]
             )
         )
+
+    def date_changed(self, e):
+        # value from DatePicker event is a date
+        self.selected_date = e.control.value
 
     def save(self, e)->None:
         self.presenter.save_todo(self.title.value, self.selected_date, self.category.value, self.fach, self.dozent, self.raum, self.abgebedatum)  
