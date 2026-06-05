@@ -92,6 +92,8 @@ class ErzeugeTodoView(ft.Column):
         # Eingabefelder
         self.title = ft.TextField(label="Titel")
 
+        self.notiz=ft.TextField(label="Notiz")
+
         self.deadline_text=ft.Text(str(self.selected_date))
         self.deadline=ft.Button(
             "Pick date",
@@ -108,7 +110,7 @@ class ErzeugeTodoView(ft.Column):
 
         self.category = ft.RadioGroup(
             value="keine",
-            content=ft.Column([
+            content=ft.Row([
                 ft.Radio(value="keine", label="Keine"),
                 ft.Radio(value="Studium", label="Studium"),
                 ft.Radio(value="Haushalt", label="Haushalt"),
@@ -165,6 +167,13 @@ class ErzeugeTodoView(ft.Column):
                                     ft.Text("Titel:"),
                                     ft.Container(expand=True),
                                     self.title,
+                                ]
+                            ),
+                            ft.Row(
+                                controls=[
+                                    ft.Text("Notiz:"),
+                                    ft.Container(expand=True),
+                                    self.notiz,
                                 ]
                             ),
                             ft.Row(

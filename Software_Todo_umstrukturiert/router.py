@@ -8,10 +8,6 @@ from view.filtere_todo_view import FiltereTodoView
 from view.navigationBar_view import NavigationBarView
 
 from view.erzeuge_todo_view import ErzeugeTodoView
-# from view.erzeuge_todo_freizeit_view import ErzeugeTodoFreizeitView
-# from view.erzeuge_todo_studium_view import ErzeugeTodoStudiumView
-# from view.erzeuge_todo_privat_view import ErzeugeTodoPrivatView
-# from view.erzeuge_todo_kategorie_view import ErzeugeTodoKategorieView
 
 class Router:
     def __init__(self, page: ft.Page):
@@ -20,11 +16,6 @@ class Router:
         self.todo:str="/Todo"
         self.erzeuge_todo:str="/erzeugeTodo"
         self.filtere_todo:str="/filtereTodo"
-        #Kategorie
-        self.todo_keine:str="/erzeugeTodo/keine"
-        self.todo_freizeit:str="/erzeugeTodo/freizeit"
-        self.todo_privat:str="/erzeugeTodo/privat"
-        self.todo_studium:str="/erzeugeTodo/studium"
 
         page.on_route_change = self.on_route_change
 
@@ -34,12 +25,6 @@ class Router:
             self.todo: TodoView, 
             self.erzeuge_todo: ErzeugeTodoView,
             self.filtere_todo:FiltereTodoView,
-
-            # self.todo_keine:lambda: ErzeugeTodoView(self),
-            # self.todo_freizeit: lambda: ErzeugeTodoFreizeitView(self),
-            # self.todo_privat: lambda: ErzeugeTodoPrivatView(),
-            # self.todo_studium: lambda: ErzeugeTodoStudiumView(self)
-            #self.filtered_todos: lambda: TodosView() #noch nicht implementiert
         }
 
         self.navigation:dict[int, str]={
@@ -62,17 +47,9 @@ class Router:
             if isinstance(self.page, ft.Page): # pyright: ignore[reportUnnecessaryIsInstance]
                 self.page.go(route)
 
-    # def go_to_erzeuge_todo(self):
-    #     self.page.go (self.erzeuge_todo)
 
     def go_to_todos(self):
         self.page.go (self.todo) #mit Index machen?
 
-    # def go_to_filtere_todo(self):
-    #     self.page.go (self.filtere_todo)
-
     def go_to_Filterted_todos(self):
         self.page.go (self.filtere_todo)
-
-    def go_to_erzeuge_todo_view(self,kategorie:str):
-        self.page.go (kategorie)
