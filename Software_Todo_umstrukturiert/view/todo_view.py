@@ -35,7 +35,9 @@ class TodoView(ft.Column):
                                 ft.IconButton(
                                     icon=ft.Icons.DONE,
                                     tooltip="Erledigt",
-                                    # on_click=self.on_button_clicked_done
+                                    icon_color=ft.Colors.BLUE if todo.erledigt else ft.Colors.GREY,
+                                    data=todo,
+                                    on_click=self.on_button_clicked_done
                                 ),
                                 ft.IconButton(
                                     icon=ft.Icons.INFO_OUTLINE,
@@ -54,6 +56,13 @@ class TodoView(ft.Column):
                 )
             )
     
+    def on_button_clicked_done(self,e):
+        todo = e.control.data
+        self.presenter.erledige_todo(todo)
+        self.controls.clear()
+        self.build_ui()
+        self.update()
+
     def on_button_clicked_delete(self,e):
         todo = e.control.data
         self.presenter.loesche_todo(todo)
