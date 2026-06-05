@@ -131,6 +131,7 @@ class ErzeugeTodoView(ft.Column):
 
         # RadioGroup Kalender
         self.calendar = ft.RadioGroup(
+            value="nein",
             content=ft.Row(
                 controls=[
                     ft.Radio(value="ja", label="Ja"),
@@ -208,7 +209,7 @@ class ErzeugeTodoView(ft.Column):
         )
     def date_changed(self, e):
         # value from DatePicker event is a date
-        self.selected_date = e.control.value
+        self.selected_date = e.control.value.date()
         self.deadline_text.value=str(self.selected_date)
         self.update()
         #return self.selected_date 
@@ -221,6 +222,28 @@ class ErzeugeTodoView(ft.Column):
         self.update()
 
 
-    def save(self, e) -> None:
-        self.presenter.save_todo(self.title.value, self.selected_date, self.calendar.value, self.prio.value, self.category.value)  
+    # def save(self, e) -> None:
+    #     self.presenter.save_todo(self.title.value, self.selected_date, self.calendar.value, self.prio.value, self.category.value)
 
+    def save(self, e) -> None:
+        kat = self.kategorien.get(self.category.value)
+
+        if kat:
+            extra = kat.extract(self) 
+        else:
+            extra = {}
+
+        try:
+            todo = self.presenter.save_todo(
+                title=self.title.value,
+                deadline=self.selected_date,
+                calendar=self.calendar.value,
+                priority=self.prio.value,
+                category=self.category.value,
+                extra=extra
+            )
+
+            print("Gespeichert:", todo)
+
+        except ValueError as ex:
+            print("Fehler:", ex)  

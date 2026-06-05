@@ -4,12 +4,13 @@ from dataclasses import dataclass
 @dataclass (frozen=True)
 class Priority:
     name:str
+    ausrufezeichen:str
     #schriftdicke
     #filternhilfe
-keine=Priority("keine")
-niedrig=Priority("niedrig")
-mittel=Priority("mittel")
-hoch=Priority("hoch")
+keine=Priority("keine","")
+niedrig=Priority("niedrig","!")
+mittel=Priority("mittel","!!")
+hoch=Priority("hoch","!!!")
 
 @dataclass (frozen=True)
 class Category:

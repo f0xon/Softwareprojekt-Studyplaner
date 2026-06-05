@@ -26,6 +26,10 @@ class TodoView(ft.Column):
                         trailing=ft.Row(
                             tight=True,
                             controls=[
+                                ft.Button(
+                                    todo.priority.ausrufezeichen,
+                                    tooltip="Priorität"
+                                ),
                                 ft.IconButton(
                                     icon=ft.Icons.DONE,
                                     tooltip="Erledigt",
