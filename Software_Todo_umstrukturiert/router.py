@@ -2,23 +2,21 @@
 from typing import Callable
 
 import flet as ft
-
-from view.todos_view import TodosView
+from model.todo_model import TodoModel
+from view.todo_view import TodoView
 from view.filtere_todo_view import FiltereTodoView
 from view.navigationBar_view import NavigationBarView
 
 from view.erzeuge_todo_view import ErzeugeTodoView
-from view.erzeuge_todo_freizeit_view import ErzeugeTodoFreizeitView
-from view.erzeuge_todo_studium_view import ErzeugeTodoStudiumView
-from view.erzeuge_todo_privat_view import ErzeugeTodoPrivatView
-from view.erzeuge_todo_kategorie_view import ErzeugeTodoKategorieView
-
-from model.todos_model import TodosModel
+# from view.erzeuge_todo_freizeit_view import ErzeugeTodoFreizeitView
+# from view.erzeuge_todo_studium_view import ErzeugeTodoStudiumView
+# from view.erzeuge_todo_privat_view import ErzeugeTodoPrivatView
+# from view.erzeuge_todo_kategorie_view import ErzeugeTodoKategorieView
 
 class Router:
     def __init__(self, page: ft.Page):
         self.page = page
-        self.todos_model=TodosModel() #für model erzeuge todo model
+        self.todo_model=TodoModel() #für model erzeuge todo model
         self.todo:str="/Todo"
         self.erzeuge_todo:str="/erzeugeTodo"
         self.filtere_todo:str="/filtereTodo"
@@ -33,14 +31,14 @@ class Router:
         self.page.navigation_bar = NavigationBarView(self).build()
 
         self.routes:dict[str,Callable[[], ft.Column]]={ #richtiges Typing?
-            self.todo: lambda:TodosView(self), #lamda definiert Minifunktionen
-            self.erzeuge_todo: lambda: ErzeugeTodoKategorieView(),
-            self.filtere_todo: lambda: FiltereTodoView(),
+            self.todo: TodoView, 
+            self.erzeuge_todo: ErzeugeTodoView,
+            self.filtere_todo:FiltereTodoView,
 
-            self.todo_keine:lambda: ErzeugeTodoView(self),
-            self.todo_freizeit: lambda: ErzeugeTodoFreizeitView(self),
-            self.todo_privat: lambda: ErzeugeTodoPrivatView(),
-            self.todo_studium: lambda: ErzeugeTodoStudiumView(self)
+            # self.todo_keine:lambda: ErzeugeTodoView(self),
+            # self.todo_freizeit: lambda: ErzeugeTodoFreizeitView(self),
+            # self.todo_privat: lambda: ErzeugeTodoPrivatView(),
+            # self.todo_studium: lambda: ErzeugeTodoStudiumView(self)
             #self.filtered_todos: lambda: TodosView() #noch nicht implementiert
         }
 

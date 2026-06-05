@@ -1,10 +1,10 @@
 from datetime import datetime
 
 from model.erzeuge_todo_model import ErzeugeTodoModel
-from model.todos_model import TodosModel
+#from model.todos_model import TodosModel
 
 class ErzeugeTodoPresenter:
-    def __init__(self,router):
+    def __init__(self):
         ...
         #self.router=router
         #self.model=router.todos_model # Globale Liste über Router aufgerufen

@@ -5,7 +5,7 @@ class NavigationBarView:
     def __init__(self, router):
         self.router = router
 
-    def build(self):
+    def build(self)->ft.CupertinoNavigationBar:
         return ft.CupertinoNavigationBar(
             selected_index=0,
             on_change=self.router.on_nav_change,

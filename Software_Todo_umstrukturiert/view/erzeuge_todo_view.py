@@ -5,11 +5,9 @@ from presenter.erzeuge_todo_presenter import ErzeugeTodoPresenter
 
 
 class ErzeugeTodoView(ft.Column):
-    def __init__(self, router):
+    def __init__(self):
         super().__init__()
-
-        self.router = router
-        self.presenter = ErzeugeTodoPresenter(router)
+        self.presenter = ErzeugeTodoPresenter()
         # use date (no time) to match DatePicker value type
         self.selected_date = datetime.date.today()
 
@@ -117,10 +115,10 @@ class ErzeugeTodoView(ft.Column):
                 ),
             )
         )
-def date_changed(self, e):
-        # value from DatePicker event is a date
-        self.selected_date = e.control.value
+    def date_changed(self, e):
+            # value from DatePicker event is a date
+            self.selected_date = e.control.value
 
-def save(self, e) -> None:
-    self.presenter.save_todo(self.title.value, self.selected_date, self.category.value)  
+    def save(self, e) -> None:
+        self.presenter.save_todo(self.title.value, self.selected_date, self.category.value)  
 
