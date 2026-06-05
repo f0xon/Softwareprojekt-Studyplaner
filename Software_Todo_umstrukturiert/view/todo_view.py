@@ -8,8 +8,9 @@ class TodoView(ft.Column):
     def __init__(self):
         super().__init__()
         self.presenter = TodoPresenter()
+        self.build_ui()
 
-    def build_ui(self)
+    def build_ui(self):
         for todo in self.presenter.todos:
             self.controls.append(
                 ft.Card(
@@ -44,7 +45,7 @@ class TodoView(ft.Column):
                                 ft.IconButton(
                                     icon=ft.Icons.DELETE,
                                     tooltip="Löschen",
-                                    data=todo
+                                    data=todo,
                                     on_click=self.on_button_clicked_delete
                                 )
                             ],
