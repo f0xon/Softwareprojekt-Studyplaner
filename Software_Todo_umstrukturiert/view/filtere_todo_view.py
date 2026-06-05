@@ -1,49 +1,133 @@
 # pyright: reportAttributeAccessIssue=false
 import flet as ft
+from presenter.filtere_todo_presenter import FiltereTodoPresenter
 
 class FiltereTodoView(ft.Column):
     def __init__(self):
         super().__init__()
+        self.presenter=FiltereTodoPresenter
+        self.status_value = "alle"
+        self.filter_active = False
 
-        self.status_value = "offen"
-        self.kategorie_value = "keine"
-        self.datum_value = "nach Deadline neueste zuerst"
+        self.status = ft.Column( #nur sichtbar wenn Switch ON
+            visible=False,
+            controls=[
+                ft.Row(
+                    controls=[
+                        ft.Text("Status"),
+                        ft.RadioGroup(
+                            value=self.status_value,
+                            #on_change=self.status_changed, noch zu implementieren
+                            content=ft.Row(
+                                controls=[
+                                    ft.Radio(value="alle", label="Alle"),
+                                    ft.Radio(value="offen", label="Offen"),
+                                    ft.Radio(value="erledigt", label="Erledigt"),
+                                ]
+                            )
+                        )
+                    ]
+                )
+            ]
+        )
 
+        self.category = ft.Column( #nur sichtbar wenn Switch ON
+            visible=False,
+            controls=[
+                ft.Row(
+                    controls=[
+                        ft.Text("Kategorie"),
+                        ft.RadioGroup(
+                            content=ft.Row([
+                                ft.Radio(value="keine", label="Keine"),
+                                ft.Radio(value="Studium", label="Studium"),
+                                ft.Radio(value="Haushalt", label="Haushalt"),
+                                ft.Radio(value="Freizeit", label="Freizeit"),
+                            ]),
+                            #on_change=self.category_changed 
+                        )
+                    ]
+                )
+            ]
+        )
+
+        self.priority = ft.Column( #nur sichtbar wenn Switch ON
+            visible=False,
+            controls=[
+                ft.Row(
+                    controls=[
+                        ft.Text("Priorität"),
+                        ft.RadioGroup(
+                            value="keine",
+                            content=ft.Row([
+                                ft.Radio(value="keine", label="Keine"),
+                                ft.Radio(value="niedrig", label="niedrig"),
+                                ft.Radio(value="mittel", label="mittel"),
+                                ft.Radio(value="hoch", label="hoch"),
+                            ]),
+                            #on_change=self.category_changed noch zu implementieren
+                        )
+                    ]
+                )
+            ]
+        )
+
+        #Buil UI
         self.controls.append(
             ft.Column(
                 controls=[
-                    ft.Text("Fälligkeit"),
-                    ft.Dropdown(
-                        value=self.status_value,
-                        options=[
-                            ft.DropdownOption("alle"),
-                            ft.DropdownOption("offen"),
-                            ft.DropdownOption("erledigt"),
-                        ],
+                    ft.Text("Filterfunktion"),
+                    ft.Text(""),
+                    ft.Row(
+                        controls=[
+                            ft.Text("Status filtern:"),
+                            ft.Switch(
+                                value=False,
+                                active_color=ft.Colors.BLUE,
+                                on_change=self.on_switch_changed_status
+                            ),
+                            self.status 
+                        ]
                     ),
-
-                    ft.Text("Kategorie"),
-                    ft.Dropdown(
-                        value=self.kategorie_value,
-                        options=[
-                            ft.DropdownOption("keine"),
-                            ft.DropdownOption("Studium"),
-                            ft.DropdownOption("Arbeit"),
-                            ft.DropdownOption("Freizeit"),
-                        ],
+                    ft.Row(
+                        controls=[
+                            ft.Text("Kategorie filtern:"),
+                            ft.Switch(
+                                value=False,
+                                active_color=ft.Colors.BLUE,
+                                on_change=self.on_switch_changed_category
+                            ),
+                            self.category
+                        ]
                     ),
-
-                    ft.Text("Datum"),
-                    ft.Dropdown(
-                        value=self.datum_value,
-                        options=[
-                            ft.DropdownOption("nach Deadline neueste zuerst"),
-                            ft.DropdownOption("älteste zuerst"),
-                            ft.DropdownOption("nach Erstellungsdatum"),
-                        ],
-                    ),
-
-                    ft.Button("Filtern") #Button noch nicht anklickbar
+                    ft.Row(
+                        controls=[
+                            ft.Text("Priorität filtern:"),
+                            ft.Switch(
+                                value=False,
+                                active_color=ft.Colors.BLUE,
+                                on_change=self.on_switch_changed_priority
+                            ),
+                            self.priority
+                        ]
+                    )
                 ]
             )
         )
+
+#verstößt gegen DRY
+    def on_switch_changed_status(self, e):
+        self.status.visible = e.control.value
+        self.update()
+
+    def on_switch_changed_category(self, e):
+        self.category.visible = e.control.value
+        self.update()
+    
+    def on_switch_changed_priority(self, e):
+        self.priority.visible = e.control.value
+        self.update()
+#
+    # def category_changed(self,e):
+    #     self.category.value=e.control.value
+    #     self.presenter.filtere_kategorie(self.category.value)

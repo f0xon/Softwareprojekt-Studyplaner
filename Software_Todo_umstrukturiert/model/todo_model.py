@@ -7,7 +7,7 @@ class Priority:
     ausrufezeichen:str
     #schriftdicke
     #filternhilfe
-keine=Priority("keine","")
+keine=Priority("keine","X")
 niedrig=Priority("niedrig","!")
 mittel=Priority("mittel","!!")
 hoch=Priority("hoch","!!!")

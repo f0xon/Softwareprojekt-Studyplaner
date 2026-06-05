@@ -1,7 +1,8 @@
 ja:Vererbung Kategorien; Mit Protokol umgesetzt auch ok?
-Filtern
-Erledigt
-Infos anzeigen/ bearbeiten -> am schwierigsten
+Kategorien model erzeuge_todo_model fertig machen
+Geht nicht, da noch keine Datenbanken: Filtern
+Ja: Erledigt
+Infos anzeigen/ bearbeiten
 Ja: Löschen
 verschiedene Kategorien verschiedene Farben
 ja: Priorität wird angezeigt mit einem, zwei oder drei Ausrufezeichen
