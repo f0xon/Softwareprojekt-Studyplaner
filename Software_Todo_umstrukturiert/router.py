@@ -16,7 +16,7 @@ from view.erzeuge_todo_view import ErzeugeTodoView
 class Router:
     def __init__(self, page: ft.Page):
         self.page = page
-        self.todo_model=TodoModel() #für model erzeuge todo model
+        self.todo_model=TodoModel()
         self.todo:str="/Todo"
         self.erzeuge_todo:str="/erzeugeTodo"
         self.filtere_todo:str="/filtereTodo"

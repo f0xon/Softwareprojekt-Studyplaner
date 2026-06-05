@@ -1,16 +1,25 @@
-# pyright: reportUnknownMemberType=false
-class ErzeugeTodoModel:
-    ...
-    # def __init__(self, title: str, deadline: str = "", category: str = ""):
-    #     self.title = title
-    #     self.deadline = deadline
-    #     self.category = category
-    #     self._done = False
+from dataclasses import dataclass
 
-    # Titel: str = ""
-    # Fälligkeit: str = "18.05.2026"
-    # Kalender: str = ""
-    # Erinnerung: str = ""
-    # Bemerkung: str = ""
-    # Kategorie: str = ""
-    # Done=False um später abhaken zu können?
+@dataclass
+class KeineKategorie:
+    titel:str
+    notiz:str
+    priority:str
+    deadline:datetime.date
+    category:str
+
+@dataclass
+class StudiumKategorie(KeineKategorie):
+    modul:str
+    gruppenarbeit:bool
+
+@dataclass
+class Haushalt(KeineKategorie):
+    wiederkehrend: bool
+
+@dataclass
+class Freizeit(KeineKategorie):
+    hobby:str
+    ort:str
+ 
+class ErzeugeTodoModel:

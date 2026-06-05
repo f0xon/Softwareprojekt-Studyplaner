@@ -1,7 +1,39 @@
 # pyright: reportAttributeAccessIssue=false
 import datetime
+from typing import Protocol
 import flet as ft
 from presenter.erzeuge_todo_presenter import ErzeugeTodoPresenter
+
+class Kategorie(Protocol):
+    def build_controls(self) -> list:
+        ...
+
+class StudiumKategorie:
+    def build_controls(self)->list:
+        return [
+            ft.Row(
+                controls=[
+                    ft.Text("Modul:"),
+                    ft.Container(expand=True),
+                    ft.TextField(label="Modul"),
+                ]
+            ),
+            ft.Row(
+                controls=[
+                    ft.Text("Gruppenarbeit:"),
+                    ft.Container(expand=True),
+                    ft.RadioGroup(
+                        content=ft.Row(
+                            value="nein",
+                            controls=[
+                                ft.Radio(value="ja", label="Ja"),
+                                ft.Radio(value="nein", label="Nein"),
+                            ]
+                        )
+                    )
+                ]
+            )
+        ]
 
 
 class ErzeugeTodoView(ft.Column):
