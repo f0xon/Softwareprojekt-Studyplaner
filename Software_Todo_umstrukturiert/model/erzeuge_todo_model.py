@@ -13,4 +13,4 @@ class ErzeugeTodoModel:
     # Erinnerung: str = ""
     # Bemerkung: str = ""
     # Kategorie: str = ""
-    # #Done=False um später abhaken zu können?
+    # Done=False um später abhaken zu können?
