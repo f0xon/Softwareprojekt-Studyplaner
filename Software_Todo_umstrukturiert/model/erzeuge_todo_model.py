@@ -5,7 +5,7 @@ class KeineKategorie:
     titel:str
     notiz:str
     priority:str
-    deadline:datetime.date
+    #deadline:datetime.date
     category:str
 
 @dataclass
@@ -23,3 +23,4 @@ class Freizeit(KeineKategorie):
     ort:str
  
 class ErzeugeTodoModel:
+    ...

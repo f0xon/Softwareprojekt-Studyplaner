@@ -5,11 +5,11 @@ import flet as ft
 from presenter.erzeuge_todo_presenter import ErzeugeTodoPresenter
 
 class Kategorie(Protocol):
-    def build_controls(self) -> list:
+    def build_ui(self) -> list[ft.Row]:
         ...
 
 class StudiumKategorie:
-    def build_controls(self)->list:
+    def build_ui(self)->list[ft.Row]:
         return [
             ft.Row(
                 controls=[
@@ -23,8 +23,8 @@ class StudiumKategorie:
                     ft.Text("Gruppenarbeit:"),
                     ft.Container(expand=True),
                     ft.RadioGroup(
+                        value="nein",
                         content=ft.Row(
-                            value="nein",
                             controls=[
                                 ft.Radio(value="ja", label="Ja"),
                                 ft.Radio(value="nein", label="Nein"),
@@ -35,6 +35,45 @@ class StudiumKategorie:
             )
         ]
 
+class HaushaltKategorie:
+    def build_ui(self)->list[ft.Row]:
+        return [
+            ft.Row(
+                controls=[
+                    ft.Text("wiederkehrende Aufgabe:"),
+                    ft.Container(expand=True),
+                    ft.RadioGroup(
+                        value="nein",
+                        content=ft.Row(
+                            controls=[
+                                ft.Radio(value="ja", label="Ja"),
+                                ft.Radio(value="nein", label="Nein"),
+                            ]
+                        )
+                    )
+                ]
+            )
+        ]
+    
+class FreizeitKategorie:
+    def build_ui(self)->list[ft.Row]:
+        return [
+            ft.Row(
+                controls=[
+                    ft.Text("Hobby:"),
+                    ft.Container(expand=True),
+                    ft.TextField(label="Hobby"),
+                ]
+            ),
+            ft.Row(
+                controls=[
+                    ft.Text("Ort:"),
+                    ft.Container(expand=True),
+                    ft.TextField(label="Ort"),
+                ]
+            ),
+        ]
+
 
 class ErzeugeTodoView(ft.Column):
     def __init__(self):
@@ -43,10 +82,17 @@ class ErzeugeTodoView(ft.Column):
         # use date (no time) to match DatePicker value type
         self.selected_date = datetime.date.today()
 
+        self.category_fields=ft.Column()
+        self.kategorien:dict[str,Kategorie] = {
+            "Studium": StudiumKategorie(),
+            "Haushalt": HaushaltKategorie(),
+            "Freizeit": FreizeitKategorie()
+        }
 
         # Eingabefelder
         self.title = ft.TextField(label="Titel")
 
+        self.deadline_text=ft.Text(str(self.selected_date))
         self.deadline=ft.Button(
             "Pick date",
             icon=ft.Icons.CALENDAR_MONTH,
@@ -60,16 +106,28 @@ class ErzeugeTodoView(ft.Column):
             )
         )
 
-        # Dropdown Kategorie
-        self.category = ft.Dropdown(
+        self.category = ft.RadioGroup(
             value="keine",
-            options=[
-                ft.dropdown.Option("keine"),
-                ft.dropdown.Option("Studium"),
-                ft.dropdown.Option("Arbeit"),
-                ft.dropdown.Option("Freizeit"),
-            ],
+            content=ft.Column([
+                ft.Radio(value="keine", label="Keine"),
+                ft.Radio(value="Studium", label="Studium"),
+                ft.Radio(value="Haushalt", label="Haushalt"),
+                ft.Radio(value="Freizeit", label="Freizeit"),
+            ]),
+            on_change=self.category_changed
         )
+        # Dropdown Kategorie
+        # self.category = ft.Dropdown(
+        #     value="keine",
+        #     options=[
+        #         ft.dropdown.Option("keine",on_click=self.category_changed),
+        #         ft.dropdown.Option("Studium",on_click=self.category_changed),
+        #         ft.dropdown.Option("Haushalt",on_click=self.category_changed),
+        #         ft.dropdown.Option("Freizeit",on_click=self.category_changed),
+        #     ],
+        #     #on_change=self.category_changed
+        # )
+        # self.category.on_change = self.category_changed
 
         # RadioGroup Kalender
         self.calendar = ft.RadioGroup(
@@ -113,7 +171,7 @@ class ErzeugeTodoView(ft.Column):
                                     ft.Text("Fälligkeitsdatum:"),
                                     ft.Container(expand=True),
                                     self.deadline,
-                                    ft.Text(str(self.selected_date)),
+                                    self.deadline_text,
                                 ]
                             ),
                             ft.Row(
@@ -137,6 +195,7 @@ class ErzeugeTodoView(ft.Column):
                                     self.category,
                                 ]
                             ),
+                            self.category_fields,
                             ft.Row(
                                 controls=[
                                     ft.Button("Speichern",on_click=self.save)
@@ -147,11 +206,21 @@ class ErzeugeTodoView(ft.Column):
                 ),
             )
         )
-    def date_changed(self, e)->datetime.date:
-            # value from DatePicker event is a date
-            self.selected_date = e.control.value
-            return self.selected_date 
+    def date_changed(self, e):
+        # value from DatePicker event is a date
+        self.selected_date = e.control.value
+        self.deadline_text.value=str(self.selected_date)
+        self.update()
+        #return self.selected_date 
+
+    def category_changed(self,e)->None:
+        self.category_fields.controls.clear()
+        kat = self.kategorien.get(self.category.value)
+        if kat:
+            self.category_fields.controls.extend(kat.build_ui())
+        self.update()
+
 
     def save(self, e) -> None:
-        self.presenter.save_todo(self.title.value, self.selected_date, self.prio, self.category)  
+        self.presenter.save_todo(self.title.value, self.selected_date, self.calendar.value, self.prio.value, self.category.value)  
 
