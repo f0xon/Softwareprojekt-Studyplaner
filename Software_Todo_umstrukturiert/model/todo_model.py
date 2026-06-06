@@ -38,8 +38,32 @@ class TodoModel:
                     Todo("Hund bürsten","Hundebürste",keine,freizeit),
                     Todo("Mathe","MaMo",mittel,studium),
                     Todo("Wäsche waschen","",mittel, haushalt),
-                    Todo("Oma anrufen","gut",hoch,freizeit)
-              ]
+                    Todo("Oma anrufen","gut",hoch,freizeit),
+                    Todo("Staubsaugen","",niedrig,haushalt),
+                    Todo("Softwareprojekt-Studyplaner","", hoch, studium),
+                    Todo("Einkaufen","",niedrig,haushalt),
+                    Todo("Freunde treffen","",mittel,freizeit),
+                    Todo("Buch lesen","",niedrig,freizeit),
+                    Todo("Sport machen","",mittel,freizeit),
+                    Todo("Projektarbeit","",hoch,studium),
+                    Todo("Auto waschen","",niedrig, haushalt),
+                    Todo("Gartenarbeit","",mittel,haushalt),
+                    Todo("Kino besuchen","",niedrig,freizeit),
+                    Todo("Hausaufgaben","",mittel,studium),
+                    Todo("Rechnung bezahlen","",hoch,haushalt),
+                    Todo("Spazieren gehen","",niedrig,freizeit),
+                    Todo("Prüfungsvorbereitung","",hoch,studium),
+                    Todo("Kochen","",mittel,haushalt),
+                    Todo("Musik hören","",niedrig,freizeit),
+                    Todo("Freizeitpark besuchen","",mittel,freizeit),
+                    Todo("Gitarre spielen","",niedrig,freizeit),
+                    Todo("Büro aufräumen","",mittel,haushalt),
+                    Todo("Vorlesung besuchen","",hoch,studium),
+                    Todo("Freunde anrufen","",niedrig,freizeit),
+                    Todo("Fenster putzen","",mittel,haushalt),
+                    Todo("Kunstprojekt","",hoch,studium),
+                    Todo("Fahrrad reparieren","",mittel,haushalt)
+                ]
 
 
 
