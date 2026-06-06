@@ -3,9 +3,9 @@ import flet as ft
 from presenter.filtere_todo_presenter import FiltereTodoPresenter
 
 class FiltereTodoView(ft.Column):
-    def __init__(self):
+    def __init__(self, presenter: FiltereTodoPresenter):
         super().__init__()
-        self.presenter=FiltereTodoPresenter
+        self.presenter = presenter
         self.status_value = "alle"
         self.filter_active = False
 

@@ -1,13 +1,15 @@
 # pyright: ignore[reportArgumentType]
-from typing import Callable
+#from typing import Callable
 
 import flet as ft
 from model.todo_model import TodoModel
 from view.todo_view import TodoView
 from view.filtere_todo_view import FiltereTodoView
 from view.navigationBar_view import NavigationBarView
-
 from view.erzeuge_todo_view import ErzeugeTodoView
+from presenter.todo_presenter import TodoPresenter
+from presenter.erzeuge_todo_presenter import ErzeugeTodoPresenter
+from presenter.filtere_todo_presenter import FiltereTodoPresenter
 
 class Router:
     def __init__(self, page: ft.Page):
@@ -17,29 +19,42 @@ class Router:
         self.erzeuge_todo:str="/erzeugeTodo"
         self.filtere_todo:str="/filtereTodo"
 
-        page.on_route_change = self.on_route_change
-
-        self.page.navigation_bar = NavigationBarView(self).build()
-
-        self.routes:dict[str,Callable[[], ft.Column]]={ #richtiges Typing?
-            self.todo: TodoView, 
-            self.erzeuge_todo: ErzeugeTodoView,
-            self.filtere_todo:FiltereTodoView,
-        }
-
         self.navigation:dict[int, str]={
             0:self.erzeuge_todo,
             1:self.todo,
             2:self.filtere_todo
         }
 
+        self.page.on_route_change = self.on_route_change
+
+        self.page.navigation_bar = NavigationBarView(self).build()
+
+        '''self.routes:dict[str,Callable[[], ft.Column]]={ #richtiges Typing?
+            self.todo: TodoView, 
+            self.erzeuge_todo: ErzeugeTodoView,
+            self.filtere_todo:FiltereTodoView,
+        }
+'''
     def on_route_change(self, e: ft.RouteChangeEvent):
         self.page.clean()
-        erzeuge_view=self.routes.get(self.page.route)
-        if erzeuge_view: #nur wenn eintrag im dict vorhanden ist
-            self.page.add(erzeuge_view())
+
+        if self.page.route == self.todo:
+            presenter = TodoPresenter(self.todo_model)
+            self.page.add(TodoView(presenter))
+
+        elif self.page.route == self.erzeuge_todo:
+            presenter = ErzeugeTodoPresenter(self.todo_model)
+            self.page.add(ErzeugeTodoView(presenter))
+
+        elif self.page.route == self.filtere_todo:
+            presenter = FiltereTodoPresenter(self.todo_model)
+            self.page.add(FiltereTodoView(presenter))
+
+        else:
+            self.page.go(self.todo)
+
         self.page.update()
-    
+
     def on_nav_change(self, e:ft.ControlEvent):
         index:int = e.control.selected_index
         route=self.navigation.get(index)
@@ -53,3 +68,15 @@ class Router:
 
     def go_to_Filterted_todos(self):
         self.page.go (self.filtere_todo)
+
+    def go_to_erzeuge_todo(self):
+        self.page.go (self.erzeuge_todo)
+
+'''
+    def on_route_change(self, e: ft.RouteChangeEvent):
+        self.page.clean()
+        erzeuge_view=self.routes.get(self.page.route)
+        if erzeuge_view: #nur wenn eintrag im dict vorhanden ist
+            self.page.add(erzeuge_view())
+        self.page.update()
+'''

@@ -76,9 +76,9 @@ class FreizeitKategorie:
 
 
 class ErzeugeTodoView(ft.Column):
-    def __init__(self):
+    def __init__(self, presenter: ErzeugeTodoPresenter):
         super().__init__()
-        self.presenter = ErzeugeTodoPresenter()
+        self.presenter = presenter
         # use date (no time) to match DatePicker value type
         self.selected_date = datetime.date.today()
 
@@ -223,21 +223,19 @@ class ErzeugeTodoView(ft.Column):
     #     self.presenter.save_todo(self.title.value, self.selected_date, self.calendar.value, self.prio.value, self.category.value)
 
     def save(self, e) -> None:
-        kat = self.kategorien.get(self.category.value)
+        '''kat = self.kategorien.get(self.category.value)
 
         if kat:
             extra = kat.extract(self) 
         else:
-            extra = {}
+            extra = {}'''
 
         try:
-            todo = self.presenter.save_todo(
-                title=self.title.value,
-                deadline=self.selected_date,
-                calendar=self.calendar.value,
-                priority=self.prio.value,
-                category=self.category.value,
-                extra=extra
+            todo = self.presenter.erzeuge_todo(
+                titel=self.title.value,
+                notiz=self.notiz.value,
+                priority_name=self.prio.value,
+                category_name=self.category.value,
             )
 
             print("Gespeichert:", todo)

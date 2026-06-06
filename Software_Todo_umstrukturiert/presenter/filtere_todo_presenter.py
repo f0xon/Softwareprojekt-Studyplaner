@@ -1,6 +1,6 @@
+# pyright: reportUnknownMemberType=false
+from model.todo_model import TodoModel
+
 class FiltereTodoPresenter:
-    ...
-    # def __init__(self):
-    #     self.kategorie.todo=[]
-    # def filtere_kategorie(self,gewaehlte_kat):
-        
+    def __init__(self, model: TodoModel):
+        self._model = model
