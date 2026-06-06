@@ -7,7 +7,7 @@ class Priority:
     ausrufezeichen:str
     #schriftdicke
     #filternhilfe
-keine=Priority("keine","")
+keine=Priority("keine","X")
 niedrig=Priority("niedrig","!")
 mittel=Priority("mittel","!!")
 hoch=Priority("hoch","!!!")
@@ -29,11 +29,8 @@ class Todo:
     #deadline:datetime.date
     category:Category
     #calender: str
-    _erledigt: bool=False
+    erledigt: bool=False
 
-    @property
-    def erledigt(self)->bool:
-        return self._erledigt
 
 class TodoModel:
         def __init__(self):

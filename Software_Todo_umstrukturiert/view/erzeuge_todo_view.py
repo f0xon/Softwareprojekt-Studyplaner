@@ -100,8 +100,8 @@ class ErzeugeTodoView(ft.Column):
             icon=ft.Icons.CALENDAR_MONTH,
             on_click=lambda e: e.control.page.show_dialog(
                 ft.DatePicker(
-                    first_date=datetime.date(2023, 10, 1),
-                    last_date=datetime.date(2026, 12, 1),
+                    first_date=datetime.date(2026, 1, 1),
+                    last_date=datetime.date(2028, 12, 1),
                     value=self.selected_date,
                     on_change=self.date_changed,
                 )
@@ -118,18 +118,6 @@ class ErzeugeTodoView(ft.Column):
             ]),
             on_change=self.category_changed
         )
-        # Dropdown Kategorie
-        # self.category = ft.Dropdown(
-        #     value="keine",
-        #     options=[
-        #         ft.dropdown.Option("keine",on_click=self.category_changed),
-        #         ft.dropdown.Option("Studium",on_click=self.category_changed),
-        #         ft.dropdown.Option("Haushalt",on_click=self.category_changed),
-        #         ft.dropdown.Option("Freizeit",on_click=self.category_changed),
-        #     ],
-        #     #on_change=self.category_changed
-        # )
-        # self.category.on_change = self.category_changed
 
         # RadioGroup Kalender
         self.calendar = ft.RadioGroup(
@@ -256,3 +244,16 @@ class ErzeugeTodoView(ft.Column):
 
         except ValueError as ex:
             print("Fehler:", ex)  
+
+    # Dropdown Kategorie
+    # self.category = ft.Dropdown(
+    #     value="keine",
+    #     options=[
+    #         ft.dropdown.Option("keine",on_click=self.category_changed),
+    #         ft.dropdown.Option("Studium",on_click=self.category_changed),
+    #         ft.dropdown.Option("Haushalt",on_click=self.category_changed),
+    #         ft.dropdown.Option("Freizeit",on_click=self.category_changed),
+    #     ],
+    #     #on_change=self.category_changed
+    # )
+    # self.category.on_change = self.category_changed

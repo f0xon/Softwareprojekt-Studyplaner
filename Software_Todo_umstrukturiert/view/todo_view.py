@@ -8,7 +8,9 @@ class TodoView(ft.Column):
     def __init__(self):
         super().__init__()
         self.presenter = TodoPresenter()
+        self.build_ui()
 
+    def build_ui(self):
         for todo in self.presenter.todos:
             self.controls.append(
                 ft.Card(
@@ -28,71 +30,42 @@ class TodoView(ft.Column):
                             controls=[
                                 ft.Button(
                                     todo.priority.ausrufezeichen,
-                                    tooltip="Priorität"
+                                    tooltip="Priorität: "+ todo.priority.name
                                 ),
                                 ft.IconButton(
                                     icon=ft.Icons.DONE,
-                                    tooltip="Erledigt",
-                                    # on_click=self.on_done
+                                    tooltip="erledigt" if todo.erledigt else "unerledigt",
+                                    icon_color=ft.Colors.BLUE if todo.erledigt else ft.Colors.GREY,
+                                    data=todo,
+                                    on_click=self.on_button_clicked_done
                                 ),
                                 ft.IconButton(
                                     icon=ft.Icons.INFO_OUTLINE,
                                     tooltip="Details",
+                                    # on_click=self.on_button_clicked_details
                                 ),
+                                ft.IconButton(
+                                    icon=ft.Icons.DELETE,
+                                    tooltip="Löschen",
+                                    data=todo,
+                                    on_click=self.on_button_clicked_delete
+                                )
                             ],
                         ),
                     )
                 )
             )
-        # for todo in self.presenter.todos:
-        #     self.controls.append(
-        #         ft.Card(
-        #             bgcolor=ft.Colors.SURFACE_CONTAINER_LOW,
-        #             shadow_color=ft.Colors.ON_SURFACE_VARIANT,
-        #             content=ft.Container(
-        #                 width=450,
-        #                 padding=10,
-        #                 content=ft.Row(
-        #                         controls=[
-        #                             ft.IconButton(ft.Icons.DONE), #,on_click=self.on_button_clicked_done noch nicht implementiert
-        #                             ft.Text("Name"),
-        #                             ft.Text(todo.titel),
-        #                             ft.IconButton(ft.Icons.INFO), #noch nicht implementiert
-        #                             ft.Text("Notiz"),
-        #                             ft.Text(todo.notiz)
-        #                         ]
-        #                     )
-        #                 )
-        #             )
-        #         )
-            
-            
-
-
-            # self.controls.append(ft.Column([
-            #     ft.ListTile(
-            #         title=todo.titel,#titel
-            #         subtitle=todo.notiz,#categorie
-            #         trailing=ft.Text(""),#datum
-            #         bgcolor=ft.Colors.SURFACE_CONTAINER_LOW
-            #     )
-            # ]))
-
-    # def on_button_clicked_add(self):
-    #     self.presenter.erzeuge_todo()
     
-    # def on_button_clicked_filter(self):
-    #     self.presenter.filtere_todo()
-    
+    def on_button_clicked_done(self,e):
+        todo = e.control.data
+        self.presenter.erledige_todo(todo)
+        self.controls.clear()
+        self.build_ui()
+        self.update()
 
-    # def did_mount(self):
-    #     self.presenter.load_todos()
-
-    # def show_todos(self, todos:list[str]):
-    #     self.todo_list.controls.clear()
-
-    #     for todo in todos:
-    #         self.todo_list.controls.append(ft.Text(todo))
-
-    #     self.update()
-
+    def on_button_clicked_delete(self,e):
+        todo = e.control.data
+        self.presenter.loesche_todo(todo)
+        self.controls.clear()
+        self.build_ui()
+        self.update()
