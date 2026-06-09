@@ -1,13 +1,19 @@
-from typing import Any
+from typing import Any, Literal
 
 from model.general_model import GeneralModel,Todo, Studium, Haushalt, Freizeit
 from model.general_model import keine,niedrig, mittel, hoch
 from model.general_model import studium, haushalt,freizeit
 from datetime import date
 
-class ErzeugeTodoPresenter:
+#class ErzeugeTodoPresenter:
+class TodoDetailPresenter:
+
+    _modus: Literal["create", "edit"]
+    _model: Todo
+
     def __init__(self):
         self.model = GeneralModel()
+        # self.model
     
     def map_priority(self, value:str):
         dict_prio:dict[str,Any]={

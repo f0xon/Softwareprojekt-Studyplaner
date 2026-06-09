@@ -253,7 +253,7 @@ class GeneralModel:
     def add_todo(self,todo:Todo)->None:
         self.todos.append(todo)
 
-    def 
+   
     
     # def filter_todos(self, kat: str, prio: str, status: str)->list[Todo]:
     #     if kat != "alle":

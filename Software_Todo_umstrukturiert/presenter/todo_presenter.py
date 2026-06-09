@@ -3,7 +3,13 @@
 from model.general_model import GeneralModel,Todo
 
 class TodoPresenter:
+
+    _model: list[Todo]
+    #_repo: TodoRepo
+
     def __init__(self):
+        #self._repo = repo
+        #self._model = self.repo.get_all_todos()
         self.model=GeneralModel()
     
     def get_todo(self):

@@ -21,6 +21,8 @@ class Router:
 
         self.page.navigation_bar = NavigationBarView(self).build()
 
+        # TODO Repo erzeugen und an Presenter übergeben
+        # TODO Presenter hier erzeugen und an Views übergeben
         self.routes:dict[str,Callable[[], ft.Column]]={ #richtiges Typing?
             self.todo: lambda: TodoView(), 
             self.erzeuge_todo: lambda:ErzeugeTodoView(on_save=self.go_to_todos),
