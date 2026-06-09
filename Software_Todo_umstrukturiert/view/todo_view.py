@@ -35,10 +35,17 @@ class TodoView(ft.Column):
                             controls=[
                                 ft.Button(
                                     todo.priority.ausrufezeichen,
-                                    tooltip="Priorität"
+                                    tooltip="Priorität: "+ todo.priority.name,
+                                    style=ft.ButtonStyle(
+                                        color=ft.Colors.RED_ACCENT_700,
+                                        bgcolor=ft.Colors.TRANSPARENT,
+                                    )
                                 ),
                                 ft.IconButton(
                                     icon=ft.Icons.DONE,
+                                        style=ft.ButtonStyle(
+                                            bgcolor=ft.Colors.WHITE,
+                                        ),
                                     tooltip="Erledigt" if todo.erledigt else "Unerledigt",
                                     icon_color=ft.Colors.BLUE if todo.erledigt else ft.Colors.GREY,
                                     data=todo._id,
