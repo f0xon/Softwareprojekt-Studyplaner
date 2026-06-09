@@ -56,6 +56,10 @@ class Todo:
     extra: Studium | Haushalt | Freizeit | None
     erledigt: bool = False
 
+    def erledige_todo(self,)->None:
+        self.erledigt = True
+
+
 class GeneralModel:
     def __init__(self):
         self.todos:list[Todo]=[]
@@ -253,22 +257,12 @@ class GeneralModel:
     def add_todo(self,todo:Todo)->None:
         self.todos.append(todo)
 
-    def fuege_todo_hinzu(self, neue_Daten: ErstelleTodo):
-        todo = Todo(
-            nummer=len(self.todos) + 1,
-            titel=neue_Daten.titel,
-            notiz=neue_Daten.notiz,
-            priority= self._priority_aus_name(neue_Daten.priority_name),
-            category=self._category_aus_name(neue_Daten.category_name)
-        )
-        self.todos.append(todo)
-
-    def entferne_todo(self, todo: Todo):
+    def loesche_todo(self, todo: Todo):
         self.todos.remove(todo)
 
     def _priority_aus_name(self, name: str)->Priority:
         if name == "keine":
-            return keine
+            return keine_p
         elif name == "niedrig":
             return niedrig
         elif name == "mittel":
@@ -295,7 +289,7 @@ class GeneralModel:
             if todo.offen:
                 offene_todos.append(todo)
         return offene_todos
-    
+    '''
     @property
     def erledigte_todos(self)->list[Todo]:
         erledigte_todos: list[Todo] = [] 
@@ -303,7 +297,7 @@ class GeneralModel:
             if todo.erledigt:
                 erledigte_todos.append(todo)
         return erledigte_todos
-    
+    '''
     # def filter_todos(self, kat: str, prio: str, status: str)->list[Todo]:
     #     if kat != "alle":
     #         gefiltert_nach_kategorie:list[Todo] = []

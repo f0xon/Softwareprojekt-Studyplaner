@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-# pyright: reportUnknownMemberType=false
-from model.todo_model import TodoModel
-
-class FiltereTodoPresenter:
-    def __init__(self, model: TodoModel):
-        self._model = model
-=======
 from model.general_model import GeneralModel, Todo
 
 class FiltereTodoPresenter:
@@ -30,4 +22,3 @@ class FiltereTodoPresenter:
             self.prio,
             self.status
         )
->>>>>>> origin/test-spaltung-for-Datenbanken

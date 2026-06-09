@@ -1,28 +1,5 @@
 from typing import Any
 
-<<<<<<< HEAD
-#from model.erzeuge_todo_model import ErzeugeTodoModel
-#from model.todos_model import TodosModel
-from model.todo_model import TodoModel, ErstelleTodo
-
-class ErzeugeTodoPresenter:
-    def __init__(self, model: TodoModel):
-        self._model=model
-
-    def erzeuge_todo(self, titel:str, notiz:str, priority_name:str, category_name:str):
-        neue_Daten = ErstelleTodo(titel, notiz, priority_name, category_name)
-        self._model.fuege_todo_hinzu(neue_Daten)
-    
-        #self.router=router
-        #self.model=router.todos_model # Globale Liste über Router aufgerufen
-        #self.model = TodosModel() #schlecht --> jeder presenter hat eigene liste --> todo sonst nach speichern weg
-
-    #def save_todo(self, title: str, deadline: datetime.date, category: str):
-    #    todo=ErzeugeTodoModel(title, deadline, category)
-    #    print(todo)
-    #    #self.model.add_todo(todo)
-    #    #elf.router.go_to_todos()
-=======
 from model.general_model import GeneralModel,Todo, Studium, Haushalt, Freizeit
 from model.general_model import keine,niedrig, mittel, hoch
 from model.general_model import studium, haushalt,freizeit
@@ -49,7 +26,6 @@ class ErzeugeTodoPresenter:
             "Haushalt":haushalt
         }       
         return dict_prio.get(value)
->>>>>>> origin/test-spaltung-for-Datenbanken
 
     def build_extra(self, category: str, data: dict[str,Any]):
         if not data:

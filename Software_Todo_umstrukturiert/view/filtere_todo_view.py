@@ -4,18 +4,10 @@ import flet as ft
 from presenter.filtere_todo_presenter import FiltereTodoPresenter
 
 class FiltereTodoView(ft.Column):
-<<<<<<< HEAD
-    def __init__(self, presenter: FiltereTodoPresenter):
-        super().__init__()
-        self.presenter = presenter
-        self.status_value = "alle"
-        self.filter_active = False
-=======
     def __init__(self,on_save=None):
         super().__init__()
         self.on_save=on_save
         self.presenter = FiltereTodoPresenter()
->>>>>>> origin/test-spaltung-for-Datenbanken
 
         # RadioGroups
         self.status = ft.RadioGroup(

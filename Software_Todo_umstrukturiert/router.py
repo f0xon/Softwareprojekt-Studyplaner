@@ -1,8 +1,7 @@
 # pyright: ignore[reportArgumentType]
-#from typing import Callable
-
+from typing import Callable
 import flet as ft
-from model.todo_model import TodoModel
+from model.general_model import GeneralModel
 from view.todo_view import TodoView
 from view.filtere_todo_view import FiltereTodoView
 from view.navigationBar_view import NavigationBarView
@@ -14,7 +13,7 @@ from presenter.filtere_todo_presenter import FiltereTodoPresenter
 class Router:
     def __init__(self, page: ft.Page):
         self.page = page
-        self.todo_model=TodoModel()
+        self.todo_model=GeneralModel()
         self.todo:str="/Todo"
         self.erzeuge_todo:str="/erzeugeTodo"
         self.filtere_todo:str="/filtereTodo"
@@ -47,24 +46,31 @@ class Router:
 '''
     def on_route_change(self, e: ft.RouteChangeEvent):
         self.page.clean()
+        erzeuge_view = self.routes.get(self.page.route)
+        if erzeuge_view:
+            self.page.add(erzeuge_view())
+        self.page.update()
+
+        '''
+        self.page.clean()
 
         if self.page.route == self.todo:
-            presenter = TodoPresenter(self.todo_model)
-            self.page.add(TodoView(presenter))
+            presenter = TodoPresenter()
+            self.page.add(TodoView())
 
         elif self.page.route == self.erzeuge_todo:
-            presenter = ErzeugeTodoPresenter(self.todo_model)
+            presenter = ErzeugeTodoPresenter()
             self.page.add(ErzeugeTodoView(presenter))
 
         elif self.page.route == self.filtere_todo:
-            presenter = FiltereTodoPresenter(self.todo_model)
+            presenter = FiltereTodoPresenter()
             self.page.add(FiltereTodoView(presenter))
 
         else:
             self.page.go(self.todo)
 
         self.page.update()
-
+'''
     def on_nav_change(self, e:ft.ControlEvent):
         index:int = e.control.selected_index
         route=self.navigation.get(index)

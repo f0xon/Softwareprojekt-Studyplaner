@@ -104,17 +104,10 @@ class FreizeitKategorie:
 
 
 class ErzeugeTodoView(ft.Column):
-<<<<<<< HEAD
-    def __init__(self, presenter: ErzeugeTodoPresenter):
-        super().__init__()
-        self.presenter = presenter
-        # use date (no time) to match DatePicker value type
-=======
     def __init__(self,on_save=None):
         super().__init__()
         self.presenter = ErzeugeTodoPresenter()
         self.on_save=on_save
->>>>>>> origin/test-spaltung-for-Datenbanken
         self.selected_date = datetime.date.today()
 
         self.category_fields=ft.Column()
@@ -251,40 +244,6 @@ class ErzeugeTodoView(ft.Column):
         self.update()
 
     def save(self, e) -> None:
-<<<<<<< HEAD
-        '''kat = self.kategorien.get(self.category.value)
-
-        if kat:
-            extra = kat.extract(self) 
-        else:
-            extra = {}'''
-
-        try:
-            todo = self.presenter.erzeuge_todo(
-                titel=self.title.value,
-                notiz=self.notiz.value,
-                priority_name=self.prio.value,
-                category_name=self.category.value,
-            )
-
-            print("Gespeichert:", todo)
-
-        except ValueError as ex:
-            print("Fehler:", ex)  
-
-    # Dropdown Kategorie
-    # self.category = ft.Dropdown(
-    #     value="keine",
-    #     options=[
-    #         ft.dropdown.Option("keine",on_click=self.category_changed),
-    #         ft.dropdown.Option("Studium",on_click=self.category_changed),
-    #         ft.dropdown.Option("Haushalt",on_click=self.category_changed),
-    #         ft.dropdown.Option("Freizeit",on_click=self.category_changed),
-    #     ],
-    #     #on_change=self.category_changed
-    # )
-    # self.category.on_change = self.category_changed
-=======
         kat=self.category.value
         aktuelle_kat = self.kategorien.get(kat)
         if aktuelle_kat:
@@ -302,4 +261,3 @@ class ErzeugeTodoView(ft.Column):
         )
         if self.on_save:
             self.on_save()
->>>>>>> origin/test-spaltung-for-Datenbanken
