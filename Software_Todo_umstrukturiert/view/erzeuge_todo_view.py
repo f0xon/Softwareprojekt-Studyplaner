@@ -1,85 +1,113 @@
 # pyright: reportAttributeAccessIssue=false
 import datetime
-from typing import Protocol
+from typing import Any, Protocol
 import flet as ft
 from presenter.erzeuge_todo_presenter import ErzeugeTodoPresenter
 
 class Kategorie(Protocol):
     def build_ui(self) -> list[ft.Row]:
         ...
+    def extract(self) -> dict[str,Any]:
+        ...
 
 class StudiumKategorie:
+    def __init__(self):
+        self.modul=ft.TextField(label="Modul")
+        self.gruppenarbeit=ft.RadioGroup(
+            value=False,
+            content=ft.Row(
+                controls=[
+                    ft.Radio(value=True, label="Ja"),
+                    ft.Radio(value=False, label="Nein"),
+                ]
+            )
+        )
+
     def build_ui(self)->list[ft.Row]:
         return [
             ft.Row(
                 controls=[
                     ft.Text("Modul:"),
                     ft.Container(expand=True),
-                    ft.TextField(label="Modul"),
+                    self.modul,
                 ]
             ),
             ft.Row(
                 controls=[
                     ft.Text("Gruppenarbeit:"),
                     ft.Container(expand=True),
-                    ft.RadioGroup(
-                        value="nein",
-                        content=ft.Row(
-                            controls=[
-                                ft.Radio(value="ja", label="Ja"),
-                                ft.Radio(value="nein", label="Nein"),
-                            ]
-                        )
-                    )
+                    self.gruppenarbeit
                 ]
             )
         ]
+    def extract(self) -> dict[str,Any]:
+        return {
+            "modul": self.modul.value,
+            "gruppenarbeit": self.gruppenarbeit.value
+        }
 
 class HaushaltKategorie:
+    def __init__(self):
+        self.wiederkehrend=ft.RadioGroup(
+            value=False,
+            content=ft.Row(
+                controls=[
+                    ft.Radio(value=True, label="Ja"),
+                    ft.Radio(value=False, label="Nein"),
+                ]
+            )
+        )
+
     def build_ui(self)->list[ft.Row]:
         return [
             ft.Row(
                 controls=[
                     ft.Text("wiederkehrende Aufgabe:"),
                     ft.Container(expand=True),
-                    ft.RadioGroup(
-                        value="nein",
-                        content=ft.Row(
-                            controls=[
-                                ft.Radio(value="ja", label="Ja"),
-                                ft.Radio(value="nein", label="Nein"),
-                            ]
-                        )
-                    )
+                    self.wiederkehrend
                 ]
             )
         ]
+
+    def extract(self) -> dict[str,Any]:
+        return {
+            "wiederkehrend":self.wiederkehrend.value
+        }
     
 class FreizeitKategorie:
+    def __init__(self):
+        self.hobby=ft.TextField(label="Hobby")
+        self.ort=ft.TextField(label="Ort")
+
     def build_ui(self)->list[ft.Row]:
         return [
             ft.Row(
                 controls=[
                     ft.Text("Hobby:"),
                     ft.Container(expand=True),
-                    ft.TextField(label="Hobby"),
+                    self.hobby
                 ]
             ),
             ft.Row(
                 controls=[
                     ft.Text("Ort:"),
                     ft.Container(expand=True),
-                    ft.TextField(label="Ort"),
+                    self.ort,
                 ]
             ),
         ]
+    def extract(self) -> dict[str,Any]:
+        return {
+            "hobby":self.hobby.value,
+            "ort":self.ort.value
+        }
 
 
 class ErzeugeTodoView(ft.Column):
-    def __init__(self):
+    def __init__(self,on_save=None):
         super().__init__()
         self.presenter = ErzeugeTodoPresenter()
-        # use date (no time) to match DatePicker value type
+        self.on_save=on_save
         self.selected_date = datetime.date.today()
 
         self.category_fields=ft.Column()
@@ -121,13 +149,10 @@ class ErzeugeTodoView(ft.Column):
 
         # RadioGroup Kalender
         self.calendar = ft.RadioGroup(
-            value="nein",
-            content=ft.Row(
-                controls=[
-                    ft.Radio(value="ja", label="Ja"),
-                    ft.Radio(value="nein", label="Nein"),
-                ]
-            )
+            content=ft.Row([
+                    ft.Radio(value=True, label="Ja"),
+                    ft.Radio(value=False, label="Nein"),
+                ])
         )
 
         self.prio=ft.Dropdown(
@@ -204,9 +229,9 @@ class ErzeugeTodoView(ft.Column):
                 ),
             )
         )
+
     def date_changed(self, e):
-        # value from DatePicker event is a date
-        self.selected_date = e.control.value.date()
+        self.selected_date:datetime.date = e.control.value.date()
         self.deadline_text.value=str(self.selected_date)
         self.update()
         #return self.selected_date 
@@ -218,42 +243,21 @@ class ErzeugeTodoView(ft.Column):
             self.category_fields.controls.extend(kat.build_ui())
         self.update()
 
-
-    # def save(self, e) -> None:
-    #     self.presenter.save_todo(self.title.value, self.selected_date, self.calendar.value, self.prio.value, self.category.value)
-
     def save(self, e) -> None:
-        kat = self.kategorien.get(self.category.value)
-
-        if kat:
-            extra = kat.extract(self) 
+        kat=self.category.value
+        aktuelle_kat = self.kategorien.get(kat)
+        if aktuelle_kat:
+            extra:dict[str,Any] = aktuelle_kat.extract()
         else:
             extra = {}
-
-        try:
-            todo = self.presenter.save_todo(
-                title=self.title.value,
-                deadline=self.selected_date,
-                calendar=self.calendar.value,
-                priority=self.prio.value,
-                category=self.category.value,
-                extra=extra
-            )
-
-            print("Gespeichert:", todo)
-
-        except ValueError as ex:
-            print("Fehler:", ex)  
-
-    # Dropdown Kategorie
-    # self.category = ft.Dropdown(
-    #     value="keine",
-    #     options=[
-    #         ft.dropdown.Option("keine",on_click=self.category_changed),
-    #         ft.dropdown.Option("Studium",on_click=self.category_changed),
-    #         ft.dropdown.Option("Haushalt",on_click=self.category_changed),
-    #         ft.dropdown.Option("Freizeit",on_click=self.category_changed),
-    #     ],
-    #     #on_change=self.category_changed
-    # )
-    # self.category.on_change = self.category_changed
+        self.presenter.save_todo(
+            title=self.title.value,
+            notiz=self.notiz.value,
+            deadline=self.selected_date,
+            calendar=self.calendar.value,
+            priority=self.prio.value,
+            category=kat,
+            extra=extra,
+        )
+        if self.on_save:
+            self.on_save()

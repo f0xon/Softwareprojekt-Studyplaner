@@ -22,9 +22,9 @@ class Router:
         self.page.navigation_bar = NavigationBarView(self).build()
 
         self.routes:dict[str,Callable[[], ft.Column]]={ #richtiges Typing?
-            self.todo: TodoView, 
-            self.erzeuge_todo: ErzeugeTodoView,
-            self.filtere_todo:FiltereTodoView,
+            self.todo: lambda: TodoView(), 
+            self.erzeuge_todo: lambda:ErzeugeTodoView(on_save=self.go_to_todos),
+            self.filtere_todo:lambda:FiltereTodoView(on_save=self.go_to_todos),
         }
 
         self.navigation:dict[int, str]={
@@ -51,5 +51,3 @@ class Router:
     def go_to_todos(self):
         self.page.go (self.todo) #mit Index machen?
 
-    def go_to_Filterted_todos(self):
-        self.page.go (self.filtere_todo)
