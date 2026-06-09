@@ -1,7 +1,7 @@
 # pyright: reportUnknownMemberType=false
 # pyright: reportAttributeAccessIssue=false
 import flet as ft
-from presenter.todo_presenter import TodoPresenter
+from presenter.todo_presenter import TodoListePresenter
 from view.filtere_todo_view import FiltereTodoView
 
 
@@ -9,7 +9,7 @@ class TodoView(ft.Column):
 
     def __init__(self):
         super().__init__()
-        self.presenter = TodoPresenter()
+        self.presenter = TodoListePresenter()
         self.filter_view=FiltereTodoView()
         self.build_ui()
 
@@ -41,6 +41,7 @@ class TodoView(ft.Column):
                                     icon=ft.Icons.DONE,
                                     tooltip="Erledigt" if todo.erledigt else "Unerledigt",
                                     icon_color=ft.Colors.BLUE if todo.erledigt else ft.Colors.GREY,
+                                    data=todo._id,
                                     on_click=self.on_button_clicked_done
                                 ),
                                 ft.IconButton(
@@ -50,6 +51,7 @@ class TodoView(ft.Column):
                                 ft.IconButton(
                                     icon=ft.Icons.DELETE_OUTLINE,
                                     tooltip="Löschen",
+                                    data=todo._id,
                                     on_click=self.on_button_clicked_delete
                                 )
                             ],

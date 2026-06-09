@@ -46,7 +46,8 @@ class Freizeit:
 # --- MAIN TODO ---
 #Todo hat eine Kategorie Todo hat optionale Zusatzdaten
 @dataclass
-class Todo:
+class ToDoModel:
+    _id: int 
     titel: str
     notiz: str
     priority: Priority
@@ -54,17 +55,28 @@ class Todo:
     calendar:bool
     category: Category
     extra: Studium | Haushalt | Freizeit | None
-    erledigt: bool = False
+    _erledigt: bool = False
 
-    def erledige_todo(self,)->None:
-        self.erledigt = True
+    @property
+    def id(self):
+        return self._id
+
+    @property
+    def erledigt(self):
+        return self._erledigt
+
+    def erledige_todo(self)->None:
+        if self._erledigt == False:
+            self._erledigt = True
+        elif self._erledigt == True:
+            self._erledigt = False
 
 
-class GeneralModel:
+class ToDoListModel:
     def __init__(self):
-        self.todos:list[Todo]=[]
-        self.dummydaten:list[Todo]=[
-            Todo(
+        self.todos:list[ToDoModel]=[]
+        self.dummydaten:list[ToDoModel]=[
+            ToDoModel(_id=1,
                 titel="Mathe lernen",
                 notiz="Kapitel 3 üben",
                 priority=hoch,
@@ -76,7 +88,7 @@ class GeneralModel:
                     gruppenarbeit=True
                 ),
             ),
-            Todo(
+            ToDoModel(_id=2,
                 titel="Hund bürsten",
                 notiz="Hundebürste",
                 priority=keine_p,
@@ -88,7 +100,7 @@ class GeneralModel:
                     ort="Zuhause"
                 ),
             ),
-            Todo(
+            ToDoModel(_id=3,
                 titel="Mathe",
                 notiz="MaMo",
                 priority=mittel,
@@ -100,7 +112,7 @@ class GeneralModel:
                     gruppenarbeit=False
                 ),
             ),
-            Todo(
+            ToDoModel(_id=4,
                 titel="Wäsche waschen",
                 notiz="",
                 priority=mittel,
@@ -111,7 +123,7 @@ class GeneralModel:
                     wiederkehrend=True
                 ),
             ),
-            Todo(
+            ToDoModel(_id=5,
                 titel="Oma anrufen",
                 notiz="gut",
                 priority=hoch,
@@ -123,7 +135,7 @@ class GeneralModel:
                     ort="Telefon"
                 ),
             ),
-            Todo(
+        ToDoModel(_id=6,
                 titel="Staubsaugen",
                 notiz="",
                 priority=niedrig,
@@ -134,7 +146,7 @@ class GeneralModel:
                     wiederkehrend=True
                 ),
             ),
-            Todo(
+            ToDoModel(_id=7,
                 titel="Softwareprojekt-Studyplaner",
                 notiz="",
                 priority=hoch,
@@ -146,7 +158,7 @@ class GeneralModel:
                     gruppenarbeit=True
                 ),
             ),
-            Todo(
+            ToDoModel(_id=8,
                 titel="Einkaufen",
                 notiz="",
                 priority=niedrig,
@@ -157,7 +169,7 @@ class GeneralModel:
                     wiederkehrend=False
                 ),
             ),
-            Todo(
+            ToDoModel(_id=9,
                 titel="Freunde treffen",
                 notiz="",
                 priority=mittel,
@@ -169,7 +181,7 @@ class GeneralModel:
                     ort="Stadt"
                 ),
             ),
-            Todo(
+            ToDoModel(_id=10,
                 titel="Buch lesen",
                 notiz="",
                 priority=niedrig,
@@ -181,7 +193,7 @@ class GeneralModel:
                     ort="Wohnzimmer"
                 ),
             ),
-            Todo(
+            ToDoModel(_id=11,
                 titel="Sport machen",
                 notiz="",
                 priority=mittel,
@@ -193,7 +205,7 @@ class GeneralModel:
                     ort="Fitnessstudio"
                 ),
             ),
-            Todo(
+            ToDoModel(_id=12,
                 titel="Projektarbeit",
                 notiz="",
                 priority=hoch,
@@ -205,7 +217,7 @@ class GeneralModel:
                     gruppenarbeit=True
                 ),
             ),
-            Todo(
+            ToDoModel(_id=13,
                 titel="Auto waschen",
                 notiz="",
                 priority=niedrig,
@@ -216,7 +228,7 @@ class GeneralModel:
                     wiederkehrend=False
                 ),
             ),
-            Todo(
+            ToDoModel(_id=14,
                 titel="Gartenarbeit",
                 notiz="",
                 priority=mittel,
@@ -227,7 +239,7 @@ class GeneralModel:
                     wiederkehrend=True
                 ),
             ),
-            Todo(
+            ToDoModel(_id=15,
                 titel="Kino besuchen",
                 notiz="",
                 priority=niedrig,
@@ -239,7 +251,7 @@ class GeneralModel:
                     ort="Kino"
                 ),
             ),
-            Todo(
+            ToDoModel(_id=16,
                 titel="Hausaufgaben",
                 notiz="",
                 priority=mittel,
@@ -254,10 +266,10 @@ class GeneralModel:
         ]
         self.result = self.dummydaten.copy()
     
-    def add_todo(self,todo:Todo)->None:
+    def add_todo(self,todo:ToDoModel)->None:
         self.todos.append(todo)
 
-    def loesche_todo(self, todo: Todo):
+    def loesche_todo(self, todo: ToDoModel):
         self.todos.remove(todo)
 
     def _priority_aus_name(self, name: str)->Priority:
@@ -281,23 +293,10 @@ class GeneralModel:
             return freizeit
         else:
             raise ValueError(f"Ungültiger Kategoriename: {name}")
-        
-    @property
-    def offene_todos(self)->list[Todo]:
-        offene_todos: list[Todo] = [] 
-        for todo in self.todos:
-            if todo.offen:
-                offene_todos.append(todo)
-        return offene_todos
-    '''
-    @property
-    def erledigte_todos(self)->list[Todo]:
-        erledigte_todos: list[Todo] = [] 
-        for todo in self.todos:
-            if todo.erledigt:
-                erledigte_todos.append(todo)
-        return erledigte_todos
-    '''
+
+
+
+
     # def filter_todos(self, kat: str, prio: str, status: str)->list[Todo]:
     #     if kat != "alle":
     #         gefiltert_nach_kategorie:list[Todo] = []

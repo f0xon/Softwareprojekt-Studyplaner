@@ -1,13 +1,13 @@
 from typing import Any
 
-from model.general_model import GeneralModel,Todo, Studium, Haushalt, Freizeit
-from model.general_model import keine,niedrig, mittel, hoch
-from model.general_model import studium, haushalt,freizeit
+from model.ToDoListe_model import ToDoListModel,ToDoModel, Studium, Haushalt, Freizeit
+from model.ToDoListe_model import keine,niedrig, mittel, hoch
+from model.ToDoListe_model import studium, haushalt,freizeit
 from datetime import date
 
 class ErzeugeTodoPresenter:
     def __init__(self):
-        self.model = GeneralModel()
+        self.model = ToDoListModel()
     
     def map_priority(self, value:str):
         dict_prio:dict[str,Any]={
@@ -50,7 +50,7 @@ class ErzeugeTodoPresenter:
         category: str,
         extra: dict[str,Any],
     ):
-        todo = Todo(
+        todo = ToDoModel(
             titel=title,
             notiz=notiz,
             deadline=deadline,

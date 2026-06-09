@@ -1,19 +1,19 @@
 # pyright: ignore[reportArgumentType]
 from typing import Callable
 import flet as ft
-from model.general_model import GeneralModel
+from model.ToDoListe_model import ToDoListModel
 from view.todo_view import TodoView
 from view.filtere_todo_view import FiltereTodoView
 from view.navigationBar_view import NavigationBarView
 from view.erzeuge_todo_view import ErzeugeTodoView
-from presenter.todo_presenter import TodoPresenter
+from presenter.todo_presenter import TodoListePresenter
 from presenter.erzeuge_todo_presenter import ErzeugeTodoPresenter
 from presenter.filtere_todo_presenter import FiltereTodoPresenter
 
 class Router:
     def __init__(self, page: ft.Page):
         self.page = page
-        self.todo_model=GeneralModel()
+        self.todo_model=ToDoListModel()
         self.todo:str="/Todo"
         self.erzeuge_todo:str="/erzeugeTodo"
         self.filtere_todo:str="/filtereTodo"
@@ -55,7 +55,7 @@ class Router:
         self.page.clean()
 
         if self.page.route == self.todo:
-            presenter = TodoPresenter()
+            presenter = TodoListePresenter()
             self.page.add(TodoView())
 
         elif self.page.route == self.erzeuge_todo:
