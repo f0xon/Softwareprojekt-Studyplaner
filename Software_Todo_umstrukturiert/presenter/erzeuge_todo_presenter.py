@@ -1,5 +1,6 @@
-from datetime import datetime
+from typing import Any
 
+<<<<<<< HEAD
 #from model.erzeuge_todo_model import ErzeugeTodoModel
 #from model.todos_model import TodosModel
 from model.todo_model import TodoModel, ErstelleTodo
@@ -21,6 +22,68 @@ class ErzeugeTodoPresenter:
     #    print(todo)
     #    #self.model.add_todo(todo)
     #    #elf.router.go_to_todos()
+=======
+from model.general_model import GeneralModel,Todo, Studium, Haushalt, Freizeit
+from model.general_model import keine,niedrig, mittel, hoch
+from model.general_model import studium, haushalt,freizeit
+from datetime import date
 
-    # def erzeuge_todo(self):
-    #     self.router.go_to_erzeuge_todo()
+class ErzeugeTodoPresenter:
+    def __init__(self):
+        self.model = GeneralModel()
+    
+    def map_priority(self, value:str):
+        dict_prio:dict[str,Any]={
+            "keine":keine,
+            "niedrig":niedrig,
+            "mittel":mittel,
+            "hoch":hoch
+        }       
+        return dict_prio.get(value)
+
+    def map_category(self, value:str):
+        dict_prio:dict[str,Any]={
+            "keine":None,
+            "Studium":studium,
+            "Freizeit":freizeit,
+            "Haushalt":haushalt
+        }       
+        return dict_prio.get(value)
+>>>>>>> origin/test-spaltung-for-Datenbanken
+
+    def build_extra(self, category: str, data: dict[str,Any]):
+        if not data:
+            return None
+        mapping = {
+            "Studium": Studium,
+            "Haushalt": Haushalt,
+            "Freizeit": Freizeit,
+        }
+        cls:Studium|Haushalt|Freizeit = mapping.get(category)
+        if cls is None:
+            return None
+        return cls(**data)
+
+    def save_todo(
+        self,
+        title: str,
+        notiz: str,
+        deadline:date,
+        calendar: bool,
+        priority: str,
+        category: str,
+        extra: dict[str,Any],
+    ):
+        todo = Todo(
+            titel=title,
+            notiz=notiz,
+            deadline=deadline,
+            calendar=calendar,
+            priority=self.map_priority(priority),  
+            category=self.map_category(category),
+            extra=self.build_extra(category, extra),
+        )
+
+        self.model.add_todo(todo)
+
+        print("DEBUG: Todo gespeichert",todo)

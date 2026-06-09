@@ -19,6 +19,16 @@ class Router:
         self.erzeuge_todo:str="/erzeugeTodo"
         self.filtere_todo:str="/filtereTodo"
 
+        page.on_route_change = self.on_route_change
+
+        self.page.navigation_bar = NavigationBarView(self).build()
+
+        self.routes:dict[str,Callable[[], ft.Column]]={ #richtiges Typing?
+            self.todo: lambda: TodoView(), 
+            self.erzeuge_todo: lambda:ErzeugeTodoView(on_save=self.go_to_todos),
+            self.filtere_todo:lambda:FiltereTodoView(on_save=self.go_to_todos),
+        }
+
         self.navigation:dict[int, str]={
             0:self.erzeuge_todo,
             1:self.todo,
@@ -66,17 +76,3 @@ class Router:
     def go_to_todos(self):
         self.page.go (self.todo) #mit Index machen?
 
-    def go_to_Filterted_todos(self):
-        self.page.go (self.filtere_todo)
-
-    def go_to_erzeuge_todo(self):
-        self.page.go (self.erzeuge_todo)
-
-'''
-    def on_route_change(self, e: ft.RouteChangeEvent):
-        self.page.clean()
-        erzeuge_view=self.routes.get(self.page.route)
-        if erzeuge_view: #nur wenn eintrag im dict vorhanden ist
-            self.page.add(erzeuge_view())
-        self.page.update()
-'''

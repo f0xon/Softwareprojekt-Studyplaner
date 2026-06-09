@@ -7,3 +7,8 @@ Ja: Löschen
 -verschiedene Kategorien verschiedene Farben
 ja: Priorität wird angezeigt mit einem, zwei oder drei Ausrufezeichen
 -Pickdate zeigt ein Tag weniger an als man auswählt
+-nach todo gespeichert bze klick speicher button soll in todoview hüpfen
+
+Probleme
+-datepicker zeigt ein tag früher an 
+-eingefügtes todo sieht man nicht in todo view

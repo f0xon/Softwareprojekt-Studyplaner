@@ -2,10 +2,12 @@
 # pyright: reportAttributeAccessIssue=false
 import flet as ft
 from presenter.todo_presenter import TodoPresenter
+from view.filtere_todo_view import FiltereTodoView
 
 
 class TodoView(ft.Column):
 
+<<<<<<< HEAD
     def __init__(self, presenter: TodoPresenter):
         super().__init__(
             scroll=ft.ScrollMode.AUTO,
@@ -18,6 +20,20 @@ class TodoView(ft.Column):
         self.controls.clear()
 
         for todo in self.presenter.alle_todos():
+=======
+    def __init__(self):
+        super().__init__()
+        self.presenter = TodoPresenter()
+        self.filter_view=FiltereTodoView()
+        self.build_ui()
+
+    def build_ui(self):
+        category = self.filter_view.category.value
+        prio = self.filter_view.priority.value
+        status = self.filter_view.status.value
+        todos = self.presenter.filter_todos(category, prio, status)
+        for todo in todos:
+>>>>>>> origin/test-spaltung-for-Datenbanken
             self.controls.append(
                 ft.Card(
                     elevation=2,
@@ -58,6 +74,7 @@ class TodoView(ft.Column):
                     )
                 )
             )
+<<<<<<< HEAD
 
     def on_button_clicked_done(self, e):
         nummer = e.control.data
@@ -118,3 +135,19 @@ class TodoView(ft.Column):
 
     #     self.update()
 
+=======
+    def rebuild(self):
+        self.controls.clear()
+        self.build_ui()
+        self.update()
+
+    def on_button_clicked_done(self,e):
+        todo= e.control.data
+        self.presenter.erledige_todo(todo)
+        self.rebuild()
+
+    def on_button_clicked_delete(self,e):
+        todo = e.control.data
+        self.presenter.loesche_todo(todo)
+        self.rebuild()
+>>>>>>> origin/test-spaltung-for-Datenbanken

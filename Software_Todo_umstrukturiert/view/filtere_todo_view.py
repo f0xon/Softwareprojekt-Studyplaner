@@ -1,133 +1,175 @@
 # pyright: reportAttributeAccessIssue=false
+
 import flet as ft
 from presenter.filtere_todo_presenter import FiltereTodoPresenter
 
 class FiltereTodoView(ft.Column):
+<<<<<<< HEAD
     def __init__(self, presenter: FiltereTodoPresenter):
         super().__init__()
         self.presenter = presenter
         self.status_value = "alle"
         self.filter_active = False
+=======
+    def __init__(self,on_save=None):
+        super().__init__()
+        self.on_save=on_save
+        self.presenter = FiltereTodoPresenter()
+>>>>>>> origin/test-spaltung-for-Datenbanken
 
-        self.status = ft.Column( #nur sichtbar wenn Switch ON
+        # RadioGroups
+        self.status = ft.RadioGroup(
+            value="alle",
+            content=ft.Row(
+                controls=[
+                    ft.Radio(value="alle", label="Alle"),
+                    ft.Radio(value="offen", label="Offen"),
+                    ft.Radio(value="erledigt", label="Erledigt"),
+                ]
+            ),
+            on_change=self.status_changed
+        )
+
+        self.category = ft.RadioGroup(
+            value="alle",
+            content=ft.Row(
+                controls=[
+                    ft.Radio(value="alle", label="Alle"),
+                    ft.Radio(value="keine", label="Keine"),
+                    ft.Radio(value="Studium", label="Studium"),
+                    ft.Radio(value="Haushalt", label="Haushalt"),
+                    ft.Radio(value="Freizeit", label="Freizeit"),
+                ]
+            ),
+            on_change=self.category_changed
+        )
+
+        self.priority = ft.RadioGroup(
+            value="alle",
+            content=ft.Row(
+                controls=[
+                    ft.Radio(value="alle", label="Alle"),
+                    ft.Radio(value="keine", label="Keine"),
+                    ft.Radio(value="niedrig", label="Niedrig"),
+                    ft.Radio(value="mittel", label="Mittel"),
+                    ft.Radio(value="hoch", label="Hoch"),
+                ]
+            ),
+            on_change=self.priority_changed
+        )
+
+        # Container für ein-/ausblendbare Bereiche
+        self.status_container = ft.Column(
             visible=False,
             controls=[
                 ft.Row(
                     controls=[
                         ft.Text("Status"),
-                        ft.RadioGroup(
-                            value=self.status_value,
-                            #on_change=self.status_changed, noch zu implementieren
-                            content=ft.Row(
-                                controls=[
-                                    ft.Radio(value="alle", label="Alle"),
-                                    ft.Radio(value="offen", label="Offen"),
-                                    ft.Radio(value="erledigt", label="Erledigt"),
-                                ]
-                            )
-                        )
+                        self.status,
                     ]
                 )
             ]
         )
 
-        self.category = ft.Column( #nur sichtbar wenn Switch ON
+        self.category_container = ft.Column(
             visible=False,
             controls=[
                 ft.Row(
                     controls=[
                         ft.Text("Kategorie"),
-                        ft.RadioGroup(
-                            content=ft.Row([
-                                ft.Radio(value="keine", label="Keine"),
-                                ft.Radio(value="Studium", label="Studium"),
-                                ft.Radio(value="Haushalt", label="Haushalt"),
-                                ft.Radio(value="Freizeit", label="Freizeit"),
-                            ]),
-                            #on_change=self.category_changed 
-                        )
+                        self.category,
                     ]
                 )
             ]
         )
 
-        self.priority = ft.Column( #nur sichtbar wenn Switch ON
+        self.priority_container = ft.Column(
             visible=False,
             controls=[
                 ft.Row(
                     controls=[
                         ft.Text("Priorität"),
-                        ft.RadioGroup(
-                            value="keine",
-                            content=ft.Row([
-                                ft.Radio(value="keine", label="Keine"),
-                                ft.Radio(value="niedrig", label="niedrig"),
-                                ft.Radio(value="mittel", label="mittel"),
-                                ft.Radio(value="hoch", label="hoch"),
-                            ]),
-                            #on_change=self.category_changed noch zu implementieren
-                        )
+                        self.priority,
                     ]
                 )
             ]
         )
 
-        #Buil UI
-        self.controls.append(
+        # UI aufbauen
+        self.controls = [
             ft.Column(
                 controls=[
                     ft.Text("Filterfunktion"),
-                    ft.Text(""),
+                    ft.Divider(),
+
+                    # Status
                     ft.Row(
                         controls=[
                             ft.Text("Status filtern:"),
                             ft.Switch(
                                 value=False,
                                 active_color=ft.Colors.BLUE,
-                                on_change=self.on_switch_changed_status
+                                on_change=self.on_switch_changed_status,
                             ),
-                            self.status 
+                            self.status_container,
                         ]
                     ),
+
+                    # Kategorie
                     ft.Row(
                         controls=[
                             ft.Text("Kategorie filtern:"),
                             ft.Switch(
                                 value=False,
                                 active_color=ft.Colors.BLUE,
-                                on_change=self.on_switch_changed_category
+                                on_change=self.on_switch_changed_category,
                             ),
-                            self.category
+                            self.category_container,
                         ]
                     ),
+
+                    # Priorität
                     ft.Row(
                         controls=[
                             ft.Text("Priorität filtern:"),
                             ft.Switch(
                                 value=False,
                                 active_color=ft.Colors.BLUE,
-                                on_change=self.on_switch_changed_priority
+                                on_change=self.on_switch_changed_priority,
                             ),
-                            self.priority
+                            self.priority_container,
                         ]
-                    )
+                    ),
+                    ft.Button("Speichern",on_click=self.on_button_clicked_speichern)
                 ]
             )
-        )
+        ]
 
-#verstößt gegen DRY
+    #verstößt gegen DRY
     def on_switch_changed_status(self, e):
-        self.status.visible = e.control.value
+        self.status_container.visible = e.control.value
+        self.status.value="alle"
         self.update()
 
     def on_switch_changed_category(self, e):
-        self.category.visible = e.control.value
+        self.category_container.visible = e.control.value
+        self.category.value="alle"
         self.update()
-    
+
     def on_switch_changed_priority(self, e):
-        self.priority.visible = e.control.value
+        self.priority_container.visible = e.control.value
+        self.priority.value="alle"
         self.update()
-#
-    # def category_changed(self,e):
-    #     self.category.value=e.control.value
-    #     self.presenter.filtere_kategorie(self.category.value)
+
+    def category_changed(self, e):
+        self.presenter.set_kategorie(self.category.value)
+
+    def priority_changed(self, e):
+        self.presenter.set_priority(self.priority.value)
+
+    def status_changed(self, e):
+        self.presenter.set_status(self.status.value)
+    
+    def on_button_clicked_speichern(self,e):
+        if self.on_save:
+            self.on_save()
