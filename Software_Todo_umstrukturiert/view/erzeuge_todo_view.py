@@ -157,7 +157,7 @@ class ErzeugeTodoView(ft.Column):
         )
 
         self.prio=ft.Dropdown(
-            value="keine_p",
+            value="keine",
             options=[
                 ft.dropdown.Option("keine"),
                 ft.dropdown.Option("niedrig"),
@@ -260,6 +260,7 @@ class ErzeugeTodoView(ft.Column):
             category=kat,
             extra=extra,
         )
+
 
 
         #if self.on_save:

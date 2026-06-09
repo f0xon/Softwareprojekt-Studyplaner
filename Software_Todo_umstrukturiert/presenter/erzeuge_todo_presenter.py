@@ -1,8 +1,8 @@
 from typing import Any
 
 from model.ToDoListe_model import ToDoListModel,ToDoModel, Studium, Haushalt, Freizeit
-from model.ToDoListe_model import keine_p,niedrig, mittel, hoch
-from model.ToDoListe_model import studium, haushalt,freizeit
+from model.ToDoListe_model import keine_p, niedrig, mittel, hoch
+from model.ToDoListe_model import keine, studium, haushalt, freizeit
 from datetime import date
 
 class ErzeugeTodoPresenter:
@@ -20,7 +20,7 @@ class ErzeugeTodoPresenter:
 
     def map_category(self, value:str):
         dict_category:dict[str,Any]={
-            "keine":None,
+            "keine":keine,
             "Studium":studium,
             "Freizeit":freizeit,
             "Haushalt":haushalt
@@ -49,7 +49,7 @@ class ErzeugeTodoPresenter:
         priority: str,
         category: str,
         extra: dict[str,Any],
-    ):
+    )->None:
         todo = ToDoModel(
             titel=title,
             notiz=notiz,

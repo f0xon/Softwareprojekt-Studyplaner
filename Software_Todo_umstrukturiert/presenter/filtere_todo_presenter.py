@@ -1,8 +1,8 @@
 from model.ToDoListe_model import ToDoListModel, ToDoModel
 
 class FiltereTodoPresenter:
-    def __init__(self):
-        self.model=ToDoListModel()
+    def __init__(self,model:ToDoListModel):
+        self.model=model
         self.kat:str="alle"
         self.prio:str="alle"
         self.status:str="alle"
@@ -17,8 +17,8 @@ class FiltereTodoPresenter:
         self.status = value
 
     def get_filtered_todos(self)->list[ToDoModel]:
-        return self.model.filter_todos(
-            self.kat,
-            self.prio,
-            self.status
-        )
+        result = self.model.filter_todos(self.kat,self.prio,self.status)
+        print("Debug", result)
+        print("")
+        return result
+

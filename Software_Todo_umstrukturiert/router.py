@@ -10,7 +10,7 @@ from view.erzeuge_todo_view import ErzeugeTodoView
 from presenter.todo_presenter import TodoListePresenter
 from presenter.erzeuge_todo_presenter import ErzeugeTodoPresenter
 from presenter.filtere_todo_presenter import FiltereTodoPresenter
-from repo import TodoRepo
+#from repo import TodoRepo
 
 class Router:
     def __init__(self, page: ft.Page):
@@ -54,15 +54,16 @@ class Router:
         self.page.clean()
 
         if self.page.route == self.todo:
-            presenter = TodoListePresenter(self.todolist_model)
-            self.page.add(TodoView(presenter))
+            presenter1 = TodoListePresenter(self.todolist_model)
+            presenter2=FiltereTodoPresenter(self.todolist_model)
+            self.page.add(TodoView(presenter1,presenter2))
 
         elif self.page.route == self.erzeuge_todo:
             presenter = ErzeugeTodoPresenter(self.todolist_model)
             self.page.add(ErzeugeTodoView(presenter))
 
         elif self.page.route == self.filtere_todo:
-            presenter = FiltereTodoPresenter()
+            presenter = FiltereTodoPresenter(self.todolist_model)
             self.page.add(FiltereTodoView(presenter))
 
         else:

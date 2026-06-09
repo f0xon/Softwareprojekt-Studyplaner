@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from datetime import date
 from model.todo_model import ToDoModel
-from model.todo_model import Priority, hoch, mittel, niedrig, keine_p
-from model.todo_model import Category, Studium, Haushalt, Freizeit, keine, studium, haushalt, freizeit
+from model.todo_model import Priority, hoch, mittel, niedrig, keine_p, prioritäten_dict
+from model.todo_model import Category, Studium, Haushalt, Freizeit, keine, studium, haushalt, freizeit, kategorien_dict
 
 class ToDoListModel:
     def __init__(self):
@@ -230,32 +230,33 @@ class ToDoListModel:
 
 
 
-    # def filter_todos(self, kat: str, prio: str, status: str)->list[Todo]:
-    #     if kat != "alle":
-    #         gefiltert_nach_kategorie:list[Todo] = []
-    #         for todo in result:
-    #             if todo.category == kategorien_dict[kat]:
-    #                 gefiltert_nach_kategorie.append(todo)
-    #         result = gefiltert_nach_kategorie
-    #     # Priorität
-    #     if prio != "alle":
-    #         gefiltert_nach_priority:list[Todo] = []
-    #         for todo in result:
-    #             if todo.priority == prioritäten_dict[prio]:
-    #                 gefiltert_nach_priority.append(todo)
+    def filter_todos(self, kat: str, prio: str, status: str)->list[ToDoModel]:
+        result=self.dummydaten.copy()
+        if kat != "alle":
+            gefiltert_nach_kategorie:list[ToDoModel] = []
+            for todo in result:
+                if todo.category == kategorien_dict[kat]:
+                    gefiltert_nach_kategorie.append(todo)
+            result = gefiltert_nach_kategorie
+        # Priorität
+        if prio != "alle":
+            gefiltert_nach_priority:list[ToDoModel] = []
+            for todo in result:
+                if todo.priority == prioritäten_dict[prio]:
+                    gefiltert_nach_priority.append(todo)
 
-    #         result = gefiltert_nach_priority
-    #     # Status
-    #     if status == "offen":
-    #         gefiltert_nach_status:list[Todo] = []
-    #         for todo in result:
-    #             if todo.erledigt is False:
-    #                 gefiltert_nach_status.append(todo)
-    #         result = gefiltert_nach_status
-    #     elif status == "erledigt":
-    #         gefiltert_nach_status = []
-    #         for todo in result:
-    #             if todo.erledigt is True:
-    #                 gefiltert_nach_status.append(todo)
-    #         result = gefiltert_nach_status
-    #     return result
+            result = gefiltert_nach_priority
+        # Status
+        if status == "offen":
+            gefiltert_nach_status:list[ToDoModel] = []
+            for todo in result:
+                if todo.erledigt is False:
+                    gefiltert_nach_status.append(todo)
+            result = gefiltert_nach_status
+        elif status == "erledigt":
+            gefiltert_nach_status = []
+            for todo in result:
+                if todo.erledigt is True:
+                    gefiltert_nach_status.append(todo)
+            result = gefiltert_nach_status
+        return result
