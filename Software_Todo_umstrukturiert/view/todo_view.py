@@ -20,6 +20,7 @@ class TodoView(ft.Column):
         for todo in alle_todos:
             self.controls.append(
                 ft.Card(
+                    bgcolor= getattr(ft.Colors, todo.category.farbe, ft.Colors.GREY_500),
                     elevation=2,
                     content=ft.ListTile(
                         title=ft.Text(

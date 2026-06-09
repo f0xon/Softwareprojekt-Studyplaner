@@ -19,10 +19,11 @@ prioritäten_dict={
 @dataclass(frozen=True)
 class Category:
     name: str
-keine= Category("keine")
-studium = Category("Studium")
-haushalt = Category("Haushalt")
-freizeit = Category("Freizeit")
+    farbe:str
+keine= Category("keine","GREY_500")
+studium = Category("Studium","AMBER_600")
+haushalt = Category("Haushalt","DEEP_PURPLE_300")
+freizeit = Category("Freizeit","TEAL_ACCENT_200")
 kategorien_dict={
     "keine":keine,
     "Studium":studium,
