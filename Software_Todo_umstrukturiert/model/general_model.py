@@ -253,7 +253,56 @@ class GeneralModel:
     def add_todo(self,todo:Todo)->None:
         self.todos.append(todo)
 
-    def 
+    def fuege_todo_hinzu(self, neue_Daten: ErstelleTodo):
+        todo = Todo(
+            nummer=len(self.todos) + 1,
+            titel=neue_Daten.titel,
+            notiz=neue_Daten.notiz,
+            priority= self._priority_aus_name(neue_Daten.priority_name),
+            category=self._category_aus_name(neue_Daten.category_name)
+        )
+        self.todos.append(todo)
+
+    def entferne_todo(self, todo: Todo):
+        self.todos.remove(todo)
+
+    def _priority_aus_name(self, name: str)->Priority:
+        if name == "keine":
+            return keine
+        elif name == "niedrig":
+            return niedrig
+        elif name == "mittel":
+            return mittel
+        elif name == "hoch":
+            return hoch
+        else:
+            raise ValueError(f"Ungültiger Prioritätsname: {name}")
+        
+    def _category_aus_name(self, name: str)->Category:
+        if name == "Studium":
+            return studium
+        elif name == "Haushalt":
+            return haushalt
+        elif name == "Freizeit":
+            return freizeit
+        else:
+            raise ValueError(f"Ungültiger Kategoriename: {name}")
+        
+    @property
+    def offene_todos(self)->list[Todo]:
+        offene_todos: list[Todo] = [] 
+        for todo in self.todos:
+            if todo.offen:
+                offene_todos.append(todo)
+        return offene_todos
+    
+    @property
+    def erledigte_todos(self)->list[Todo]:
+        erledigte_todos: list[Todo] = [] 
+        for todo in self.todos:
+            if todo.erledigt:
+                erledigte_todos.append(todo)
+        return erledigte_todos
     
     # def filter_todos(self, kat: str, prio: str, status: str)->list[Todo]:
     #     if kat != "alle":
