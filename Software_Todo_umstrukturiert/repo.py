@@ -1,9 +1,11 @@
 from typing import Protocol
-from model.general_model import Todo,hoch,mittel,niedrig,freizeit,studium,keine_p,haushalt, Studium,keine,Freizeit,Haushalt
+from model.todo_model import ToDoModel, hoch, mittel, niedrig, keine_p, kategorien_dict, prioritäten_dict, Category, Studium, Haushalt, Freizeit
+from pymongo import MongoClient
+from model.ToDoListe_model import ToDoListModel
 from datetime import date
 
 class TodoRepo(Protocol):
-    def speichere(self,todo:Todo):
+    def speichere(self,todo:ToDoModel):
         ...
     def lade_alle(self):
         ...
@@ -17,18 +19,18 @@ class MongoPersonTodoRepo(TodoRepo):
     def speichere(self, todo: Todo):
         self.db.todos.insert_one(asdict(todo))
     
-    def lade_alle(self) -> list[Todo]:
-        todos: list[Todo] = []
+    def lade_alle(self) -> ToDoListModel:
+        todos: list[ToDoModel] = []
         for todo in self.db.todos.find(projection={"_id": False}):
-            todo_obj = Todo(**todo)
+            todo_obj = ToDoModel(**todo)
             todos.append(todo_obj)
-        return todos
+        return ToDoListModel(todos=todos)
 
 class InMemoryTodoRepo(TodoRepo):
-    _todos:list[Todo]
+    _todos:list[ToDoModel]
     def __init__(self):
         self._todos=[
-            Todo(
+            Todo(_id=1,
                 titel="Mathe lernen",
                 notiz="Kapitel 3 üben",
                 priority=hoch,
@@ -40,7 +42,7 @@ class InMemoryTodoRepo(TodoRepo):
                     gruppenarbeit=True
                 ),
             ),
-            Todo(
+            Todo(_id=2,
                 titel="Hund bürsten",
                 notiz="Hundebürste",
                 priority=keine_p,
@@ -52,7 +54,7 @@ class InMemoryTodoRepo(TodoRepo):
                     ort="Zuhause"
                 ),
             ),
-            Todo(
+            Todo(_id=3,
                 titel="Mathe",
                 notiz="MaMo",
                 priority=mittel,
@@ -64,7 +66,7 @@ class InMemoryTodoRepo(TodoRepo):
                     gruppenarbeit=False
                 ),
             ),
-            Todo(
+            Todo(_id=4,
                 titel="Wäsche waschen",
                 notiz="",
                 priority=mittel,
@@ -75,7 +77,7 @@ class InMemoryTodoRepo(TodoRepo):
                     wiederkehrend=True
                 ),
             ),
-            Todo(
+            Todo(_id=5,
                 titel="Oma anrufen",
                 notiz="gut",
                 priority=hoch,
@@ -87,7 +89,7 @@ class InMemoryTodoRepo(TodoRepo):
                     ort="Telefon"
                 ),
             ),
-            Todo(
+            Todo(_id=6,
                 titel="Staubsaugen",
                 notiz="",
                 priority=niedrig,
@@ -98,7 +100,7 @@ class InMemoryTodoRepo(TodoRepo):
                     wiederkehrend=True
                 ),
             ),
-            Todo(
+            Todo(_id=7,
                 titel="Softwareprojekt-Studyplaner",
                 notiz="",
                 priority=hoch,
@@ -110,7 +112,7 @@ class InMemoryTodoRepo(TodoRepo):
                     gruppenarbeit=True
                 ),
             ),
-            Todo(
+            Todo(_id=8,
                 titel="Einkaufen",
                 notiz="",
                 priority=niedrig,
@@ -121,7 +123,7 @@ class InMemoryTodoRepo(TodoRepo):
                     wiederkehrend=False
                 ),
             ),
-            Todo(
+            Todo(_id=9,
                 titel="Freunde treffen",
                 notiz="",
                 priority=mittel,
@@ -133,7 +135,7 @@ class InMemoryTodoRepo(TodoRepo):
                     ort="Stadt"
                 ),
             ),
-            Todo(
+            Todo(_id=10,
                 titel="Buch lesen",
                 notiz="",
                 priority=niedrig,
@@ -145,7 +147,7 @@ class InMemoryTodoRepo(TodoRepo):
                     ort="Wohnzimmer"
                 ),
             ),
-            Todo(
+            Todo(_id=11,
                 titel="Sport machen",
                 notiz="",
                 priority=mittel,
@@ -157,7 +159,7 @@ class InMemoryTodoRepo(TodoRepo):
                     ort="Fitnessstudio"
                 ),
             ),
-            Todo(
+            Todo(_id=12,
                 titel="Projektarbeit",
                 notiz="",
                 priority=hoch,
@@ -169,7 +171,7 @@ class InMemoryTodoRepo(TodoRepo):
                     gruppenarbeit=True
                 ),
             ),
-            Todo(
+            Todo(_id=13,
                 titel="Auto waschen",
                 notiz="",
                 priority=niedrig,
@@ -180,7 +182,7 @@ class InMemoryTodoRepo(TodoRepo):
                     wiederkehrend=False
                 ),
             ),
-            Todo(
+            Todo(_id=14,
                 titel="Gartenarbeit",
                 notiz="",
                 priority=mittel,
@@ -191,7 +193,7 @@ class InMemoryTodoRepo(TodoRepo):
                     wiederkehrend=True
                 ),
             ),
-            Todo(
+            Todo(_id=15,
                 titel="Kino besuchen",
                 notiz="",
                 priority=niedrig,
@@ -203,7 +205,7 @@ class InMemoryTodoRepo(TodoRepo):
                     ort="Kino"
                 ),
             ),
-            Todo(
+            Todo(_id=16,
                 titel="Hausaufgaben",
                 notiz="",
                 priority=mittel,
@@ -216,8 +218,8 @@ class InMemoryTodoRepo(TodoRepo):
                 ),
             ),
         ]
-    def speichere(self,todo:Todo)->None:
+    def speichere(self,todo:TodoModel)->None:
         self._todos.append(todo)
 
-    def lade_alle(self)->list[Todo]:
+    def lade_alle(self)->list[TodoModel]:
         return self._todos

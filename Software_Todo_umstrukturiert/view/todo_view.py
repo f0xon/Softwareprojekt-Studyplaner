@@ -7,18 +7,20 @@ from view.filtere_todo_view import FiltereTodoView
 
 class TodoView(ft.Column):
 
-    def __init__(self):
+    def __init__(self, presenter: TodoListePresenter):
         super().__init__()
-        self.presenter = TodoListePresenter()
+        self.presenter = presenter
         self.filter_view=FiltereTodoView()
         self.build_ui()
 
     def build_ui(self):
+        self.controls.clear()
         category = self.filter_view.category.value
         prio = self.filter_view.priority.value
         status = self.filter_view.status.value
-        todos = self.presenter.filter_todos(category, prio, status)
-        for todo in todos:
+ 
+        alle_todos = self.presenter.get_todos()
+        for todo in alle_todos:
             self.controls.append(
                 ft.Card(
                     elevation=2,
@@ -59,6 +61,7 @@ class TodoView(ft.Column):
                     )
                 )
             )
+
     def rebuild(self):
         self.controls.clear()
         self.build_ui()

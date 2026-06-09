@@ -9,9 +9,9 @@ from model.ToDoListe_model import ToDoListModel,ToDoModel
 
 
 class TodoListePresenter:
-    def __init__(self):
-        self.model=ToDoListModel()
-    
+    def __init__(self, model: ToDoListModel):
+        self.model = model
+
     def get_todos(self):
         return list(self.model.dummydaten)
     
@@ -22,8 +22,10 @@ class TodoListePresenter:
                 todo.erledige_todo()
 
 
-    def loesche_todo(self,todo_d:ToDoModel)->None:
-        self.model.loesche_todo(todo_d)
+    def loesche_todo(self,id: int)->None:
+        for todo in self.model.dummydaten:
+            if todo.id == id:
+                self.model.loesche_todo(todo)
 
     def filter_todos(self, kat: str, prio: str, status: str)->list[ToDoModel]:
         result=self.model.result

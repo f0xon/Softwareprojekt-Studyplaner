@@ -1,76 +1,8 @@
 from dataclasses import dataclass
 from datetime import date
-
-# --- Domain Core ---
-@dataclass(frozen=True)
-class Priority:
-    name: str
-    ausrufezeichen: str
-keine_p = Priority("keine", "X")
-niedrig = Priority("niedrig", "!")
-mittel = Priority("mittel", "!!")
-hoch = Priority("hoch", "!!!")
-prioritäten_dict={    
-    "keine": keine_p,
-    "niedrig": niedrig,
-    "mittel": mittel,
-    "hoch": hoch,}
-
-@dataclass(frozen=True)
-class Category:
-    name: str
-keine= Category("keine")
-studium = Category("Studium")
-haushalt = Category("Haushalt")
-freizeit = Category("Freizeit")
-kategorien_dict={
-    "keine":keine,
-    "Studium":studium,
-    "Haushalt":haushalt,
-    "Freizeit":freizeit
-}
-
-# --- Category Data Models ---
-@dataclass
-class Studium:
-    modul: str
-    gruppenarbeit: bool
-@dataclass
-class Haushalt:
-    wiederkehrend: bool
-@dataclass
-class Freizeit:
-    hobby: str
-    ort: str
-
-# --- MAIN TODO ---
-#Todo hat eine Kategorie Todo hat optionale Zusatzdaten
-@dataclass
-class ToDoModel:
-    _id: int 
-    titel: str
-    notiz: str
-    priority: Priority
-    deadline: date
-    calendar:bool
-    category: Category
-    extra: Studium | Haushalt | Freizeit | None
-    _erledigt: bool = False
-
-    @property
-    def id(self):
-        return self._id
-
-    @property
-    def erledigt(self):
-        return self._erledigt
-
-    def erledige_todo(self)->None:
-        if self._erledigt == False:
-            self._erledigt = True
-        elif self._erledigt == True:
-            self._erledigt = False
-
+from model.todo_model import ToDoModel
+from model.todo_model import Priority, hoch, mittel, niedrig, keine_p
+from model.todo_model import Category, Studium, Haushalt, Freizeit, keine, studium, haushalt, freizeit
 
 class ToDoListModel:
     def __init__(self):
@@ -267,10 +199,11 @@ class ToDoListModel:
         self.result = self.dummydaten.copy()
     
     def add_todo(self,todo:ToDoModel)->None:
-        self.todos.append(todo)
+        self.dummydaten.append(todo)
 
     def loesche_todo(self, todo: ToDoModel):
-        self.todos.remove(todo)
+        self.dummydaten.remove(todo)
+        print(self.dummydaten)
 
     def _priority_aus_name(self, name: str)->Priority:
         if name == "keine":
