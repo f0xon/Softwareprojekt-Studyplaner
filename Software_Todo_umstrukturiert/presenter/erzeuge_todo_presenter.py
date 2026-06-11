@@ -1,8 +1,8 @@
 from typing import Any, Literal
 
-from model.general_model import GeneralModel,Todo, Studium, Haushalt, Freizeit
-from model.general_model import keine,niedrig, mittel, hoch
-from model.general_model import studium, haushalt,freizeit
+from model.ToDoListe_model import ToDoListModel,ToDoModel, Studium, Haushalt, Freizeit
+from model.ToDoListe_model import keine_p, niedrig, mittel, hoch
+from model.ToDoListe_model import keine, studium, haushalt, freizeit
 from datetime import date
 
 #class ErzeugeTodoPresenter:
@@ -11,13 +11,13 @@ class TodoDetailPresenter:
     _modus: Literal["create", "edit"]
     _model: Todo
 
-    def __init__(self):
-        self.model = GeneralModel()
+    def __init__(self, model: ToDoListModel):
+        self.model = model
         # self.model
     
     def map_priority(self, value:str):
         dict_prio:dict[str,Any]={
-            "keine":keine,
+            "keine":keine_p,
             "niedrig":niedrig,
             "mittel":mittel,
             "hoch":hoch
@@ -25,13 +25,13 @@ class TodoDetailPresenter:
         return dict_prio.get(value)
 
     def map_category(self, value:str):
-        dict_prio:dict[str,Any]={
-            "keine":None,
+        dict_category:dict[str,Any]={
+            "keine":keine,
             "Studium":studium,
             "Freizeit":freizeit,
             "Haushalt":haushalt
         }       
-        return dict_prio.get(value)
+        return dict_category.get(value)
 
     def build_extra(self, category: str, data: dict[str,Any]):
         if not data:
@@ -55,8 +55,8 @@ class TodoDetailPresenter:
         priority: str,
         category: str,
         extra: dict[str,Any],
-    ):
-        todo = Todo(
+    )->None:
+        todo = ToDoModel(
             titel=title,
             notiz=notiz,
             deadline=deadline,

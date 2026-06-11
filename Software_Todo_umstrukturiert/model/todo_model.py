@@ -1,100 +1,73 @@
-# pyright: reportUnknownMemberType=false
 from dataclasses import dataclass
+from datetime import date
 
-@dataclass (frozen=True)
+# --- Domain Core ---
+@dataclass(frozen=True)
 class Priority:
-    name:str
-    ausrufezeichen:str
-    #schriftdicke
-    #filternhilfe
-keine=Priority("keine","X")
-niedrig=Priority("niedrig","!")
-mittel=Priority("mittel","!!")
-hoch=Priority("hoch","!!!")
+    name: str
+    ausrufezeichen: str
+keine_p = Priority("keine", "X")
+niedrig = Priority("niedrig", "!")
+mittel = Priority("mittel", "!!")
+hoch = Priority("hoch", "!!!")
+prioritäten_dict={    
+    "keine": keine_p,
+    "niedrig": niedrig,
+    "mittel": mittel,
+    "hoch": hoch,}
 
-@dataclass (frozen=True)
+@dataclass(frozen=True)
 class Category:
-    name:str
-    #schriftdicke
-    #filternhilfe  
-studium=Category("Studium")
-haushalt=Category("Haushalt")
-freizeit=Category ("Freizeit")
+    name: str
+    farbe:str
+keine= Category("keine","GREY_500")
+studium = Category("Studium","AMBER_600")
+haushalt = Category("Haushalt","DEEP_PURPLE_300")
+freizeit = Category("Freizeit","TEAL_ACCENT_200")
+kategorien_dict={
+    "keine":keine,
+    "Studium":studium,
+    "Haushalt":haushalt,
+    "Freizeit":freizeit
+}
 
+# --- Category Data Models ---
 @dataclass
-class Todo:
-    titel:str
-    notiz:str
-    priority:Priority
-    #deadline:datetime.date
-    category:Category
-    #calender: str
-    erledigt: bool=False
+class Studium:
+    modul: str
+    gruppenarbeit: bool
+@dataclass
+class Haushalt:
+    wiederkehrend: bool
+@dataclass
+class Freizeit:
+    hobby: str
+    ort: str
 
+# --- MAIN TODO ---
+#Todo hat eine Kategorie Todo hat optionale Zusatzdaten
+@dataclass
+class ToDoModel:
+    _id: int = 0
+    titel: str = ""
+    notiz: str = ""
+    priority: Priority = keine_p
+    deadline: date = date(2024, 1, 1)
+    calendar:bool   = False
+    category: Category  = keine
+    extra: Studium | Haushalt | Freizeit | None = None
+    _erledigt: bool = False
 
-class TodoModel:
-        def __init__(self):
-              self.todos=[
-                    Todo("Hund bürsten","Hundebürste",keine,freizeit),
-                    Todo("Mathe","MaMo",mittel,studium),
-                    Todo("Wäsche waschen","",mittel, haushalt),
-                    Todo("Oma anrufen","gut",hoch,freizeit),
-                    Todo("Staubsaugen","",niedrig,haushalt),
-                    Todo("Softwareprojekt-Studyplaner","", hoch, studium),
-                    Todo("Einkaufen","",niedrig,haushalt),
-                    Todo("Freunde treffen","",mittel,freizeit),
-                    Todo("Buch lesen","",niedrig,freizeit),
-                    Todo("Sport machen","",mittel,freizeit),
-                    Todo("Projektarbeit","",hoch,studium),
-                    Todo("Auto waschen","",niedrig, haushalt),
-                    Todo("Gartenarbeit","",mittel,haushalt),
-                    Todo("Kino besuchen","",niedrig,freizeit),
-                    Todo("Hausaufgaben","",mittel,studium),
-                    Todo("Rechnung bezahlen","",hoch,haushalt),
-                    Todo("Spazieren gehen","",niedrig,freizeit),
-                    Todo("Prüfungsvorbereitung","",hoch,studium),
-                    Todo("Kochen","",mittel,haushalt),
-                    Todo("Musik hören","",niedrig,freizeit),
-                    Todo("Freizeitpark besuchen","",mittel,freizeit),
-                    Todo("Gitarre spielen","",niedrig,freizeit),
-                    Todo("Büro aufräumen","",mittel,haushalt),
-                    Todo("Vorlesung besuchen","",hoch,studium),
-                    Todo("Freunde anrufen","",niedrig,freizeit),
-                    Todo("Fenster putzen","",mittel,haushalt),
-                    Todo("Kunstprojekt","",hoch,studium),
-                    Todo("Fahrrad reparieren","",mittel,haushalt)
-                ]
+    @property
+    def id(self):
+        return self._id
 
+    @property
+    def erledigt(self):
+        return self._erledigt
 
-
-# class TodosModel:
-#     def __init__(self):
-#         self._todos:list[ErzeugeTodoModel]=[]
-    
-#     def add_todo(self,todo:ErzeugeTodoModel):
-#         self._todos.append(todo)
-
-#     def get_todos(self)->list[ErzeugeTodoModel]:
-#         return self._todos
-    
-#     def filter_todos(self, status:str, kategorie:str, datum:str)->list[ErzeugeTodoModel]: #anfang der Logik zum Filtern der Todos basierend auf den Kriterien
-#         filtered_todos:list[ErzeugeTodoModel] = []
-        
-        # for todo in self._todos: #alle solt fuktionieren
-        #     if status != "alle":
-        #         filtered_todos.append(todo)
-        #     elif status == "offen":
-        #         if self.todo._done == False:
-        #             filtered_todos.append(todo)
-        #     elif status == "erledigt":
-        #     filtered_todos = [todo for todo in filtered_todos if todo.status == "erledigt"]
-        
-        # if kategorie != "keine":
-        #     filtered_todos = [todo for todo in filtered_todos if todo.kategorie == kategorie]
-        
-        # Datum-Filterlogik könnte hier hinzugefügt werden
-        
-        #return filtered_todos
-    
-    # def get_todos(self)->list[str]: 
-        #return ["TD1", "TD2", "TD3"]
+    def erledige_todo(self)->None:
+        if self._erledigt == False:
+            self._erledigt = True
+        elif self._erledigt == True:
+            self._erledigt = False

@@ -2,12 +2,13 @@
 
 import flet as ft
 from presenter.filtere_todo_presenter import FiltereTodoPresenter
-
+from view.todo_view import TodoView
+#Filterfunktion funktioniert im Debug aber die TodoSeite wird noch nicht aktualisiert nach dem Speichern
 class FiltereTodoView(ft.Column):
-    def __init__(self,on_save=None):
+    def __init__(self,presenter:FiltereTodoPresenter):
         super().__init__()
-        self.on_save=on_save
-        self.presenter = FiltereTodoPresenter()
+        # self.on_save=on_save
+        self.presenter = presenter
 
         # RadioGroups
         self.status = ft.RadioGroup(
@@ -163,5 +164,6 @@ class FiltereTodoView(ft.Column):
         self.presenter.set_status(self.status.value)
     
     def on_button_clicked_speichern(self,e):
-        if self.on_save:
-            self.on_save()
+        self.presenter.get_filtered_todos()
+        #Wie kann ich richtig aktualisieren sodass todoview auch aktualisiert wird und gefilterte view anzeigt
+        

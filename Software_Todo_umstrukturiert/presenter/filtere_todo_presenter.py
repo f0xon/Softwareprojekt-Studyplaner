@@ -1,8 +1,8 @@
-from model.general_model import GeneralModel, Todo
+from model.ToDoListe_model import ToDoListModel, ToDoModel
 
 class FiltereTodoPresenter:
-    def __init__(self):
-        self.model=GeneralModel()
+    def __init__(self,model:ToDoListModel):
+        self.model=model
         self.kat:str="alle"
         self.prio:str="alle"
         self.status:str="alle"
@@ -16,9 +16,9 @@ class FiltereTodoPresenter:
     def set_status(self, value:str):
         self.status = value
 
-    def get_filtered_todos(self)->list[Todo]:
-        return self.model.filter_todos(
-            self.kat,
-            self.prio,
-            self.status
-        )
+    def get_filtered_todos(self)->list[ToDoModel]:
+        result = self.model.filter_todos(self.kat,self.prio,self.status)
+        print("Debug", result)
+        print("")
+        return result
+

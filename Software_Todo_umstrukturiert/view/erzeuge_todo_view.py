@@ -3,6 +3,7 @@ import datetime
 from typing import Any, Protocol
 import flet as ft
 from presenter.erzeuge_todo_presenter import ErzeugeTodoPresenter
+from view.todo_view import TodoView
 
 class Kategorie(Protocol):
     def build_ui(self) -> list[ft.Row]:
@@ -104,10 +105,10 @@ class FreizeitKategorie:
 
 
 class ErzeugeTodoView(ft.Column):
-    def __init__(self,on_save=None):
+    def __init__(self, presenter:ErzeugeTodoPresenter):
         super().__init__()
-        self.presenter = ErzeugeTodoPresenter()
-        self.on_save=on_save
+        self.presenter = presenter
+        #self.on_save=on_save
         self.selected_date = datetime.date.today()
 
         self.category_fields=ft.Column()
@@ -259,5 +260,8 @@ class ErzeugeTodoView(ft.Column):
             category=kat,
             extra=extra,
         )
-        if self.on_save:
-            self.on_save()
+
+
+
+        #if self.on_save:
+        #   self.on_save()
