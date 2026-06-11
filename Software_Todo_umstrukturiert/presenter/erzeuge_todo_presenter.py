@@ -51,18 +51,39 @@ class ErzeugeTodoPresenter:
         return dict_prio.get(value)
 >>>>>>> origin/test-spaltung-for-Datenbanken
 
-    def build_extra(self, category: str, data: dict[str,Any]):
+    def build_extra(self, category: str, data: dict[str,Any])->dict[str,Any]|None:
         if not data:
             return None
-        mapping = {
+        mapping:dict[str,Studium|Haushalt|Freizeit] = {
             "Studium": Studium,
             "Haushalt": Haushalt,
             "Freizeit": Freizeit,
         }
+<<<<<<< Updated upstream
         cls:Studium|Haushalt|Freizeit = mapping.get(category)
         if cls is None:
             return None
+=======
+        cls:Studium|Haushalt|Freizeit=mapping.get(category)
+>>>>>>> Stashed changes
         return cls(**data)
+
+    def show_todo(self,todo:ToDoModel)->dict[str,Any]:
+        title=todo.titel
+        notiz=todo.notiz
+        deadline=todo.deadline
+        calendar=todo.calendar
+        priority=self.map_priority(todo.priority.name)
+        category=self.map_category(todo.category.name)
+        data_for_ui:dict[str,Any]={
+            "Titel":title,
+            "Notiz":notiz,
+            "Deadline":deadline,
+            "Kalender":calendar,
+            "Priorität":priority,
+            "Kategorie":category
+        }
+        return data_for_ui
 
     def save_todo(
         self,
@@ -87,3 +108,7 @@ class ErzeugeTodoPresenter:
         self.model.add_todo(todo)
 
         print("DEBUG: Todo gespeichert",todo)
+    
+    # def show_details(self,todo:ToDoModel)->None:
+    #     self._modus="edit"
+    #     #ErzeugeTodoView(todo)

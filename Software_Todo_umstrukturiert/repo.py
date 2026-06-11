@@ -5,7 +5,11 @@ from datetime import date
 class TodoRepo(Protocol):
     def speichere(self,todo:Todo):
         ...
+<<<<<<< Updated upstream
     def lade_alle(self):
+=======
+    def erledige_todo(self,todo_id:str)->None:
+>>>>>>> Stashed changes
         ...
     def lade_todo(self,name:str):
         ...
@@ -219,5 +223,20 @@ class InMemoryTodoRepo(TodoRepo):
     def speichere(self,todo:Todo)->None:
         self._todos.append(todo)
 
+<<<<<<< Updated upstream
     def lade_alle(self)->list[Todo]:
         return self._todos
+=======
+    def erledige_todo(self, id: int)->None:
+        _todos: list[ToDoModel] = []
+        for todo in _todos:
+            if todo.id == id:
+                if todo.erledigt == False:
+                    todo.erledigt = True
+                elif todo.erledigt == True:
+                    todo.erledigt = False
+                        
+
+    def lade_alle(self)->ToDoListModel:
+        return ToDoListModel(todos=self._todos)
+>>>>>>> Stashed changes

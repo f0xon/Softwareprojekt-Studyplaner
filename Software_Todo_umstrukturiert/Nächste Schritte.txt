@@ -8,6 +8,11 @@ Ja: Löschen
 ja: Priorität wird angezeigt mit einem, zwei oder drei Ausrufezeichen
 -Pickdate zeigt ein Tag weniger an als man auswählt
 -nach todo gespeichert bze klick speicher button soll in todoview hüpfen
+<<<<<<< Updated upstream
+=======
+-Infos anzeigen/ bearbeiten
+-id von uns zu gewiesen hat gleicher name wie die automatische id von db -> problem von repo
+>>>>>>> Stashed changes
 
 Probleme
 -datepicker zeigt ein tag früher an 

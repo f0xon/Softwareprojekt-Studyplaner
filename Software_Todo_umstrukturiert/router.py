@@ -21,7 +21,22 @@ class Router:
 
         page.on_route_change = self.on_route_change
 
+<<<<<<< Updated upstream
         self.page.navigation_bar = NavigationBarView(self).build()
+=======
+        # Repo erzeugen und an Presenter übergeben
+        db: Database[Any] = MongoClient(DB_URL, username=DB_USER, password=DB_PASSWORD).get_database(DB_NAME)
+        self.repo_mongo = MongoTodoRepo(db)
+        self.repo_memory=InMemoryTodoRepo
+        #wähle hier dein gewünschtes Repo aus:
+        self.ausgewaehltes_repo=self.repo_memory
+        
+        # Presenter hier erzeugen 
+        self.presenter_todo=TodoListePresenter(self.todolist_model,self.ausgewaehltes_repo)
+        self.presenter_detail=TodoDetailPresenter(self.todolist_model,self.ausgewaehltes_repo)
+        self.presenter_filtern=FiltereTodoPresenter(self.todolist_model,self.ausgewaehltes_repo)
+        self.presenter_info=FiltereTodoPresenter(self.todolist_model,self.ausgewaehltes_repo)
+>>>>>>> Stashed changes
 
         self.routes:dict[str,Callable[[], ft.Column]]={ #richtiges Typing?
             self.todo: lambda: TodoView(), 
@@ -49,8 +64,12 @@ class Router:
         self.page.clean()
 
         if self.page.route == self.todo:
+<<<<<<< Updated upstream
             presenter = TodoPresenter(self.todo_model)
             self.page.add(TodoView(presenter))
+=======
+            self.page.add(TodoView(self.presenter_todo,self.presenter_filtern,self.presenter_info))
+>>>>>>> Stashed changes
 
         elif self.page.route == self.erzeuge_todo:
             presenter = ErzeugeTodoPresenter(self.todo_model)

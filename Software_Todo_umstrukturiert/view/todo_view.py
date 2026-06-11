@@ -1,12 +1,20 @@
 # pyright: reportUnknownMemberType=false
 # pyright: reportAttributeAccessIssue=false
 import flet as ft
+<<<<<<< Updated upstream
 from presenter.todo_presenter import TodoPresenter
 from view.filtere_todo_view import FiltereTodoView
+=======
+from presenter.todo_presenter import TodoListePresenter
+from presenter.filtere_todo_presenter import FiltereTodoPresenter
+from presenter.erzeuge_todo_presenter import ZeigeDetailPresenter
+
+>>>>>>> Stashed changes
 
 
 class TodoView(ft.Column):
 
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     def __init__(self, presenter: TodoPresenter):
         super().__init__(
@@ -14,6 +22,13 @@ class TodoView(ft.Column):
             expand=True
         )
         self.presenter = presenter
+=======
+    def __init__(self, presenter_todo: TodoListePresenter,presenter_filtere:FiltereTodoPresenter,presenter_detail:ZeigeDetailPresenter):
+        super().__init__()
+        self.presenter_todo = presenter_todo
+        self.presenter_filtere=presenter_filtere
+        self.presenter_detail=presenter_detail
+>>>>>>> Stashed changes
         self.build_ui()
 
     def build_ui(self):
@@ -62,6 +77,7 @@ class TodoView(ft.Column):
                                 ft.IconButton(
                                     icon=ft.Icons.INFO_OUTLINE,
                                     tooltip="Details",
+                                    on_click=self.on_button_clicked_details
                                 ),
                                 ft.IconButton(
                                     icon=ft.Icons.DELETE_OUTLINE,
@@ -150,4 +166,12 @@ class TodoView(ft.Column):
         todo = e.control.data
         self.presenter.loesche_todo(todo)
         self.rebuild()
+<<<<<<< Updated upstream
 >>>>>>> origin/test-spaltung-for-Datenbanken
+=======
+
+    def on_button_clicked_detail(self,e):
+        todo=e.control.data
+        self.presenter_detail.show_details(todo)
+        self.rebuild()
+>>>>>>> Stashed changes

@@ -2,7 +2,11 @@
 import datetime
 from typing import Any, Protocol
 import flet as ft
+<<<<<<< Updated upstream
 from presenter.erzeuge_todo_presenter import ErzeugeTodoPresenter
+=======
+from presenter.erzeuge_todo_presenter import TodoDetailPresenter
+>>>>>>> Stashed changes
 
 class Kategorie(Protocol):
     def build_ui(self) -> list[ft.Row]:
@@ -10,7 +14,7 @@ class Kategorie(Protocol):
     def extract(self) -> dict[str,Any]:
         ...
 
-class StudiumKategorie:
+class StudiumKategorie(Kategorie):
     def __init__(self):
         self.modul=ft.TextField(label="Modul")
         self.gruppenarbeit=ft.RadioGroup(
@@ -46,7 +50,7 @@ class StudiumKategorie:
             "gruppenarbeit": self.gruppenarbeit.value
         }
 
-class HaushaltKategorie:
+class HaushaltKategorie(Kategorie):
     def __init__(self):
         self.wiederkehrend=ft.RadioGroup(
             value=False,
@@ -74,7 +78,7 @@ class HaushaltKategorie:
             "wiederkehrend":self.wiederkehrend.value
         }
     
-class FreizeitKategorie:
+class FreizeitKategorie(Kategorie):
     def __init__(self):
         self.hobby=ft.TextField(label="Hobby")
         self.ort=ft.TextField(label="Ort")
@@ -249,6 +253,26 @@ class ErzeugeTodoView(ft.Column):
         if kat:
             self.category_fields.controls.extend(kat.build_ui())
         self.update()
+
+    # def detail_todo(self, todo):
+    #     dict=self.presenter.show_todo()
+    #     self.title.value = dict.get("Titel")
+    #     self.notiz.value = dict.get("Notiz")
+    #     self.selected_date= dict.get("Deadline")
+    #     # self.deadline_text.value = str(todo.deadline)
+    #     self.calendar.value = dict.get("Kalender")
+    #     self.prio.value = dict.get("Priorität")
+    #     self.category.value = dict.get("Kategorie")
+    #     category:str=dict.get("Kategorie")
+    #     #Kategorien-spezifische Felder
+    #     if category == "Studium":
+    #         self.modul=...
+    #         self.gruppenarbeit=...
+    #     elif category == "Haushalt":
+    #         self.wiederkehrend=...
+    #     elif category == "Freizeit":
+    #         self.hobby=...
+    #         self.ort=...
 
     def save(self, e) -> None:
 <<<<<<< HEAD
