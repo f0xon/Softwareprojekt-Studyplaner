@@ -8,7 +8,7 @@ from view.filtere_todo_view import FiltereTodoView
 from view.navigationBar_view import NavigationBarView
 from view.erzeuge_todo_view import ErzeugeTodoView
 from presenter.todo_presenter import TodoListePresenter
-from presenter.erzeuge_todo_presenter import ErzeugeTodoPresenter
+from presenter.erzeuge_todo_presenter import TodoDetailPresenter
 from presenter.filtere_todo_presenter import FiltereTodoPresenter
 #from repo import TodoRepo
 
@@ -25,6 +25,9 @@ class Router:
 
         self.page.navigation_bar = NavigationBarView(self).build()
         # TODO Repo erzeugen und an Presenter übergeben
+        self.presenter_todo=TodoListePresenter(self.todolist_model)
+        self.presenter_detail=TodoDetailPresenter(self.todolist_model)
+        self.presenter_filtern=FiltereTodoPresenter(self.todolist_model)
         # TODO Presenter hier erzeugen und an Views übergeben
         #self.routes:dict[str,Callable[[], ft.Column]]={ #richtiges Typing?
          #   self.todo: lambda: TodoView(), 
@@ -53,17 +56,13 @@ class Router:
         self.page.clean()
 
         if self.page.route == self.todo:
-            presenter1 = TodoListePresenter(self.todolist_model)
-            presenter2=FiltereTodoPresenter(self.todolist_model)
-            self.page.add(TodoView(presenter1,presenter2))
+            self.page.add(TodoView(self.presenter_todo,self.presenter_filtern))
 
         elif self.page.route == self.erzeuge_todo:
-            presenter = ErzeugeTodoPresenter(self.todolist_model)
-            self.page.add(ErzeugeTodoView(presenter))
+            self.page.add(ErzeugeTodoView(self.presenter_todo))
 
         elif self.page.route == self.filtere_todo:
-            presenter = FiltereTodoPresenter(self.todolist_model)
-            self.page.add(FiltereTodoView(presenter))
+            self.page.add(FiltereTodoView(self.presenter_filtern))
 
         else:
             self.page.go(self.todo)

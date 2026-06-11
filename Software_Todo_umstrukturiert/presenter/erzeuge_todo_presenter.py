@@ -1,6 +1,6 @@
 from typing import Any, Literal
 
-from model.ToDoListe_model import ToDoListModel,ToDoModel, Studium, Haushalt, Freizeit
+from model.ToDoListe_model import ToDoListModel,ToDoModel
 from model.ToDoListe_model import keine_p, niedrig, mittel, hoch, prioritäten_dict
 from model.ToDoListe_model import keine, studium, haushalt, freizeit, kategorien_dict
 from datetime import date
@@ -9,7 +9,7 @@ from datetime import date
 class TodoDetailPresenter:
 
     _modus: Literal["create", "edit"]
-    _model: Todo
+    _model: ToDoModel
 
     def __init__(self, model: ToDoListModel):
         self.model = model

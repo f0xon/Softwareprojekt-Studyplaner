@@ -2,7 +2,7 @@
 import datetime
 from typing import Any, Protocol
 import flet as ft
-from presenter.erzeuge_todo_presenter import ErzeugeTodoPresenter
+from presenter.erzeuge_todo_presenter import TodoDetailPresenter
 from view.todo_view import TodoView
 
 class Kategorie(Protocol):
@@ -105,7 +105,7 @@ class FreizeitKategorie:
 
 
 class ErzeugeTodoView(ft.Column):
-    def __init__(self, presenter:ErzeugeTodoPresenter):
+    def __init__(self, presenter:TodoDetailPresenter):
         super().__init__()
         self.presenter = presenter
         #self.on_save=on_save

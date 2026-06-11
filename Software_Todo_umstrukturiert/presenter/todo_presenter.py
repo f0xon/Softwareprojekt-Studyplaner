@@ -10,7 +10,7 @@ from model.ToDoListe_model import ToDoListModel,ToDoModel
 
 class TodoListePresenter:
 
-    _model: list[Todo]
+    _model: list[ToDoModel]
     #_repo: TodoRepo
 
     def __init__(self, model: ToDoListModel):
