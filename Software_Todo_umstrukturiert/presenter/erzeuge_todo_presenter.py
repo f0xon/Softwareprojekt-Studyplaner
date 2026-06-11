@@ -3,6 +3,7 @@ from typing import Any, Literal
 from model.ToDoListe_model import ToDoListModel,ToDoModel
 from model.ToDoListe_model import keine_p, niedrig, mittel, hoch, prioritäten_dict
 from model.ToDoListe_model import keine, studium, haushalt, freizeit, kategorien_dict
+from repo import TodoRepo
 from datetime import date
 
 #class ErzeugeTodoPresenter:
@@ -11,8 +12,9 @@ class TodoDetailPresenter:
     _modus: Literal["create", "edit"]
     _model: ToDoModel
 
-    def __init__(self, model: ToDoListModel,repo):
+    def __init__(self, model: ToDoListModel,repo:TodoRepo):
         self.model = model
+        self.repo=repo
         
     @property
     def is_create_mode(self) -> bool:

@@ -1,8 +1,10 @@
 from model.ToDoListe_model import ToDoListModel, ToDoModel
+from repo import TodoRepo
 
 class FiltereTodoPresenter:
     def __init__(self,model:ToDoListModel,repo):
         self.model=model
+        self.repo=repo
         self.kat:str="alle"
         self.prio:str="alle"
         self.status:str="alle"
