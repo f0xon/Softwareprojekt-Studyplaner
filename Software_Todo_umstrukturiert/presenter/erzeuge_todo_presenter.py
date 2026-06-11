@@ -1,8 +1,8 @@
 from typing import Any, Literal
 
 from model.ToDoListe_model import ToDoListModel,ToDoModel, Studium, Haushalt, Freizeit
-from model.ToDoListe_model import keine_p, niedrig, mittel, hoch
-from model.ToDoListe_model import keine, studium, haushalt, freizeit
+from model.ToDoListe_model import keine_p, niedrig, mittel, hoch, prioritäten_dict
+from model.ToDoListe_model import keine, studium, haushalt, freizeit, kategorien_dict
 from datetime import date
 
 #class ErzeugeTodoPresenter:
@@ -13,35 +13,25 @@ class TodoDetailPresenter:
 
     def __init__(self, model: ToDoListModel):
         self.model = model
-        # self.model
-    
-    def map_priority(self, value:str):
-        dict_prio:dict[str,Any]={
-            "keine":keine_p,
-            "niedrig":niedrig,
-            "mittel":mittel,
-            "hoch":hoch
-        }       
-        return dict_prio.get(value)
+        
+    @property
+    def is_create_mode(self) -> bool:
+        return self._modus == "create"
 
-    def map_category(self, value:str):
-        dict_category:dict[str,Any]={
-            "keine":keine,
-            "Studium":studium,
-            "Freizeit":freizeit,
-            "Haushalt":haushalt
-        }       
-        return dict_category.get(value)
+    @property
+    def is_edit_mode(self) -> bool:
+        return self._modus == "edit"
+    
+    def map_priority(self, value:str)->Any:#?eigentlich nur keine_p, niedrig, mittel, hoch
+        return prioritäten_dict.get(value)
+
+    def map_category(self, value:str)->Any:
+        return kategorien_dict.get(value)
 
     def build_extra(self, category: str, data: dict[str,Any]):
         if not data:
             return None
-        mapping = {
-            "Studium": Studium,
-            "Haushalt": Haushalt,
-            "Freizeit": Freizeit,
-        }
-        cls:Studium|Haushalt|Freizeit = mapping.get(category)
+        cls= self.map_category(category)
         if cls is None:
             return None
         return cls(**data)
