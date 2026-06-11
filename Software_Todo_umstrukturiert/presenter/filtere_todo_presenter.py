@@ -1,7 +1,7 @@
 from model.ToDoListe_model import ToDoListModel, ToDoModel
 
 class FiltereTodoPresenter:
-    def __init__(self,model:ToDoListModel):
+    def __init__(self,model:ToDoListModel,repo):
         self.model=model
         self.kat:str="alle"
         self.prio:str="alle"

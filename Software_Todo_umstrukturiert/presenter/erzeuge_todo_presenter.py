@@ -11,7 +11,7 @@ class TodoDetailPresenter:
     _modus: Literal["create", "edit"]
     _model: ToDoModel
 
-    def __init__(self, model: ToDoListModel):
+    def __init__(self, model: ToDoListModel,repo):
         self.model = model
         
     @property

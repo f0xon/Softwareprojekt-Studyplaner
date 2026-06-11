@@ -13,7 +13,7 @@ class TodoListePresenter:
     _model: list[ToDoModel]
     #_repo: TodoRepo
 
-    def __init__(self, model: ToDoListModel):
+    def __init__(self, model: ToDoListModel,repo):
         #self._repo = repo
         #self._model = self.repo.get_all_todos()
         self.model = model
