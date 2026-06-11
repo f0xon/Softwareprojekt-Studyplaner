@@ -1,8 +1,8 @@
 from typing import Any, Literal
 
 from model.ToDoListe_model import ToDoListModel,ToDoModel
-from model.ToDoListe_model import keine_p, niedrig, mittel, hoch, prioritäten_dict
-from model.ToDoListe_model import keine, studium, haushalt, freizeit, kategorien_dict
+from model.ToDoListe_model import prioritäten_dict
+from model.ToDoListe_model import Studium,Haushalt, Freizeit, kategorien_dict
 from repo import TodoRepo
 from datetime import date
 
@@ -33,9 +33,13 @@ class TodoDetailPresenter:
     def build_extra(self, category: str, data: dict[str,Any]):
         if not data:
             return None
-        cls= self.map_category(category)
-        if cls is None:
-            return None
+        mapping = {
+            "Studium": Studium,
+            "Haushalt": Haushalt,
+            "Freizeit": Freizeit,
+            "keine":{},
+        }
+        cls=mapping.get(category)
         return cls(**data)
 
     def save_todo(

@@ -36,7 +36,7 @@ class Router:
         db: Database[Any] = MongoClient(DB_URL, username=DB_USER, password=DB_PASSWORD).get_database(DB_NAME)
         self.repo_mongo = MongoTodoRepo(db)
         self.repo_memory=InMemoryTodoRepo
-        #wähle hier dein gewünschtes Repo aus
+        #wähle hier dein gewünschtes Repo aus:
         self.ausgewaehltes_repo=self.repo_memory
         
         # Presenter hier erzeugen 
@@ -102,5 +102,5 @@ class Router:
 
 
     def go_to_todos(self):
-        self.page.go (self.todo) #mit Index machen?
+        self.page.go (self.todo) 
 

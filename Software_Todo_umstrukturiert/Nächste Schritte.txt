@@ -1,13 +1,14 @@
 ja:Vererbung Kategorien; Mit Protokol umgesetzt auch ok?
--Kategorien model erzeuge_todo_model fertig machen
-Geht nicht, da noch keine Datenbanken: Filtern
+ja Kategorien model erzeuge_todo_model fertig machen
+ja Geht nicht, da noch keine Datenbanken: Filtern
 Ja: Erledigt
--Infos anzeigen/ bearbeiten
 Ja: Löschen
--verschiedene Kategorien verschiedene Farben
+Ja: verschiedene Kategorien verschiedene Farben
 ja: Priorität wird angezeigt mit einem, zwei oder drei Ausrufezeichen
 -Pickdate zeigt ein Tag weniger an als man auswählt
 -nach todo gespeichert bze klick speicher button soll in todoview hüpfen
+-Infos anzeigen/ bearbeiten
+-
 
 Probleme
 -datepicker zeigt ein tag früher an 
