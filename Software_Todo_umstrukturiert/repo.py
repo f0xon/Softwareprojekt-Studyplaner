@@ -1,4 +1,4 @@
-from typing import Protocol
+from typing import Protocol, Any
 from model.todo_model import ToDoModel, hoch, mittel, niedrig, keine_p, studium, keine, haushalt, freizeit, kategorien_dict, prioritäten_dict, Category, Studium, Haushalt, Freizeit
 from model.ToDoListe_model import ToDoListModel
 from datetime import date
