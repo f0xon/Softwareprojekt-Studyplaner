@@ -4,6 +4,10 @@ import flet as ft
 
 from pymongo import MongoClient
 from pymongo.database import Database
+DB_URL = "mongodb+srv://cluster0.9w2gjme.mongodb.net"
+DB_USER = "soen_labor"
+DB_PASSWORD = "6HQgiBWd7IDAXa6g"
+DB_NAME = "soen_vorlesung"
 
 from model.todo_model import ToDoModel, Priority, hoch, mittel, niedrig, keine_p, Category, studium, haushalt, freizeit
 from model.ToDoListe_model import ToDoListModel
@@ -28,7 +32,7 @@ class Router:
 
         page.on_route_change = self.on_route_change
 
-        # TODO Repo erzeugen und an Presenter übergeben
+        # Repo erzeugen und an Presenter übergeben
         db: Database[Any] = MongoClient(DB_URL, username=DB_USER, password=DB_PASSWORD).get_database(DB_NAME)
         self.repo_mongo = MongoTodoRepo(db)
         self.repo_memory=InMemoryTodoRepo

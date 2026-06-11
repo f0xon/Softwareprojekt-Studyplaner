@@ -1,16 +1,15 @@
 from typing import Protocol
 from model.todo_model import ToDoModel, hoch, mittel, niedrig, keine_p, studium, keine, haushalt, freizeit, kategorien_dict, prioritäten_dict, Category, Studium, Haushalt, Freizeit
-from pymongo import MongoClient
 from model.ToDoListe_model import ToDoListModel
 from datetime import date
 
 class TodoRepo(Protocol):
-    def speichere(self,todo:ToDoModel):
+    def speichere(self,todo:ToDoModel)->None:
         ...
-    def lade_alle(self):
+    def lade_alle(self)->ToDoListModel:
         ...
-    def lade_todo(self,name:str):
-        ...
+    # def lade_todo(self,name:str):
+    #     ...
 
 class MongoTodoRepo(TodoRepo):
     def __init__(self, db: Database[Any]) -> None:
@@ -20,11 +19,11 @@ class MongoTodoRepo(TodoRepo):
         self.db.todos.insert_one(asdict(todo))
     
     def lade_alle(self) -> ToDoListModel:
-        todos: list[ToDoModel] = []
+        _todos: list[ToDoModel] = []
         for todo in self.db.todos.find(projection={"_id": False}):
             todo_obj = ToDoModel(**todo)
-            todos.append(todo_obj)
-        return ToDoListModel(todos=todos)
+            _todos.append(todo_obj)
+        return ToDoListModel(todos=_todos)
 
 class InMemoryTodoRepo(TodoRepo):
     _todos:list[ToDoModel]
@@ -222,5 +221,5 @@ class InMemoryTodoRepo(TodoRepo):
     def speichere(self,todo:ToDoModel)->None:
         self._todos.append(todo)
 
-    def lade_alle(self)->list[ToDoModel]:
-        return self._todos
+    def lade_alle(self)->ToDoListModel:
+        return ToDoListModel(todos=_todos)
