@@ -12,3 +12,5 @@ def main(page: ft.Page):
     page.go("/Todo")
 
 ft.run(main, view=ft.AppView.WEB_BROWSER, port=8080)
+
+#test
