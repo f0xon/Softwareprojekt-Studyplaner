@@ -1,6 +1,7 @@
 # pyright: reportUnknownMemberType=false
 # #from model.todo_model import TodoModel
 from model.ToDoListe_model import ToDoListModel,ToDoModel
+from repo import TodoRepo
 
 #class ToDoPresenter:
 
@@ -17,6 +18,7 @@ class TodoListePresenter:
         #self._repo = repo
         #self._model = self.repo.get_all_todos()
         self.model = model
+        self.repo=repo
 
     def get_todos(self):
         return list(self.model.dummydaten)
