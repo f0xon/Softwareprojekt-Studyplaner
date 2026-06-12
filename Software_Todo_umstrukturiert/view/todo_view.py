@@ -3,15 +3,17 @@
 import flet as ft
 from presenter.todo_presenter import TodoListePresenter
 from presenter.filtere_todo_presenter import FiltereTodoPresenter
+from presenter.erzeuge_todo_presenter import TodoDetailPresenter
 
 
 
 class TodoView(ft.Column):
 
-    def __init__(self, presenter_todo: TodoListePresenter,presenter_filtere:FiltereTodoPresenter):
+    def __init__(self, presenter_todo: TodoListePresenter,presenter_filtere:FiltereTodoPresenter,presenter:TodoDetailPresenter):
         super().__init__()
         self.presenter_todo = presenter_todo
         self.presenter_filtere=presenter_filtere
+        self.presenter_detail=presenter_detail
         self.build_ui()
 
     def build_ui(self):
@@ -54,6 +56,7 @@ class TodoView(ft.Column):
                                 ft.IconButton(
                                     icon=ft.Icons.INFO_OUTLINE,
                                     tooltip="Details",
+                                    on_click=self.on_button_clicked_detail
                                 ),
                                 ft.IconButton(
                                     icon=ft.Icons.DELETE_OUTLINE,
@@ -81,3 +84,8 @@ class TodoView(ft.Column):
         todo = e.control.data
         self.presenter_todo.loesche_todo(todo)
         self.rebuild()
+
+    def on_button_clicked_detail(self,e):
+        todo = e.control.data
+        self.presenter_todo.detail_todo(todo)
+        

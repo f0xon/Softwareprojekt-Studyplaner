@@ -71,7 +71,7 @@ class Router:
         self.page.clean()
 
         if self.page.route == self.todo:
-            self.page.add(TodoView(self.presenter_todo,self.presenter_filtern))
+            self.page.add(TodoView(self.presenter_todo,self.presenter_filtern,self.presenter_detail))
 
         elif self.page.route == self.erzeuge_todo:
             self.page.add(ErzeugeTodoView(self.presenter_detail))
