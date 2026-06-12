@@ -41,6 +41,11 @@ class TodoDetailPresenter:
         }
         cls=mapping.get(category)
         return cls(**data)
+    
+    def detail_todo(self,todo):
+        #Daten für die view vorbereiten
+        #in erzeuge_view springen
+    
 
     def save_todo(
         self,
