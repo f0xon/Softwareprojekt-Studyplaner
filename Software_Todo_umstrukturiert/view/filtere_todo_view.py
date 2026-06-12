@@ -165,5 +165,4 @@ class FiltereTodoView(ft.Column):
     
     def on_button_clicked_speichern(self,e):
         self.presenter.get_filtered_todos()
-        #Wie kann ich richtig aktualisieren sodass todoview auch aktualisiert wird und gefilterte view anzeigt
-        
+        #beim wieder auf view sprinegn soll rsult wieder dummydaten.cpoy sein

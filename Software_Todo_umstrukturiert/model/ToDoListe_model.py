@@ -260,3 +260,4 @@ class ToDoListModel:
                     gefiltert_nach_status.append(todo)
             result = gefiltert_nach_status
         return result
+        # wenn liste leer keine todos mit diesen filtrn vorhanden
