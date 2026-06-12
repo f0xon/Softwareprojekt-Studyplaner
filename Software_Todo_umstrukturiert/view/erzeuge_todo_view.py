@@ -244,6 +244,26 @@ class ErzeugeTodoView(ft.Column):
             self.category_fields.controls.extend(kat.build_ui())
         self.update()
 
+    def zeige_detail_todo(self):
+        dict=self.presenter.detail_todo()
+        self.title.value = dict.get("Titel")
+        self.notiz.value = dict.get("Notiz")
+        self.selected_date= dict.get("Deadline")
+        # self.deadline_text.value = str(todo.deadline)
+        self.calendar.value = dict.get("Kalender")
+        self.prio.value = dict.get("Priorität")
+        self.category.value = dict.get("Kategorie")
+        category:str=dict.get("Kategorie")
+        #Kategorien-spezifische Felder
+        if category == "Studium":
+            self.modul=...
+            self.gruppenarbeit=...
+        elif category == "Haushalt":
+            self.wiederkehrend=...
+        elif category == "Freizeit":
+            self.hobby=...
+            self.ort=...
+
     def save(self, e) -> None:
         kat=self.category.value
         aktuelle_kat = self.kategorien.get(kat)
