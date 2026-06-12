@@ -15,7 +15,7 @@ class TodoDetailPresenter:
     def __init__(self, model: ToDoListModel,repo:TodoRepo):
         self.model = model
         self.repo=repo
-        
+
     @property
     def is_create_mode(self) -> bool:
         return self._modus == "create"
@@ -42,10 +42,27 @@ class TodoDetailPresenter:
         cls=mapping.get(category)
         return cls(**data)
     
-    def detail_todo(self,todo):
+    def detail_todo(self,todo:ToDoModel)->dict[str,Any]:
         #Daten für die view vorbereiten
+        title=todo.titel
+        notiz=todo.notiz
+        deadline=todo.deadline
+        calendar=todo.calendar
+        erledigt=todo.erledigt
+        priority=self.map_priority(todo.priority.name)
+        category=self.map_category(todo.category.name)
+        data_for_ui:dict[str,Any]={
+            "Titel":title,
+            "Notiz":notiz,
+            "Deadline":deadline,
+            "Kalender":calendar,
+            "Priorität":priority,
+            "Kategorie":category,
+            "Erledigt":erledigt
+        }
+        return data_for_ui
         #in erzeuge_view springen
-    
+        #...
 
     def save_todo(
         self,
