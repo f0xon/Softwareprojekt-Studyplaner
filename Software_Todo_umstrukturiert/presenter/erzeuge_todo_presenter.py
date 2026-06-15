@@ -90,6 +90,7 @@ class TodoDetailPresenter:
             "Kalender": todo.calendar,
             "Priorität": todo.priority.name,
             "Kategorie": todo.category.name,
+            "Extra":
         }
 
     def save_todo(

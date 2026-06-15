@@ -300,6 +300,7 @@ class ErzeugeTodoView(ft.Column):
         self.calendar.value = data.get("Kalender", False)
         self.prio.value = data.get("Priorität", "keine")
         self.category.value = data.get("Kategorie", "keine")
+        #Kategorienspezifische Extrafelder fehlen noch
 
     # ---------------- SAVE ----------------
     def save(self, e):
