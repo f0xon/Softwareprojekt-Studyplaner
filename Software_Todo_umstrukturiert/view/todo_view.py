@@ -88,5 +88,5 @@ class TodoView(ft.Column):
 
     def on_button_clicked_detail(self,e):
         todo_id: int = e.control.data
-        self.presenter_detail.detail_todo(todo_id)
+        self.presenter_detail.lade_todo(todo_id)
         self.rebuild()
