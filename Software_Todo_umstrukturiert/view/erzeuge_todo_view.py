@@ -303,8 +303,8 @@ class ErzeugeTodoView(ft.Column):
 
     # ---------------- SAVE ----------------
     def save(self, e):
-        kat=self.category.value
-        aktuelle_kat = self.kategorien.get(kat)
+        kat:str|None=self.category.value
+        aktuelle_kat = self.kategorien.get(kat,"")
         if aktuelle_kat:
             extra:dict[str,Any] = aktuelle_kat.extract()
         else:
