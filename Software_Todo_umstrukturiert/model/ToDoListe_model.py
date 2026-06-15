@@ -201,10 +201,6 @@ class ToDoListModel:
     def add_todo(self,todo:ToDoModel)->None:
         self.dummydaten.append(todo)
 
-    def loesche_todo(self, todo: ToDoModel):
-        self.dummydaten.remove(todo)
-        print(self.dummydaten)
-
     def _priority_aus_name(self, name: str)->Priority:
         if name == "keine":
             return keine_p
@@ -261,3 +257,8 @@ class ToDoListModel:
             result = gefiltert_nach_status
         return result
         # wenn liste leer keine todos mit diesen filtrn vorhanden
+        '''
+    def loesche_todo(self, todo: ToDoModel):
+        self.dummydaten.remove(todo)
+        print(self.dummydaten)
+'''

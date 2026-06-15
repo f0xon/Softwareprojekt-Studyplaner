@@ -13,3 +13,5 @@ ja: Priorität wird angezeigt mit einem, zwei oder drei Ausrufezeichen
 Probleme
 -datepicker zeigt ein tag früher an 
 -eingefügtes todo sieht man nicht in todo view
+
+alle id ändern

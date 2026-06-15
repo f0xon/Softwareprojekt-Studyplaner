@@ -21,18 +21,27 @@ class TodoListePresenter:
         self.repo=repo
 
     def get_todos(self):
-        return list(self.model.dummydaten)
+        return self.repo.lade_alle()
     
 
     def erledige_todo(self, id: int)->None:
-        for todo in self.model.dummydaten:
+        for todo in self.repo.lade_alle():
             if todo.id == id:
                 todo.erledige_todo()
 
 
     def loesche_todo(self,id: int)->None:
-        for todo in self.model.dummydaten:
+        print("Presenter löscht Todo mit ID:", id)
+        for todo in self.repo.lade_alle():
             if todo.id == id:
-                self.model.loesche_todo(todo)
+                print("Presenter hat Todo gelöscht")
+                self.repo.loesche_todo(todo)
+
+
+    def lade_todo(self, id: int)->ToDoModel | None:
+        for todo in self.repo.lade_alle():
+            if todo.id == id:
+                return todo
+        return None
 
     # def filter_todos(self, kat: str, prio: str, status: str)->list[ToDoModel]:

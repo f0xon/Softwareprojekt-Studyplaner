@@ -35,7 +35,7 @@ class Router:
         # Repo erzeugen und an Presenter übergeben
         db: Database[Any] = MongoClient(DB_URL, username=DB_USER, password=DB_PASSWORD).get_database(DB_NAME)
         self.repo_mongo = MongoTodoRepo(db)
-        self.repo_memory=InMemoryTodoRepo
+        self.repo_memory=InMemoryTodoRepo()
         #wähle hier dein gewünschtes Repo aus:
         self.ausgewaehltes_repo=self.repo_memory
         

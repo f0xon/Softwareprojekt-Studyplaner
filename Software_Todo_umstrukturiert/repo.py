@@ -10,7 +10,9 @@ class TodoRepo(Protocol):
         ...
     def erledige_todo(self,todo:ToDoModel)->None:
         ...
-    def lade_alle(self)->ToDoListModel:
+    def lade_alle(self)->list[ToDoModel]:
+        ...
+    def loesche_todo(self, todo_id: int)->None:
         ...
     # def lade_todo(self,name:str):
     #     ...
@@ -30,7 +32,6 @@ class MongoTodoRepo(TodoRepo):
         if todo is None:
             return None
         return ToDoModel(**todo)
-
 
     def erledige_todo(self, todo_id: int) -> None:
         todo = self.db.todos.find_one({"_id": todo_id})
@@ -62,7 +63,6 @@ class InMemoryTodoRepo(TodoRepo):
                     modul="Mathe 2",
                     gruppenarbeit=True
                 ),
-                erledigt=False,
             ),
             ToDoModel(_id=2,
                 titel="Hund bürsten",
@@ -75,7 +75,6 @@ class InMemoryTodoRepo(TodoRepo):
                     hobby="Hundepflege",
                     ort="Zuhause"
                 ),
-                erledigt=False,
             ),
             ToDoModel(_id=3,
                 titel="Mathe",
@@ -88,7 +87,6 @@ class InMemoryTodoRepo(TodoRepo):
                     modul="Mathematik",
                     gruppenarbeit=False
                 ),
-                erledigt=False,
             ),
             ToDoModel(_id=4,
                 titel="Wäsche waschen",
@@ -100,7 +98,6 @@ class InMemoryTodoRepo(TodoRepo):
                 extra=Haushalt(
                     wiederkehrend=True
                 ),
-                erledigt=False,
             ),
             ToDoModel(_id=5,
                 titel="Oma anrufen",
@@ -113,7 +110,6 @@ class InMemoryTodoRepo(TodoRepo):
                     hobby="Familie",
                     ort="Telefon"
                 ),
-                erledigt=False,
             ),
         ToDoModel(_id=6,
                 titel="Staubsaugen",
@@ -125,7 +121,6 @@ class InMemoryTodoRepo(TodoRepo):
                 extra=Haushalt(
                     wiederkehrend=True
                 ),
-                erledigt=False,
             ),
             ToDoModel(_id=7,
                 titel="Softwareprojekt-Studyplaner",
@@ -138,7 +133,6 @@ class InMemoryTodoRepo(TodoRepo):
                     modul="Software Engineering",
                     gruppenarbeit=True
                 ),
-                erledigt=False,
             ),
             ToDoModel(_id=8,
                 titel="Einkaufen",
@@ -150,7 +144,6 @@ class InMemoryTodoRepo(TodoRepo):
                 extra=Haushalt(
                     wiederkehrend=False
                 ),
-                erledigt=False,
             ),
             ToDoModel(_id=9,
                 titel="Freunde treffen",
@@ -163,7 +156,6 @@ class InMemoryTodoRepo(TodoRepo):
                     hobby="Treffen",
                     ort="Stadt"
                 ),
-                erledigt=False,
             ),
             ToDoModel(_id=10,
                 titel="Buch lesen",
@@ -176,7 +168,6 @@ class InMemoryTodoRepo(TodoRepo):
                     hobby="Lesen",
                     ort="Wohnzimmer"
                 ),
-                erledigt=False,
             ),
             ToDoModel(_id=11,
                 titel="Sport machen",
@@ -189,7 +180,6 @@ class InMemoryTodoRepo(TodoRepo):
                     hobby="Fitness",
                     ort="Fitnessstudio"
                 ),
-                erledigt=False,
             ),
             ToDoModel(_id=12,
                 titel="Projektarbeit",
@@ -202,7 +192,6 @@ class InMemoryTodoRepo(TodoRepo):
                     modul="Projektmanagement",
                     gruppenarbeit=True
                 ),
-                erledigt=False,
             ),
             ToDoModel(_id=13,
                 titel="Auto waschen",
@@ -214,7 +203,6 @@ class InMemoryTodoRepo(TodoRepo):
                 extra=Haushalt(
                     wiederkehrend=False
                 ),
-                erledigt=False,
             ),
             ToDoModel(_id=14,
                 titel="Gartenarbeit",
@@ -226,7 +214,6 @@ class InMemoryTodoRepo(TodoRepo):
                 extra=Haushalt(
                     wiederkehrend=True
                 ),
-                erledigt=False,
             ),
             ToDoModel(_id=15,
                 titel="Kino besuchen",
@@ -239,7 +226,6 @@ class InMemoryTodoRepo(TodoRepo):
                     hobby="Filme",
                     ort="Kino"
                 ),
-                erledigt=False,
             ),
             ToDoModel(_id=16,
                 titel="Hausaufgaben",
@@ -252,22 +238,35 @@ class InMemoryTodoRepo(TodoRepo):
                     modul="Informatik",
                     gruppenarbeit=False
                 ),
-                erledigt=False,
             ),
         ]
     
     def speichere(self,todo:ToDoModel)->None:
         self._todos.append(todo)
 
-    def erledige_todo(self, id: int)->None:
-        _todos: list[ToDoModel] = []
-        for todo in _todos:
-            if todo.id == id:
-                if todo.erledigt == False:
-                    todo.erledigt = True
-                elif todo.erledigt == True:
-                    todo.erledigt = False
-                        
+    def lade_alle(self)->list[ToDoModel]:
+        return list(self._todos)
+    
+    def lade_todo(self, todo_id: int)->ToDoModel | None:
+        print("Repo lädt Todo mit ID:", todo_id)
+        for todo in self._todos:
+            print("Repo überprüft Todo mit ID:", todo.id)
+            if todo.id == todo_id:
+                return todo
+        return None
+    
+    def erledige_todo(self, todo_id: int)->None:
+        todo = self.lade_todo(todo_id)
+        if todo is not None:
+            todo.erledige_todo()
 
-    def lade_alle(self)->ToDoListModel:
-        return ToDoListModel(todos=_todos)
+    def loesche_todo(self, todo_id: int)->None:
+        print("Repo lädt Todo mit ID:", todo_id)
+        todo = self.lade_todo(todo_id)
+        print("Repo hat Todo gefunden :", todo)
+        if todo is not None:
+            print("Repo hat Todo gelöscht")
+            self._todos.remove(todo)
+
+    def naechste_id(self)->int:
+        return max(todo.id for todo in self._todos) + 1 

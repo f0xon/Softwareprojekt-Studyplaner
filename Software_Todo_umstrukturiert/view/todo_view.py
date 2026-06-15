@@ -9,11 +9,11 @@ from presenter.erzeuge_todo_presenter import TodoDetailPresenter
 
 class TodoView(ft.Column):
 
-    def __init__(self, presenter_todo: TodoListePresenter,presenter_filtere:FiltereTodoPresenter,presenter:TodoDetailPresenter):
+    def __init__(self, presenter_todo: TodoListePresenter,presenter_filtere:FiltereTodoPresenter, presenter_detail: TodoDetailPresenter):
         super().__init__()
         self.presenter_todo = presenter_todo
         self.presenter_filtere=presenter_filtere
-        self.presenter_detail=presenter_detail
+        self.presenter_detail= presenter_detail
         self.build_ui()
 
     def build_ui(self):
@@ -50,18 +50,19 @@ class TodoView(ft.Column):
                                         ),
                                     tooltip="Erledigt" if todo.erledigt else "Unerledigt",
                                     icon_color=ft.Colors.BLUE if todo.erledigt else ft.Colors.GREY,
-                                    data=todo._id,
+                                    data=todo.id,
                                     on_click=self.on_button_clicked_done
                                 ),
                                 ft.IconButton(
                                     icon=ft.Icons.INFO_OUTLINE,
                                     tooltip="Details",
+                                    data=todo.id,
                                     on_click=self.on_button_clicked_detail
                                 ),
                                 ft.IconButton(
                                     icon=ft.Icons.DELETE_OUTLINE,
                                     tooltip="Löschen",
-                                    data=todo._id,
+                                    data=todo.id,
                                     on_click=self.on_button_clicked_delete
                                 )
                             ],
@@ -76,16 +77,18 @@ class TodoView(ft.Column):
         self.update()
 
     def on_button_clicked_done(self,e):
-        todo= e.control.data
-        self.presenter_todo.erledige_todo(todo)
+        todo_id: int = e.control.data
+        self.presenter_todo.erledige_todo(todo_id)
         self.rebuild()
 
     def on_button_clicked_delete(self,e):
-        todo = e.control.data
-        self.presenter_todo.loesche_todo(todo)
+        todo_id: int = e.control.data
+        print("View löscht Todo mit ID:", todo_id)
+        self.presenter_todo.loesche_todo(todo_id)
+        print("View hat Todo gelöscht")
         self.rebuild()
 
     def on_button_clicked_detail(self,e):
-        todo = e.control.data
-        self.presenter_detail.detail_todo(todo)
-        
+        todo_id: int = e.control.data
+        self.presenter_detail.detail_todo(todo_id)
+        self.rebuild()
