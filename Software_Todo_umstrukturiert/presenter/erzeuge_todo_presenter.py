@@ -88,6 +88,7 @@ class TodoDetailPresenter:
             extra=self.build_extra(category, extra),
         )
 
-        self.model.add_todo(todo)
+        # self.model.add_todo(todo)
+        self.repo.speichere(todo)
 
         print("DEBUG: Todo gespeichert",todo)
