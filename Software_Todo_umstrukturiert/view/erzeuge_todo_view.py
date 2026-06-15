@@ -103,7 +103,7 @@ class FreizeitKategorie:
             "ort":self.ort.value
         }
 
-
+#wenn todo dann zeige todo mit lade_detail_todo wenn nicht erstelle neues todo
 class ErzeugeTodoView(ft.Column):
     def __init__(self, presenter:TodoDetailPresenter):
         super().__init__()
@@ -245,7 +245,7 @@ class ErzeugeTodoView(ft.Column):
         self.update()
 
     def zeige_detail_todo(self):
-        dict=self.presenter.detail_todo()
+        dict:dict[str,Any]=self.presenter.detail_todo()
         self.title.value = dict.get("Titel")
         self.notiz.value = dict.get("Notiz")
         self.selected_date= dict.get("Deadline")
