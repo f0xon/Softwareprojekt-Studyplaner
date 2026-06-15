@@ -265,11 +265,8 @@ class InMemoryTodoRepo(TodoRepo):
             todo.erledige_todo()
 
     def loesche_todo(self, todo_id: int)->None:
-        print("Repo lädt Todo mit ID:", todo_id)
         todo = self.finde_todo_mit_id(todo_id)
-        print("Repo hat Todo gefunden :", todo)
         if todo is not None:
-            print("Repo hat Todo gelöscht")
             self._todos.remove(todo)
 
     def filtere_todos(self, kat: str, prio: str, status: str)->list[ToDoModel]:

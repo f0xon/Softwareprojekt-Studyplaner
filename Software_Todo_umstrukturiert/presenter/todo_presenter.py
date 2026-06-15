@@ -31,10 +31,8 @@ class TodoListePresenter:
 
 
     def loesche_todo(self,id: int)->None:
-        print("Presenter löscht Todo mit ID:", id)
         for todo in self.repo.lade_alle():
             if todo.id == id:
-                print("Presenter hat Todo gelöscht")
                 self.repo.loesche_todo(todo.id)
 
 
