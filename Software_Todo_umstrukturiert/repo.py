@@ -16,6 +16,8 @@ class TodoRepo(Protocol):
         ...
     def naechste_id(self)->int:
         ...
+    def filtere_todos(self, kat: str, prio: str, status: str)->list[ToDoModel]:
+        ...
     # def lade_todo(self,name:str):
     #     ...
 
@@ -249,7 +251,7 @@ class InMemoryTodoRepo(TodoRepo):
     def lade_alle(self)->list[ToDoModel]:
         return list(self._todos)
     
-    def lade_todo(self, todo_id:int)->ToDoModel | None:
+    def finde_todo_mit_id(self, todo_id:int)->ToDoModel | None:
         print("Repo lädt Todo mit ID:", todo_id)
         for todo in self._todos:
             print("Repo überprüft Todo mit ID:", todo.id, type(todo.id))
@@ -258,17 +260,48 @@ class InMemoryTodoRepo(TodoRepo):
         return None
     
     def erledige_todo(self, todo_id: int)->None:
-        todo = self.lade_todo(todo_id)
+        todo = self.finde_todo_mit_id(todo_id)
         if todo is not None:
             todo.erledige_todo()
 
     def loesche_todo(self, todo_id: int)->None:
         print("Repo lädt Todo mit ID:", todo_id)
-        todo = self.lade_todo(todo_id)
+        todo = self.finde_todo_mit_id(todo_id)
         print("Repo hat Todo gefunden :", todo)
         if todo is not None:
             print("Repo hat Todo gelöscht")
             self._todos.remove(todo)
+
+    def filtere_todos(self, kat: str, prio: str, status: str)->list[ToDoModel]:
+        result:list[ToDoModel]=self._todos.copy()
+        if kat != "alle":
+            gefiltert_nach_kategorie:list[ToDoModel] = []
+            for todo in result:
+                if todo.category == kategorien_dict[kat]:
+                    gefiltert_nach_kategorie.append(todo)
+            result = gefiltert_nach_kategorie
+        # Priorität
+        if prio != "alle":
+            gefiltert_nach_priority:list[ToDoModel] = []
+            for todo in result:
+                if todo.priority == prioritäten_dict[prio]:
+                    gefiltert_nach_priority.append(todo)
+
+            result = gefiltert_nach_priority
+        # Status
+        if status == "offen":
+            gefiltert_nach_status:list[ToDoModel] = []
+            for todo in result:
+                if todo.erledigt is False:
+                    gefiltert_nach_status.append(todo)
+            result = gefiltert_nach_status
+        elif status == "erledigt":
+            gefiltert_nach_status = []
+            for todo in result:
+                if todo.erledigt is True:
+                    gefiltert_nach_status.append(todo)
+            result = gefiltert_nach_status
+        return result
 
     def naechste_id(self)->int:
         return max(todo.id for todo in self._todos) + 1 

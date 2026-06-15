@@ -19,10 +19,13 @@ class FiltereTodoPresenter:
         self.status = value
 
     def get_filtered_todos(self)->list[ToDoModel]:
-        todos = self.repo.lade_alle()
-
-        result: list[ToDoModel] = []
-
-        for todo in todos: 
-            result.append(todo)
+        result: list[ToDoModel]= self.repo.filtere_todos(self.kat,self.prio,self.status)
+        print("Debug", result)
+        print("")
         return result
+    
+    # def get_filtered_todos(self)->list[ToDoModel]:
+    #     result = self.model.filter_todos(self.kat,self.prio,self.status)
+    #     print("Debug", result)
+    #     print("")
+    #     return result
