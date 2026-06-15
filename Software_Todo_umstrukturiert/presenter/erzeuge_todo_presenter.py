@@ -15,6 +15,7 @@ class TodoDetailPresenter:
     def __init__(self, model: ToDoListModel,repo:TodoRepo):
         self.model = model
         self.repo=repo
+        self._current_todo: ToDoModel | None = None
 
     @property
     def is_create_mode(self) -> bool:
@@ -41,56 +42,107 @@ class TodoDetailPresenter:
         cls:type[Studium]|type[Haushalt]|type[Freizeit]=mapping.get(category)
         return cls(**data)
     
-    def detail_todo(self,todo:ToDoModel)->dict[str,Any]:
-        #in erzeuge_view springen
-        #...
-        #Daten für die view vorbereiten
-        
-        title=todo.titel
-        notiz=todo.notiz
-        deadline=todo.deadline
-        calendar=todo.calendar
-        erledigt=todo.erledigt
-        priority=self.map_priority(todo.priority.name)
-        category=self.map_category(todo.category.name)
-        data_for_ui:dict[str,Any]={
-            "Titel":title,
-            "Notiz":notiz,
-            "Deadline":deadline,
-            "Kalender":calendar,
-            "Priorität":priority,
-            "Kategorie":category,
-            "Erledigt":erledigt
-        }
-        return data_for_ui
+    # def detail_todo(self,todo_id:int)->dict[str,Any]:
+    #     #in erzeuge_view springen
+    #     #...
+    #     #Daten für die view vorbereiten
+    #     todo=self.repo.finde_todo_mit_id(todo_id)
+    #     title=todo.titel
+    #     notiz=todo.notiz
+    #     deadline=todo.deadline
+    #     calendar=todo.calendar
+    #     erledigt=todo.erledigt
+    #     priority=self.map_priority(todo.priority.name)
+    #     category=self.map_category(todo.category.name)
+    #     data_for_ui:dict[str,Any]={
+    #         "Titel":title,
+    #         "Notiz":notiz,
+    #         "Deadline":deadline,
+    #         "Kalender":calendar,
+    #         "Priorität":priority,
+    #         "Kategorie":category,
+    #         "Erledigt":erledigt
+    #     }
+    #     return data_for_ui
 
-    # @property
-    # def übergebe_params_erzeugetodo(self)->dict[str, Any]:
-    #     self.detail_todo(todo)
+    # def get_current_todo_data(self) -> dict[str, Any] | None:
+    #     return self._current_todo
+    
+    # LOAD (Edit-Modus)
+    def lade_todo(self, todo_id: int) -> dict[str, Any]:
+        todo = self.repo.finde_todo_mit_id(todo_id)
+        self._current_todo = todo
+
+        if not todo:
+            return {}
+
+        return {
+            "Titel": todo.titel,
+            "Notiz": todo.notiz,
+            "Deadline": todo.deadline,
+            "Kalender": todo.calendar,
+            "Priorität": todo.priority.name,
+            "Kategorie": todo.category.name,
+        }
 
     def save_todo(
         self,
         # id:int,
-        title: str,
+        titel: str,
         notiz: str,
         deadline:date,
         calendar: bool,
         priority: str,
         category: str,
         extra: dict[str,Any],
-    )->None:
-        todo = ToDoModel(
-            _id=self.repo.naechste_id(),
-            titel=title,
-            notiz=notiz,
-            deadline=deadline,
-            calendar=calendar,
-            priority=self.map_priority(priority),  
-            category=self.map_category(category),
-            extra=self.build_extra(category, extra),
-        )
+    ) -> None:
 
-        # self.model.add_todo(todo)
-        self.repo.speichere(todo)
+        if self._current_todo:   # EDIT
+            todo = self._current_todo
+            todo.titel = titel
+            todo.notiz = notiz
+            todo.deadline = deadline
+            todo.calendar = calendar
+            todo.priority = priority
+            todo.category = category
+            todo.extra = extra
+        else:               # CREATE
+            todo = ToDoModel(
+                _id=self.repo.naechste_id(),
+                titel=titel,
+                notiz=notiz,
+                deadline=deadline,
+                calendar=calendar,
+                priority=self.map_priority(priority),
+                category=self.map_category(category),
+                extra=self.build_extra(category, extra),
+            )
+            self.repo.speichere(todo)
 
-        print("DEBUG: Todo gespeichert",todo)
+
+    # def save_todo(
+    #     self,
+    #     # id:int,
+    #     title: str,
+    #     notiz: str,
+    #     deadline:date,
+    #     calendar: bool,
+    #     priority: str,
+    #     category: str,
+    #     extra: dict[str,Any],
+    # )->None:
+    #     todo = ToDoModel(
+    #         _id=self.repo.naechste_id(),
+    #         titel=title,
+    #         notiz=notiz,
+    #         deadline=deadline,
+    #         calendar=calendar,
+    #         priority=self.map_priority(priority),  
+    #         category=self.map_category(category),
+    #         extra=self.build_extra(category, extra),
+    #     )
+
+    #     # self.model.add_todo(todo)
+    #     self.repo.speichere(todo)
+
+    #     print("DEBUG: Todo gespeichert",todo)
