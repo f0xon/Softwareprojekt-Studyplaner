@@ -254,6 +254,39 @@ class ErzeugeTodoView(ft.Column):
             self.category_fields.controls.extend(kat.build_ui())
         self.update()
 
+    # ---------------- LOAD INTO VIEW ----------------
+    def lade_ui(self, todo_id: int | None = None):
+        data = self.presenter.lade_todo(todo_id) if todo_id else {}
+
+        self.title.value = data.get("Titel", "")
+        self.notiz.value = data.get("Notiz", "")
+        self.selected_date = data.get("Deadline", self.selected_date)
+        self.calendar.value = data.get("Kalender", False)
+        self.prio.value = data.get("Priorität", "keine")
+        self.category.value = data.get("Kategorie", "keine")
+        #Kategorienspezifische Extrafelder fehlen noch
+
+    # ---------------- SAVE ----------------
+    def save(self, e):
+        kat:str|None=self.category.value
+        aktuelle_kat = self.kategorien.get(kat,"")
+        if aktuelle_kat:
+            extra:dict[str,Any] = aktuelle_kat.extract()
+        else:
+            extra = {}
+        self.presenter.save_todo(
+            titel=self.title.value,
+            notiz=self.notiz.value,
+            deadline=self.selected_date,
+            calendar=self.calendar.value,
+            priority=self.prio.value,
+            category=kat,
+            extra=extra,
+        )
+
+        #if self.on_save:
+        #   self.on_save()
+
     # def zeige_detail_todo(self):
     #     dict_todo:dict[str,Any]|None=self.presenter.get_current_todo_data()
     #     self.title.value = dict_todo.get("Titel")
@@ -289,38 +322,3 @@ class ErzeugeTodoView(ft.Column):
     #         category=kat,
     #         extra=extra,
     #     )
-
-    # ---------------- LOAD INTO VIEW ----------------
-    def lade_ui(self, todo_id: int | None = None):
-        data = self.presenter.lade_todo(todo_id) if todo_id else {}
-
-        self.title.value = data.get("Titel", "")
-        self.notiz.value = data.get("Notiz", "")
-        self.selected_date = data.get("Deadline", self.selected_date)
-        self.calendar.value = data.get("Kalender", False)
-        self.prio.value = data.get("Priorität", "keine")
-        self.category.value = data.get("Kategorie", "keine")
-        #Kategorienspezifische Extrafelder fehlen noch
-
-    # ---------------- SAVE ----------------
-    def save(self, e):
-        kat:str|None=self.category.value
-        aktuelle_kat = self.kategorien.get(kat,"")
-        if aktuelle_kat:
-            extra:dict[str,Any] = aktuelle_kat.extract()
-        else:
-            extra = {}
-        self.presenter.save_todo(
-            titel=self.title.value,
-            notiz=self.notiz.value,
-            deadline=self.selected_date,
-            calendar=self.calendar.value,
-            priority=self.prio.value,
-            category=kat,
-            extra=extra,
-        )
-
-
-
-        #if self.on_save:
-        #   self.on_save()
