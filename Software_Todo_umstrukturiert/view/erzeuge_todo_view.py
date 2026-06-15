@@ -233,7 +233,7 @@ class ErzeugeTodoView(ft.Column):
             )
         )
 
-    def date_changed(self, e):
+    def date_changed(self, e)->None:
         value = e.control.value
 
         if isinstance(value, datetime):
@@ -255,7 +255,7 @@ class ErzeugeTodoView(ft.Column):
         self.update()
 
     # ---------------- LOAD INTO VIEW ----------------
-    def lade_ui(self, todo_id: int | None = None):
+    def lade_ui(self, todo_id: int | None = None)->None:
         data = self.presenter.lade_todo(todo_id) if todo_id else {}
 
         self.title.value = data.get("Titel", "")
@@ -267,9 +267,9 @@ class ErzeugeTodoView(ft.Column):
         #Kategorienspezifische Extrafelder fehlen noch
 
     # ---------------- SAVE ----------------
-    def save(self, e):
+    def save(self, e)->None:
         kat:str|None=self.category.value
-        aktuelle_kat = self.kategorien.get(kat,"")
+        aktuelle_kat = self.kategorien.get(kat)
         if aktuelle_kat:
             extra:dict[str,Any] = aktuelle_kat.extract()
         else:

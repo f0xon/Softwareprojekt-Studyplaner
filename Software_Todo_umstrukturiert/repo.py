@@ -254,9 +254,7 @@ class InMemoryTodoRepo(TodoRepo):
         return list(self._todos)
     
     def finde_todo_mit_id(self, todo_id:int)->ToDoModel | None:
-        print("Repo lädt Todo mit ID:", todo_id)
         for todo in self._todos:
-            print("Repo überprüft Todo mit ID:", todo.id, type(todo.id))
             if todo.id == todo_id:
                 return todo
         return None
