@@ -20,10 +20,10 @@ prioritäten_dict={
 class Category:
     name: str
     farbe:str
-keine= Category("keine","GREY_500")
-studium = Category("Studium","AMBER_600")
-haushalt = Category("Haushalt","DEEP_PURPLE_300")
-freizeit = Category("Freizeit","TEAL_ACCENT_200")
+keine= Category("keine","GREY_300")
+studium = Category("Studium","BLUE_100")
+haushalt = Category("Haushalt","DEEP_PURPLE_100")
+freizeit = Category("Freizeit","TEAL_100")
 kategorien_dict={
     "keine":keine,
     "Studium":studium,
