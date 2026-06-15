@@ -9,7 +9,7 @@ from presenter.erzeuge_todo_presenter import TodoDetailPresenter
 
 class TodoView(ft.Column):
 
-    def __init__(self, presenter_todo: TodoListePresenter,presenter_filtere:FiltereTodoPresenter, presenter_detail: TodoDetailPresenter):
+    def __init__(self, presenter_todo: TodoListePresenter,presenter_filtere:FiltereTodoPresenter,presenter_detail:TodoDetailPresenter):
         super().__init__()
         self.presenter_todo = presenter_todo
         self.presenter_filtere=presenter_filtere

@@ -32,18 +32,20 @@ class TodoDetailPresenter:
 
     def build_extra(self, category: str, data: dict[str,Any]):
         if not data:
-            return None
-        mapping = {
+            return {}
+        mapping:dict[str,type[Studium]|type[Haushalt]|type[Freizeit]] = {
             "Studium": Studium,
             "Haushalt": Haushalt,
             "Freizeit": Freizeit,
-            "keine":{},
         }
-        cls=mapping.get(category)
+        cls:type[Studium]|type[Haushalt]|type[Freizeit]=mapping.get(category)
         return cls(**data)
     
     def detail_todo(self,todo:ToDoModel)->dict[str,Any]:
+        #in erzeuge_view springen
+        #...
         #Daten für die view vorbereiten
+        
         title=todo.titel
         notiz=todo.notiz
         deadline=todo.deadline
@@ -61,8 +63,10 @@ class TodoDetailPresenter:
             "Erledigt":erledigt
         }
         return data_for_ui
-        #in erzeuge_view springen
-        #...
+
+    # @property
+    # def übergebe_params_erzeugetodo(self)->dict[str, Any]:
+    #     self.detail_todo(todo)
 
     def save_todo(
         self,
