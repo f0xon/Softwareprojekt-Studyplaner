@@ -6,10 +6,12 @@ Ja: Löschen
 Ja: verschiedene Kategorien verschiedene Farben
 ja: Priorität wird angezeigt mit einem, zwei oder drei Ausrufezeichen
 -Pickdate zeigt ein Tag weniger an als man auswählt
--nach todo gespeichert bze klick speicher button soll in todoview hüpfen
+-nach todo gespeichert/filtern soll nach Speichern in todoview hüpfen
 -Infos anzeigen/ bearbeiten
--
+-Repo einbinden
+-repo hinting richtig, was sind die rückgabewerte?
+-zugefügtes todo soll oben angezeigt werden dh vorne in liste eingefügt erden
 
 Probleme
 -datepicker zeigt ein tag früher an 
--eingefügtes todo sieht man nicht in todo view
+-filtern liste wird nicht zurückgesetzt sondern immer weniger bis die liste leer ist und gar nichts mehr anzeigt wird 
