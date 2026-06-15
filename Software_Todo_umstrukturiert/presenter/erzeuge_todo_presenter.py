@@ -75,6 +75,13 @@ class TodoDetailPresenter:
 
         if not todo:
             return {}
+        
+        print(f"""Titel {todo.titel}
+            "Notiz" {todo.notiz},
+            "Deadline": {todo.deadline},
+            "Kalender": {todo.calendar},
+            "Priorität": {todo.priority.name},
+            "Kategorie": {todo.category.name}""")
 
         return {
             "Titel": todo.titel,
