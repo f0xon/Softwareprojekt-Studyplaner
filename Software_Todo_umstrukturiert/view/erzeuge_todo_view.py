@@ -1,5 +1,7 @@
 # pyright: reportAttributeAccessIssue=false
-import datetime
+from datetime import datetime
+from datetime import date
+from zoneinfo import ZoneInfo
 from typing import Any, Protocol
 import flet as ft
 from presenter.erzeuge_todo_presenter import TodoDetailPresenter
@@ -109,7 +111,7 @@ class ErzeugeTodoView(ft.Column):
         super().__init__()
         self.presenter = presenter
         #self.on_save=on_save
-        self.selected_date = datetime.date.today()
+        self.selected_date = date.today()
 
         self.category_fields=ft.Column()
         self.kategorien:dict[str,Kategorie] = {
@@ -129,8 +131,8 @@ class ErzeugeTodoView(ft.Column):
             icon=ft.Icons.CALENDAR_MONTH,
             on_click=lambda e: e.control.page.show_dialog(
                 ft.DatePicker(
-                    first_date=datetime.date(2026, 1, 1),
-                    last_date=datetime.date(2028, 12, 1),
+                    first_date=date(2026, 1, 1),
+                    last_date=date(2028, 12, 1),
                     value=self.selected_date,
                     on_change=self.date_changed,
                 )
@@ -232,9 +234,17 @@ class ErzeugeTodoView(ft.Column):
         )
 
     def date_changed(self, e):
-        self.selected_date:datetime.date = e.control.value.date()
-        self.deadline_text.value=str(self.selected_date)
-        self.update()
+        value = e.control.value
+
+        if isinstance(value, datetime):
+            value = value.astimezone(ZoneInfo("Europe/Berlin")).date()
+        elif isinstance(value, dt.date):
+            value = value 
+        
+        self.deadline = value 
+        self.deadline_text.value = self.deadline.strftime("%d.%m.%Y")
+
+        self. update()
         #return self.selected_date 
 
     def category_changed(self,e)->None:
