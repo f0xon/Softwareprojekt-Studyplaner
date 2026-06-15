@@ -14,6 +14,8 @@ class TodoRepo(Protocol):
         ...
     def loesche_todo(self, todo_id: int)->None:
         ...
+    def naechste_id(self)->int:
+        ...
     # def lade_todo(self,name:str):
     #     ...
 
@@ -247,10 +249,10 @@ class InMemoryTodoRepo(TodoRepo):
     def lade_alle(self)->list[ToDoModel]:
         return list(self._todos)
     
-    def lade_todo(self, todo_id: int)->ToDoModel | None:
+    def lade_todo(self, todo_id:int)->ToDoModel | None:
         print("Repo lädt Todo mit ID:", todo_id)
         for todo in self._todos:
-            print("Repo überprüft Todo mit ID:", todo.id)
+            print("Repo überprüft Todo mit ID:", todo.id, type(todo.id))
             if todo.id == todo_id:
                 return todo
         return None

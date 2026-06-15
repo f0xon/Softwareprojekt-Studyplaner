@@ -83,7 +83,7 @@ class TodoView(ft.Column):
 
     def on_button_clicked_delete(self,e):
         todo_id: int = e.control.data
-        print("View löscht Todo mit ID:", todo_id)
+        print("View löscht Todo mit ID:", todo_id,type(todo_id))
         self.presenter_todo.loesche_todo(todo_id)
         print("View hat Todo gelöscht")
         self.rebuild()

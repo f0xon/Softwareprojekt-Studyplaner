@@ -35,7 +35,7 @@ class TodoListePresenter:
         for todo in self.repo.lade_alle():
             if todo.id == id:
                 print("Presenter hat Todo gelöscht")
-                self.repo.loesche_todo(todo)
+                self.repo.loesche_todo(todo.id)
 
 
     def lade_todo(self, id: int)->ToDoModel | None:

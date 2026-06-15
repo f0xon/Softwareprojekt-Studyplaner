@@ -59,11 +59,11 @@ class ToDoModel:
     _erledigt: bool = False
 
     @property
-    def id(self):
+    def id(self)->int:
         return self._id
 
     @property
-    def erledigt(self):
+    def erledigt(self)->bool:
         return self._erledigt
 
     def erledige_todo(self)->None:
