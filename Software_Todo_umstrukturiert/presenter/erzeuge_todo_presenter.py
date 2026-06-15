@@ -70,6 +70,7 @@ class TodoDetailPresenter:
 
     def save_todo(
         self,
+        # id:int,
         title: str,
         notiz: str,
         deadline:date,
@@ -79,6 +80,7 @@ class TodoDetailPresenter:
         extra: dict[str,Any],
     )->None:
         todo = ToDoModel(
+            _id=self.repo.naechste_id(),
             titel=title,
             notiz=notiz,
             deadline=deadline,
