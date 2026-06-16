@@ -48,7 +48,7 @@ class TestTodoModel(unittest.TestCase):
             priority=mock_Priority.lade_alle()[0],
             deadline=todo_model.date(2024, 1, 1),
             calendar=True,
-            category=mock_Category.lade_alle()[0],
+            category=mock_Category.lade_alle()[1],
             extra=mock_Studium.lade_alle()[0],
             _erledigt=False
             )
@@ -58,5 +58,8 @@ class TestTodoModel(unittest.TestCase):
         self.assertEqual(todo.priority.name, "keine")
         self.assertEqual(todo.deadline, todo_model.date(2024, 1, 1))
         self.assertTrue(todo.calendar)
-        for category in mock_Category.lade_alle():
-        self.assertEqual(todo.category.name, "keine")
+        self.assertEqual(todo.category.name, "Studium")
+        self.assertIsInstance(todo.extra, todo_model.Studium)
+        self.assertEqual(todo.extra.modul, "Mathematik")
+        self.assertTrue(todo.extra.gruppenarbeit)
+        self.assertFalse(todo.erledigt)
