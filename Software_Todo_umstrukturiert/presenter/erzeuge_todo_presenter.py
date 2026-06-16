@@ -2,7 +2,7 @@ from dataclasses import asdict
 from typing import Any, Literal
 
 from model.ToDoListe_model import ToDoListModel,ToDoModel
-from model.todo_model import prioritäten_dict, kategorien_dict
+from model.todo_model import Priority, prioritäten_dict, kategorien_dict
 from model.todo_model import Studium,Haushalt, Freizeit, kategorien_dict
 from repo import TodoRepo
 from datetime import date
@@ -41,13 +41,13 @@ class TodoDetailPresenter:
     def build_extra(self, category: str, data: dict[str,Any])->Studium|Haushalt|Freizeit|None:
         if not data:
             return None
-        mapping:dict[str,type[Studium]|type[Haushalt]|type[Freizeit] | None] = {
+        mapping:dict[str,type[Studium]|type[Haushalt]|type[Freizeit]] = {
             "Studium": Studium,
             "Haushalt": Haushalt,
             "Freizeit": Freizeit,
         }
         cls:type[Studium]|type[Haushalt]|type[Freizeit]=mapping.get(category)
-        return cls(**data)
+        return cls(**data) #return zB für Studium "Studium"=Studium?
     
     # LOAD (Edit-Modus)
     def lade_todo(self, todo_id: int) -> None: 
@@ -55,11 +55,12 @@ class TodoDetailPresenter:
         self._current_todo = todo
 
     def save_todo(
+        # hat Variablenwerte der View 
         self,
         titel: str,
         notiz: str,
         deadline:date,
-        calendar: bool,
+        calendar: str,
         priority: str,
         category: str,
         extra: dict[str,Any],
@@ -70,9 +71,9 @@ class TodoDetailPresenter:
             todo.titel = titel
             todo.notiz = notiz
             todo.deadline = deadline
-            todo.calendar = calendar
-            todo.priority = priority
-            todo.category = category
+            todo.calendar = self.von_str_zu_bool(calendar)#ist Variablenwert von Model da in view str und im model bool
+            todo.priority = self.map_priority(priority)
+            todo.category = self.map_category(category)
             todo.extra = self.build_extra(category, extra)
         else:               # CREATE
             todo = ToDoModel(
@@ -80,12 +81,19 @@ class TodoDetailPresenter:
                 titel=titel,
                 notiz=notiz,
                 deadline=deadline,
-                calendar=calendar,
+                calendar=self.von_str_zu_bool(calendar),
                 priority=self.map_priority(priority),
                 category=self.map_category(category),
                 extra=self.build_extra(category, extra),
             )
             self.repo.speichere(todo)
+
+    def von_str_zu_bool(self,string:str)->bool:
+        if string=="false":
+            return False
+        elif string=="true":
+            return True 
+        raise ValueError(f"Ungültiger Bool-String: {string}")
 
 
     # def save_todo(

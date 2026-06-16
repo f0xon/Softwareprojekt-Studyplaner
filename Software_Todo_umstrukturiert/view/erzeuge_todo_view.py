@@ -17,11 +17,11 @@ class StudiumKategorie:
     def __init__(self):
         self.modul=ft.TextField(label="Modul")
         self.gruppenarbeit=ft.RadioGroup(
-            value=False, #gehen keine bools?
+            value="false", #gehen keine bools?
             content=ft.Row(
                 controls=[
-                    ft.Radio(value=True, label="Ja"),
-                    ft.Radio(value=False, label="Nein"),
+                    ft.Radio(value="true", label="Ja"),
+                    ft.Radio(value="false", label="Nein"),
                 ]
             )
         )
@@ -52,11 +52,11 @@ class StudiumKategorie:
 class HaushaltKategorie:
     def __init__(self):
         self.wiederkehrend=ft.RadioGroup(
-            value=False,
+            value="false",
             content=ft.Row(
                 controls=[
-                    ft.Radio(value=True, label="Ja"),
-                    ft.Radio(value=False, label="Nein"),
+                    ft.Radio(value="true", label="Ja"),
+                    ft.Radio(value="false", label="Nein"),
                 ]
             )
         )
@@ -153,9 +153,10 @@ class ErzeugeTodoView(ft.Column):
 
         # RadioGroup Kalender
         self.calendar = ft.RadioGroup(
+            value="false",
             content=ft.Row([
-                    ft.Radio(value=True, label="Ja"),
-                    ft.Radio(value=False, label="Nein"),
+                    ft.Radio(value="true", label="Ja"),
+                    ft.Radio(value="false", label="Nein"),
                 ])
         )
 
@@ -259,35 +260,35 @@ class ErzeugeTodoView(ft.Column):
         self.update()
 
     # ---------------- LOAD INTO VIEW ----------------
-    def lade_ui(self, todo_id: int | None = None)->None:
+    def lade_ui(self )->None:
         # data = self.presenter.lade_todo(todo_id) if todo_id else {}
-        data: ToDoModel = self.presenter.current_todo
-
-        self.title.value = data.titel
-        self.notiz.value = data.notiz
-        self.selected_date = data.deadline
-        self.calendar.value = data.calendar
-        self.prio.value = data.priority.name
-        self.category.value = data.category.name
-        category = data.category.name
-        if category == "Studium":
-            dict_studium:dict[str,Any]=StudiumKategorie.extract()
-            dict_studium["modul"] = data.extra.modul
-            dict_studium["gruppenarbeit"] = data.extra.gruppenarbeit
-        elif category == "Haushalt":
-            dict_haushalt:dict[str,Any]=HaushaltKategorie.extract()
-            dict_haushalt["wiederkehrend"] = data.extra.wiederkehrend
-        elif category == "Freizeit":
-            dict_freizeit:dict[str,Any]=FreizeitKategorie.extract()
-            dict_freizeit["hobby"] = data.extra.hobby
-            dict_freizeit["ort"] = data.extra.ort
+        data: ToDoModel|None = self.presenter.current_todo
+        if data is not None:
+            self.title.value = data.titel
+            self.notiz.value = data.notiz
+            self.selected_date = data.deadline
+            self.calendar.value = data.calendar
+            self.prio.value = data.priority.name
+            self.category.value = data.category.name
+            category = data.category.name
+            if category == "Studium":
+                dict_studium:dict[str,Any]=StudiumKategorie().extract()
+                dict_studium["modul"] = data.extra.modul
+                dict_studium["gruppenarbeit"] = data.extra.gruppenarbeit
+            elif category == "Haushalt":
+                dict_haushalt:dict[str,Any]=HaushaltKategorie().extract()
+                dict_haushalt["wiederkehrend"] = data.extra.wiederkehrend
+            elif category == "Freizeit":
+                dict_freizeit:dict[str,Any]=FreizeitKategorie().extract()
+                dict_freizeit["hobby"] = data.extra.hobby
+                dict_freizeit["ort"] = data.extra.ort
 
         #Kategorienspezifische Extrafelder fehlen noch
 
     # ---------------- SAVE ----------------
     def save(self, e: ft.Event[ft.Button])->None:
         kat:str|None=self.category.value
-        aktuelle_kat = self.kategorien.get(kat)
+        aktuelle_kat:Kategorie|None = self.kategorien.get(kat) if kat else None
         if aktuelle_kat:
             extra:dict[str,Any] = aktuelle_kat.extract()
         else:
