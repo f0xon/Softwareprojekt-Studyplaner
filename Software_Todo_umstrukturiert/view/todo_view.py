@@ -19,57 +19,64 @@ class TodoView(ft.Column):
     def build_ui(self):
         self.controls.clear()
         alle_todos=self.presenter_filtere.get_filtered_todos()
-        for todo in alle_todos:
+
+        if alle_todos==[]:
             self.controls.append(
-                ft.Card(
-                    bgcolor= getattr(ft.Colors, todo.category.farbe, ft.Colors.GREY_500),
-                    elevation=2,
-                    content=ft.ListTile(
-                        title=ft.Text(
-                            todo.titel,
-                            weight=ft.FontWeight.BOLD
-                        ),
-                        subtitle=ft.Text(
-                            todo.notiz if todo.notiz else "Keine Notiz"
-                        ),
-                        trailing=ft.Row(
-                            tight=True,
-                            controls=[
-                                ft.Button(
-                                    todo.priority.ausrufezeichen,
-                                    tooltip="Priorität: "+ todo.priority.name,
-                                    style=ft.ButtonStyle(
-                                        color=ft.Colors.RED_ACCENT_700,
-                                        bgcolor=ft.Colors.TRANSPARENT,
-                                    )
-                                ),
-                                ft.IconButton(
-                                    icon=ft.Icons.DONE,
+                ft.Text("Keine Todos mit ausgewählten Filtern vorhanden")
+            )
+        else:
+            for todo in alle_todos:
+                self.controls.append(
+                    ft.Card(
+                        bgcolor= getattr(ft.Colors, todo.category.farbe, ft.Colors.GREY_500),
+                        elevation=2,
+                        content=ft.ListTile(
+                            title=ft.Text(
+                                todo.titel,
+                                weight=ft.FontWeight.BOLD
+                            ),
+                            subtitle=ft.Text(
+                                todo.notiz if todo.notiz else "Keine Notiz"
+                            ),
+                            trailing=ft.Row(
+                                tight=True,
+                                controls=[
+                                    ft.Button(
+                                        todo.priority.ausrufezeichen,
+                                        tooltip="Priorität: "+ todo.priority.name,
                                         style=ft.ButtonStyle(
-                                            bgcolor=ft.Colors.WHITE,
-                                        ),
-                                    tooltip="Erledigt" if todo.erledigt else "Unerledigt",
-                                    icon_color=ft.Colors.BLUE if todo.erledigt else ft.Colors.GREY,
-                                    data=todo.id,
-                                    on_click=self.on_button_clicked_done
-                                ),
-                                ft.IconButton(
-                                    icon=ft.Icons.INFO_OUTLINE,
-                                    tooltip="Details",
-                                    data=todo.id,
-                                    on_click=self.on_button_clicked_detail
-                                ),
-                                ft.IconButton(
-                                    icon=ft.Icons.DELETE_OUTLINE,
-                                    tooltip="Löschen",
-                                    data=todo.id,
-                                    on_click=self.on_button_clicked_delete
-                                )
-                            ],
-                        ),
+                                            color=ft.Colors.RED_ACCENT_700,
+                                            bgcolor=ft.Colors.TRANSPARENT,
+                                        )
+                                    ),
+                                    ft.IconButton(
+                                        icon=ft.Icons.DONE,
+                                            style=ft.ButtonStyle(
+                                                bgcolor=ft.Colors.WHITE,
+                                            ),
+                                        tooltip="Erledigt" if todo.erledigt else "Unerledigt",
+                                        icon_color=ft.Colors.BLUE if todo.erledigt else ft.Colors.GREY,
+                                        data=todo.id,
+                                        on_click=self.on_button_clicked_done
+                                    ),
+                                    ft.IconButton(
+                                        icon=ft.Icons.INFO_OUTLINE,
+                                        tooltip="Details",
+                                        data=todo.id,
+                                        on_click=self.on_button_clicked_detail
+                                    ),
+                                    ft.IconButton(
+                                        icon=ft.Icons.DELETE_OUTLINE,
+                                        tooltip="Löschen",
+                                        data=todo.id,
+                                        on_click=self.on_button_clicked_delete
+                                    )
+                                ],
+                            ),
+                        )
                     )
                 )
-            )
+        # self.update()
 
     def rebuild(self):
         self.controls.clear()
