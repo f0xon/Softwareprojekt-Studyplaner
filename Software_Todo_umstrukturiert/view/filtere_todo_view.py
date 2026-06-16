@@ -141,17 +141,17 @@ class FiltereTodoView(ft.Column):
     def on_switch_changed_status(self, e: ft.Event[ft.Switch]):
         print("Switch Status changed:", e.control.value, type(e))
         self.status_container.visible = e.control.value
-        self.status.value="alle"
+        self.status.value=self.presenter.status
         self.update()
 
     def on_switch_changed_category(self, e: ft.Event[ft.Switch]):
         self.category_container.visible = e.control.value
-        self.category.value="alle"
+        self.category.value=self.presenter.kat
         self.update()
 
     def on_switch_changed_priority(self, e: ft.Event[ft.Switch]):
         self.priority_container.visible = e.control.value
-        self.priority.value="alle"
+        self.priority.value=self.presenter.prio
         self.update()
 
     def category_changed(self, e: ft.Event[ft.RadioGroup]):
