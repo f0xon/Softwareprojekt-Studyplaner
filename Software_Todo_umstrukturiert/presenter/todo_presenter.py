@@ -21,20 +21,19 @@ class TodoListePresenter:
     def erledige_todo(self, id: int)->None:
         todo = self._repo.finde_todo_mit_id(id)
         if todo is None:
+            #TODO fix: behandle Fehler
             ...
-            #behandlet Fehler
             return
-        
         todo.toggle_erledigt_todo()
         self._repo.speichere(todo)
 
-
-        # for todo in self._repo.lade_alle():
-        #     if todo.id == id:
-        #         todo.erledige_todo() #erst in repo? 
-
-
     def loesche_todo(self,id: int)->None:
+        todo = self._repo.finde_todo_mit_id(id)
+        # if todo is None:
+        #     #TODO fix: behandle Fehler
+        #     ...
+        #     return
+        # self._repo.loesche_todo() repo umbauen sodass todo haben will und nicht die todo id
         for todo in self._repo.lade_alle():
             if todo.id == id:
                 self._repo.loesche_todo(todo.id)
