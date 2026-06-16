@@ -11,6 +11,7 @@ ja:Infos anzeigen/ bearbeiten
 -extrakategorien beim detail todo wird gespeichert die werte die extrakategorien werden aber noch nicht gleich gebildet ->Betz fragen
 -todo presenter fixen 
 -irgendwie noch deadline mit einbeziehen?
+-alle Klassen in eine eigene Datei ?
 
 Probleme
 gelöst: eingefügtes todo sieht man nicht in todo view
