@@ -94,6 +94,9 @@ class TodoDetailPresenter:
         elif string=="true":
             return True 
         raise ValueError(f"Ungültiger Bool-String: {string}")
+    
+
+
 
 
     # def save_todo(

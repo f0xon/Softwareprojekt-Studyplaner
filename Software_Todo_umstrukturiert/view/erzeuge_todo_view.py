@@ -4,7 +4,7 @@ from datetime import date
 from zoneinfo import ZoneInfo
 from typing import Any, Protocol
 import flet as ft
-from model.todo_model import ToDoModel
+from model.todo_model import Freizeit, Haushalt, Studium, ToDoModel
 from presenter.erzeuge_todo_presenter import TodoDetailPresenter
 
 class Kategorie(Protocol):
@@ -260,6 +260,13 @@ class ErzeugeTodoView(ft.Column):
         self.update()
 
     # ---------------- LOAD INTO VIEW ----------------
+    def von_bool_zu_str(self,wert_b:bool)->str:
+        if wert_b:
+            return "true"
+        elif wert_b is False:
+            return "false"
+        raise ValueError(f"Ungültiger Wert: {wert_b}")
+    
     def lade_ui(self )->None:
         # data = self.presenter.lade_todo(todo_id) if todo_id else {}
         data: ToDoModel|None = self.presenter.current_todo
@@ -267,39 +274,45 @@ class ErzeugeTodoView(ft.Column):
             self.title.value = data.titel
             self.notiz.value = data.notiz
             self.selected_date = data.deadline
-            self.calendar.value = data.calendar
+            self.calendar.value = "true" if data.calendar else "false"
             self.prio.value = data.priority.name
             self.category.value = data.category.name
             category = data.category.name
             if category == "Studium":
-                dict_studium:dict[str,Any]=StudiumKategorie().extract()
-                dict_studium["modul"] = data.extra.modul
-                dict_studium["gruppenarbeit"] = data.extra.gruppenarbeit
+                kat = self.kategorien["Studium"]
+                if isinstance(kat, StudiumKategorie)and isinstance(data.extra, Studium):
+                    kat.modul.value = data.extra.modul
+                    kat.gruppenarbeit.value = self.von_bool_zu_str(data.extra.gruppenarbeit)
+                kat.build_ui()# TODO fix: Extrafelder werden noch nicht angezeigt
             elif category == "Haushalt":
-                dict_haushalt:dict[str,Any]=HaushaltKategorie().extract()
-                dict_haushalt["wiederkehrend"] = data.extra.wiederkehrend
+                kat = self.kategorien["Haushalt"]
+                kat.build_ui()
+                if isinstance(kat, HaushaltKategorie)and isinstance(data.extra, Haushalt):
+                    kat.wiederkehrend.value = self.von_bool_zu_str(data.extra.wiederkehrend)
             elif category == "Freizeit":
-                dict_freizeit:dict[str,Any]=FreizeitKategorie().extract()
-                dict_freizeit["hobby"] = data.extra.hobby
-                dict_freizeit["ort"] = data.extra.ort
+                kat = self.kategorien["Freizeit"]
+                kat.build_ui()
+                if isinstance(kat, FreizeitKategorie) and isinstance(data.extra, Freizeit):#für pyrigth klasse definiert
+                    kat.hobby.value = data.extra.hobby
+                    kat.ort.value=data.extra.ort
 
         #Kategorienspezifische Extrafelder fehlen noch
 
     # ---------------- SAVE ----------------
     def save(self, e: ft.Event[ft.Button])->None:
-        kat:str|None=self.category.value
+        kat:str|None=self.category.value #Selbst wenn ein Default gesetzt ist, kann Flet intern den Zustand überschreiben oder nicht initialisieren.
         aktuelle_kat:Kategorie|None = self.kategorien.get(kat) if kat else None
         if aktuelle_kat:
-            extra:dict[str,Any] = aktuelle_kat.extract()
+            extra:dict[str,Any] = aktuelle_kat.extract()# Any ist StudiumKategorie()|HausHaltkategorie()|Freizeikategorie()
         else:
             extra = {}
         self.presenter.save_todo(
             titel=self.title.value,
             notiz=self.notiz.value,
             deadline=self.selected_date,
-            calendar=self.calendar.value,
-            priority=self.prio.value,
-            category=kat,
+            calendar=self.calendar.value or "false",
+            priority=self.prio.value or "keine",
+            category=kat or "keine",
             extra=extra,
         )
 
