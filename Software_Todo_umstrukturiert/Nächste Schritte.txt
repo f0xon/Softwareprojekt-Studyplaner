@@ -11,7 +11,11 @@ ja: Priorität wird angezeigt mit einem, zwei oder drei Ausrufezeichen
 -
 
 Probleme
--datepicker zeigt ein tag früher an 
 gelöst: eingefügtes todo sieht man nicht in todo view
 
 alle id ändern
+
+1. detail --> müssen wir das machen ? 
+2. springen von view zu view 
+3. ids ändern 
+4. allgemein Sturktur

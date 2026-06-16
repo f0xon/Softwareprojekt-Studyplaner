@@ -100,10 +100,7 @@ class InMemoryTodoRepo(TodoRepo):
                 priority=mittel,
                 deadline=date(2026, 6, 12),
                 calendar=False,
-                category=haushalt,
-                extra=Haushalt(
-                    wiederkehrend=True
-                ),
+                category=keine,
             ),
             ToDoModel(_id=5,
                 titel="Oma anrufen",

@@ -3,12 +3,6 @@
 from model.ToDoListe_model import ToDoListModel,ToDoModel
 from repo import TodoRepo
 
-#class ToDoPresenter:
-
- #   def __init__(self):
-  #      self.model=ToDoModel()
-
-
 class TodoListePresenter:
 
     _model: list[ToDoModel]
@@ -16,7 +10,7 @@ class TodoListePresenter:
 
     def __init__(self, model: ToDoListModel,repo:TodoRepo):
         #self._repo = repo
-        #self._model = self.repo.get_all_todos()
+        #self._model = self.repo.get_all_todos() #Repo wo auswählen Presenter/Router ? 
         self.model = model
         self.repo=repo
 
@@ -27,7 +21,7 @@ class TodoListePresenter:
     def erledige_todo(self, id: int)->None:
         for todo in self.repo.lade_alle():
             if todo.id == id:
-                todo.erledige_todo()
+                todo.erledige_todo() #erst in repo? 
 
 
     def loesche_todo(self,id: int)->None:
@@ -42,4 +36,3 @@ class TodoListePresenter:
                 return todo
         return None
 
-    # def filter_todos(self, kat: str, prio: str, status: str)->list[ToDoModel]:

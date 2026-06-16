@@ -76,17 +76,17 @@ class TodoView(ft.Column):
         self.build_ui()
         self.update()
 
-    def on_button_clicked_done(self,e):
+    def on_button_clicked_done(self,e: ft.Event[ft.IconButton]):
         todo_id: int = e.control.data
         self.presenter_todo.erledige_todo(todo_id)
         self.rebuild()
 
-    def on_button_clicked_delete(self,e):
+    def on_button_clicked_delete(self,e: ft.Event[ft.IconButton]):
         todo_id: int = e.control.data
         self.presenter_todo.loesche_todo(todo_id)
         self.rebuild()
 
-    def on_button_clicked_detail(self,e):
+    def on_button_clicked_detail(self,e: ft.Event[ft.IconButton]):
         todo_id: int = e.control.data
         self.presenter_detail.lade_todo(todo_id)
         self.rebuild()

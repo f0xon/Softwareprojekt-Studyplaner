@@ -5,7 +5,6 @@ from zoneinfo import ZoneInfo
 from typing import Any, Protocol
 import flet as ft
 from presenter.erzeuge_todo_presenter import TodoDetailPresenter
-from view.todo_view import TodoView
 
 class Kategorie(Protocol):
     def build_ui(self) -> list[ft.Row]:
@@ -17,7 +16,7 @@ class StudiumKategorie:
     def __init__(self):
         self.modul=ft.TextField(label="Modul")
         self.gruppenarbeit=ft.RadioGroup(
-            value=False,
+            value=False, #gehen keine bools?
             content=ft.Row(
                 controls=[
                     ft.Radio(value=True, label="Ja"),
@@ -233,21 +232,23 @@ class ErzeugeTodoView(ft.Column):
             )
         )
 
-    def date_changed(self, e)->None:
+    def date_changed(self, e: ft.Event[ft.DatePicker])->None:
         value = e.control.value
+        print(f"Selected date: {value} ({type(value)})")
 
         if isinstance(value, datetime):
-            value = value.astimezone(ZoneInfo("Europe/Berlin")).date()
-        elif isinstance(value, dt.date):
+            tzone = ZoneInfo("Europe/Berlin")
+            value = value.astimezone(tzone).date()
+        elif isinstance(value, date):
             value = value 
         
         self.deadline = value 
-        self.deadline_text.value = self.deadline.strftime("%d.%m.%Y")
+        self.deadline_text.value = self.deadline.isoformat()
 
         self. update()
         #return self.selected_date 
 
-    def category_changed(self,e)->None:
+    def category_changed(self,e: ft.Event[ft.Dropdown])->None:
         self.category_fields.controls.clear()
         kat = self.kategorien.get(self.category.value)
         if kat:
@@ -267,7 +268,7 @@ class ErzeugeTodoView(ft.Column):
         #Kategorienspezifische Extrafelder fehlen noch
 
     # ---------------- SAVE ----------------
-    def save(self, e)->None:
+    def save(self, e: ft.Event[ft.Button])->None:
         kat:str|None=self.category.value
         aktuelle_kat = self.kategorien.get(kat)
         if aktuelle_kat:

@@ -23,9 +23,3 @@ class FiltereTodoPresenter:
         print("Debug", result)
         print("")
         return result
-    
-    # def get_filtered_todos(self)->list[ToDoModel]:
-    #     result = self.model.filter_todos(self.kat,self.prio,self.status)
-    #     print("Debug", result)
-    #     print("")
-    #     return result

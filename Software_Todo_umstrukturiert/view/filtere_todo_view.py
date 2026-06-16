@@ -2,8 +2,7 @@
 
 import flet as ft
 from presenter.filtere_todo_presenter import FiltereTodoPresenter
-from view.todo_view import TodoView
-#Filterfunktion funktioniert im Debug aber die TodoSeite wird noch nicht aktualisiert nach dem Speichern
+
 class FiltereTodoView(ft.Column):
     def __init__(self,presenter:FiltereTodoPresenter):
         super().__init__()
@@ -139,30 +138,31 @@ class FiltereTodoView(ft.Column):
         ]
 
     #verstößt gegen DRY
-    def on_switch_changed_status(self, e):
+    def on_switch_changed_status(self, e: ft.Event[ft.Switch]):
+        print("Switch Status changed:", e.control.value, type(e))
         self.status_container.visible = e.control.value
         self.status.value="alle"
         self.update()
 
-    def on_switch_changed_category(self, e):
+    def on_switch_changed_category(self, e: ft.Event[ft.Switch]):
         self.category_container.visible = e.control.value
         self.category.value="alle"
         self.update()
 
-    def on_switch_changed_priority(self, e):
+    def on_switch_changed_priority(self, e: ft.Event[ft.Switch]):
         self.priority_container.visible = e.control.value
         self.priority.value="alle"
         self.update()
 
-    def category_changed(self, e):
+    def category_changed(self, e: ft.Event[ft.RadioGroup]):
         self.presenter.set_kategorie(self.category.value)
 
-    def priority_changed(self, e):
+    def priority_changed(self, e: ft.Event[ft.RadioGroup]):
         self.presenter.set_priority(self.priority.value)
 
-    def status_changed(self, e):
+    def status_changed(self, e: ft.Event[ft.RadioGroup]):
         self.presenter.set_status(self.status.value)
     
-    def on_button_clicked_speichern(self,e):
+    def on_button_clicked_speichern(self,e: ft.Event[ft.Button]):
         self.presenter.get_filtered_todos()
         #beim wieder auf view sprinegn soll rsult wieder dummydaten.cpoy sein

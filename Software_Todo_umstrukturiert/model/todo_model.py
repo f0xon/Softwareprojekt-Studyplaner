@@ -55,7 +55,7 @@ class ToDoModel:
     deadline: date = date(2024, 1, 1)
     calendar:bool   = False
     category: Category  = keine
-    extra: Studium | Haushalt | Freizeit |None=None
+    extra: Studium | Haushalt | Freizeit |None = None
     _erledigt: bool = False
 
     @property

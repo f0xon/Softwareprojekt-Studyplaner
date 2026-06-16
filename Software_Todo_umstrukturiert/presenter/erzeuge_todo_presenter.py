@@ -1,8 +1,8 @@
 from typing import Any, Literal
 
 from model.ToDoListe_model import ToDoListModel,ToDoModel
-from model.ToDoListe_model import prioritäten_dict
-from model.ToDoListe_model import Studium,Haushalt, Freizeit, kategorien_dict
+from model.todo_model import prioritäten_dict, kategorien_dict
+from model.todo_model import Studium,Haushalt, Freizeit, kategorien_dict
 from repo import TodoRepo
 from datetime import date
 
@@ -31,15 +31,15 @@ class TodoDetailPresenter:
     def map_category(self, value:str)->Any:
         return kategorien_dict.get(value)
 
-    def build_extra(self, category: str, data: dict[str,Any]):
+    def build_extra(self, category: str, data: dict[str,Any])->Studium|Haushalt|Freizeit|None:
         if not data:
-            return {}
-        mapping:dict[str,type[Studium]|type[Haushalt]|type[Freizeit]] = {
+            return None
+        mapping:dict[str,type[Studium]|type[Haushalt]|type[Freizeit] | None] = {
             "Studium": Studium,
             "Haushalt": Haushalt,
             "Freizeit": Freizeit,
         }
-        cls:type[Studium]|type[Haushalt]|type[Freizeit]=mapping.get(category)
+        cls:type[Studium]|type[Haushalt]|type[Freizeit]=mapping.get(category, None)
         return cls(**data)
     
     # def detail_todo(self,todo_id:int)->dict[str,Any]:
@@ -90,7 +90,7 @@ class TodoDetailPresenter:
             "Kalender": todo.calendar,
             "Priorität": todo.priority.name,
             "Kategorie": todo.category.name,
-            "Extra":
+            "Extra":todo.extra
         }
 
     def save_todo(
