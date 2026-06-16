@@ -269,16 +269,19 @@ class ErzeugeTodoView(ft.Column):
         self.calendar.value = data.calendar
         self.prio.value = data.priority.name
         self.category.value = data.category.name
-        # category = data.category.name
-        # if category == "Studium":
-        #     self.StudiumKa.modul.value = data.extra.modul
-        #     self.kategorien["Studium"].gruppenarbeit.value = data.extra.gruppenarbeit
-        # elif category == "Haushalt":
-        #     self.kategorien["Haushalt"].wiederkehrend.value = data.extra.wiederkehrend
-        # elif category == "Freizeit":
-        #     self.kategorien["Freizeit"].hobby.value = data.extra.hobby
-        #     self.kategorien["Freizeit"].ort.value = data.extra.ort
-    
+        category = data.category.name
+        if category == "Studium":
+            dict_studium:dict[str,Any]=StudiumKategorie.extract()
+            dict_studium["modul"] = data.extra.modul
+            dict_studium["gruppenarbeit"] = data.extra.gruppenarbeit
+        elif category == "Haushalt":
+            dict_haushalt:dict[str,Any]=HaushaltKategorie.extract()
+            dict_haushalt["wiederkehrend"] = data.extra.wiederkehrend
+        elif category == "Freizeit":
+            dict_freizeit:dict[str,Any]=FreizeitKategorie.extract()
+            dict_freizeit["hobby"] = data.extra.hobby
+            dict_freizeit["ort"] = data.extra.ort
+
         #Kategorienspezifische Extrafelder fehlen noch
 
     # ---------------- SAVE ----------------

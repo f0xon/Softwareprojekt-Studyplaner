@@ -10,21 +10,21 @@ from datetime import date
 #class ErzeugeTodoPresenter:
 class TodoDetailPresenter:
 
-    _modus: Literal["create", "edit"]
+    # _modus: Literal["create", "edit"]
     _model: ToDoModel
 
     def __init__(self, model: ToDoListModel,repo:TodoRepo):
-        self.model = model
+        self.model = model #unterstrich?
         self.repo=repo
         self._current_todo: ToDoModel | None = None
 
-    @property
-    def is_create_mode(self) -> bool:
-        return self._modus == "create"
+    # @property
+    # def is_create_mode(self) -> bool:
+    #     return self._modus == "create"
 
-    @property
-    def is_edit_mode(self) -> bool:
-        return self._modus == "edit"
+    # @property
+    # def is_edit_mode(self) -> bool:
+    #     return self._modus == "edit"
     
     @property
     def current_todo(self) -> ToDoModel | None:
@@ -46,17 +46,16 @@ class TodoDetailPresenter:
             "Haushalt": Haushalt,
             "Freizeit": Freizeit,
         }
-        cls:type[Studium]|type[Haushalt]|type[Freizeit]=mapping.get(category, None)
+        cls:type[Studium]|type[Haushalt]|type[Freizeit]=mapping.get(category)
         return cls(**data)
     
     # LOAD (Edit-Modus)
-    def lade_todo(self, todo_id: int) -> None: # None
+    def lade_todo(self, todo_id: int) -> None: 
         todo = self.repo.finde_todo_mit_id(todo_id)
         self._current_todo = todo
 
     def save_todo(
         self,
-        # id:int,
         titel: str,
         notiz: str,
         deadline:date,
@@ -74,7 +73,7 @@ class TodoDetailPresenter:
             todo.calendar = calendar
             todo.priority = priority
             todo.category = category
-            todo.extra = extra
+            todo.extra = self.build_extra(category, extra)
         else:               # CREATE
             todo = ToDoModel(
                 _id=self.repo.naechste_id(),

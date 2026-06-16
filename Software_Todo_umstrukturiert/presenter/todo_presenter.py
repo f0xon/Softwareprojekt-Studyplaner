@@ -25,7 +25,7 @@ class TodoListePresenter:
             #behandlet Fehler
             return
         
-        todo.erledige_todo()
+        todo.toggle_erledigt_todo()
         self._repo.speichere(todo)
 
 
