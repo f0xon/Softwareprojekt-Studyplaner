@@ -155,13 +155,16 @@ class FiltereTodoView(ft.Column):
         self.update()
 
     def category_changed(self, e: ft.Event[ft.RadioGroup]):
-        self.presenter.set_kategorie(self.category.value)
+        if self.category.value is not None:
+            self.presenter.set_kategorie(self.category.value)
 
     def priority_changed(self, e: ft.Event[ft.RadioGroup]):
-        self.presenter.set_priority(self.priority.value)
+        if self.priority.value is not None:
+            self.presenter.set_priority(self.priority.value)
 
     def status_changed(self, e: ft.Event[ft.RadioGroup]):
-        self.presenter.set_status(self.status.value)
+        if self.status.value is not None:
+            self.presenter.set_status(self.status.value)
     
     def on_button_clicked_speichern(self,e: ft.Event[ft.Button]):
         self.presenter.get_filtered_todos()
