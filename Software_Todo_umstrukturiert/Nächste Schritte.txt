@@ -15,3 +15,5 @@ Probleme
 gelöst: eingefügtes todo sieht man nicht in todo view
 
 alle id ändern
+
+https://online.visual-paradigm.com/w/snvlprkc/diagrams/#diagram:workspace=snvlprkc&proj=0&id=2&type=BlockDiagram

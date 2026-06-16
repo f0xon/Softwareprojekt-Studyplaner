@@ -48,7 +48,7 @@ class Freizeit:
 #Todo hat eine Kategorie Todo hat optionale Zusatzdaten
 @dataclass
 class ToDoModel:
-    _id: int = 0
+    _id: int
     titel: str = ""
     notiz: str = ""
     priority: Priority = keine_p
