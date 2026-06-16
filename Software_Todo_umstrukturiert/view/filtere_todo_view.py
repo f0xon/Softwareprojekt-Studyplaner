@@ -23,7 +23,7 @@ class FiltereTodoView(ft.Column):
         )
 
         self.category = ft.RadioGroup(
-            value="alle",
+            value=presenter.kat,
             content=ft.Row(
                 controls=[
                     ft.Radio(value="alle", label="Alle"),
@@ -37,7 +37,7 @@ class FiltereTodoView(ft.Column):
         )
 
         self.priority = ft.RadioGroup(
-            value="alle",
+            value=presenter.prio,
             content=ft.Row(
                 controls=[
                     ft.Radio(value="alle", label="Alle"),
@@ -64,7 +64,7 @@ class FiltereTodoView(ft.Column):
         )
 
         self.category_container = ft.Column(
-            visible=False,
+            visible=self.presenter.kat != "alle",
             controls=[
                 ft.Row(
                     controls=[
@@ -76,7 +76,7 @@ class FiltereTodoView(ft.Column):
         )
 
         self.priority_container = ft.Column(
-            visible=False,
+            visible=self.presenter.prio != "alle",
             controls=[
                 ft.Row(
                     controls=[
@@ -112,7 +112,7 @@ class FiltereTodoView(ft.Column):
                         controls=[
                             ft.Text("Kategorie filtern:"),
                             ft.Switch(
-                                value=False,
+                                value=self.presenter.kat != "alle",
                                 active_color=ft.Colors.BLUE,
                                 on_change=self.on_switch_changed_category,
                             ),
@@ -125,7 +125,7 @@ class FiltereTodoView(ft.Column):
                         controls=[
                             ft.Text("Priorität filtern:"),
                             ft.Switch(
-                                value=False,
+                                value=self.presenter.prio != "alle",
                                 active_color=ft.Colors.BLUE,
                                 on_change=self.on_switch_changed_priority,
                             ),

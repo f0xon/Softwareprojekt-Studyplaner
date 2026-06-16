@@ -249,7 +249,7 @@ class ErzeugeTodoView(ft.Column):
         self.deadline = value 
         self.deadline_text.value = self.deadline.isoformat()
 
-        self. update()
+        self.update()
         #return self.selected_date 
 
     def category_changed(self,e: ft.Event[ft.Dropdown])->None:
