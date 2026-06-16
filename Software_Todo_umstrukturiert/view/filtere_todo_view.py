@@ -11,7 +11,7 @@ class FiltereTodoView(ft.Column):
 
         # RadioGroups
         self.status = ft.RadioGroup(
-            value="alle",
+            value=presenter.status,
             content=ft.Row(
                 controls=[
                     ft.Radio(value="alle", label="Alle"),
@@ -52,7 +52,7 @@ class FiltereTodoView(ft.Column):
 
         # Container für ein-/ausblendbare Bereiche
         self.status_container = ft.Column(
-            visible=False,
+            visible=self.presenter.status != "alle",
             controls=[
                 ft.Row(
                     controls=[
@@ -99,7 +99,7 @@ class FiltereTodoView(ft.Column):
                         controls=[
                             ft.Text("Status filtern:"),
                             ft.Switch(
-                                value=False,
+                                value=self.presenter.status != "alle",
                                 active_color=ft.Colors.BLUE,
                                 on_change=self.on_switch_changed_status,
                             ),
@@ -165,4 +165,6 @@ class FiltereTodoView(ft.Column):
     
     def on_button_clicked_speichern(self,e: ft.Event[ft.Button]):
         self.presenter.get_filtered_todos()
+        if isinstance(self.page, ft.Page): # für den TypeChecker, eigentlich immer der Fall
+            self.page.go("/Todos")
         #beim wieder auf view sprinegn soll rsult wieder dummydaten.cpoy sein

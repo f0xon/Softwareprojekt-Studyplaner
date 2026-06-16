@@ -66,7 +66,7 @@ class ToDoModel:
     def erledigt(self)->bool:
         return self._erledigt
 
-    def erledige_todo(self)->None:
+    def erledige_todo(self)->None: # toggle_erledigt
         if self._erledigt == False:
             self._erledigt = True
         elif self._erledigt == True:

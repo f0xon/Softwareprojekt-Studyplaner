@@ -88,5 +88,7 @@ class TodoView(ft.Column):
 
     def on_button_clicked_detail(self,e: ft.Event[ft.IconButton]):
         todo_id: int = e.control.data
-        self.presenter_detail.lade_todo(todo_id)
+        #self.presenter_detail.lade_todo(todo_id) # TODO: entfernen
+        if isinstance(self.page, ft.Page): # für den TypeChecker, eigentlich immer der Fall
+            self.page.go("/erzeugeTodo?id="+str(todo_id))
         self.rebuild()

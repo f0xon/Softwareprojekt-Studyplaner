@@ -4,6 +4,7 @@ from datetime import date
 from zoneinfo import ZoneInfo
 from typing import Any, Protocol
 import flet as ft
+from model.todo_model import ToDoModel
 from presenter.erzeuge_todo_presenter import TodoDetailPresenter
 
 class Kategorie(Protocol):
@@ -111,7 +112,8 @@ class ErzeugeTodoView(ft.Column):
         self.presenter = presenter
         #self.on_save=on_save
         self.selected_date = date.today()
-
+        
+        
         self.category_fields=ft.Column()
         self.kategorien:dict[str,Kategorie] = {
             "Studium": StudiumKategorie(),
@@ -167,6 +169,7 @@ class ErzeugeTodoView(ft.Column):
             ],
         )
         self.lade_ui()
+
         # UI 
         self.controls.append(
             ft.Card(
@@ -257,14 +260,25 @@ class ErzeugeTodoView(ft.Column):
 
     # ---------------- LOAD INTO VIEW ----------------
     def lade_ui(self, todo_id: int | None = None)->None:
-        data = self.presenter.lade_todo(todo_id) if todo_id else {}
+        # data = self.presenter.lade_todo(todo_id) if todo_id else {}
+        data: ToDoModel = self.presenter.current_todo
 
-        self.title.value = data.get("Titel", "")
-        self.notiz.value = data.get("Notiz", "")
-        self.selected_date = data.get("Deadline", self.selected_date)
-        self.calendar.value = data.get("Kalender", False)
-        self.prio.value = data.get("Priorität", "keine")
-        self.category.value = data.get("Kategorie", "keine")
+        self.title.value = data.titel
+        self.notiz.value = data.notiz
+        self.selected_date = data.deadline
+        self.calendar.value = data.calendar
+        self.prio.value = data.priority.name
+        self.category.value = data.category.name
+        # category = data.category.name
+        # if category == "Studium":
+        #     self.StudiumKa.modul.value = data.extra.modul
+        #     self.kategorien["Studium"].gruppenarbeit.value = data.extra.gruppenarbeit
+        # elif category == "Haushalt":
+        #     self.kategorien["Haushalt"].wiederkehrend.value = data.extra.wiederkehrend
+        # elif category == "Freizeit":
+        #     self.kategorien["Freizeit"].hobby.value = data.extra.hobby
+        #     self.kategorien["Freizeit"].ort.value = data.extra.ort
+    
         #Kategorienspezifische Extrafelder fehlen noch
 
     # ---------------- SAVE ----------------
@@ -284,6 +298,9 @@ class ErzeugeTodoView(ft.Column):
             category=kat,
             extra=extra,
         )
+
+        if isinstance(self.page, ft.Page): # für den TypeChecker, eigentlich immer der Fall
+            self.page.go("/todos")
 
         #if self.on_save:
         #   self.on_save()

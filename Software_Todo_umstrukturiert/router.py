@@ -73,7 +73,21 @@ class Router:
         if self.page.route == self.todo:
             self.page.add(TodoView(self.presenter_todo,self.presenter_filtern,self.presenter_detail))
 
-        elif self.page.route == self.erzeuge_todo:
+        elif self.page.route.startswith(self.erzeuge_todo):
+            if '?' in self.page.route:
+
+                #TODO in Funktion packen
+                query = self.page.route.split("?")[1]
+                items = query.split("&")
+                values: dict[str, str] = {}
+                for item in items:
+                    key, value = item.split("=")
+                    values[key] = value
+                
+                if 'id' in values:
+                    todo_id = int(values['id'])
+                    self.presenter_detail.lade_todo(todo_id)
+                    
             self.page.add(ErzeugeTodoView(self.presenter_detail))
 
         elif self.page.route == self.filtere_todo:
