@@ -5,15 +5,13 @@ Ja: Erledigt
 Ja: Löschen
 Ja: verschiedene Kategorien verschiedene Farben
 ja: Priorität wird angezeigt mit einem, zwei oder drei Ausrufezeichen
--Pickdate zeigt ein Tag weniger an als man auswählt
--nach todo gespeichert bze klick speicher button soll in todoview hüpfen
--Infos anzeigen/ bearbeiten
--
+ja:Pickdate zeigt ein Tag weniger an als man auswählt
+ja:nach todo gespeichert bze klick speicher button soll in todoview hüpfen
+ja:Infos anzeigen/ bearbeiten
+-extrakategorien beim detail todo wird gespeichert die werte die extrakategorien werden aber noch nicht gleich gebildet ->Betz fragen
+-irgendwie noch deadline mit einbeziehen?
 
 Probleme
 gelöst: eingefügtes todo sieht man nicht in todo view
 
-alle id ändern
-
-3. ids ändern 
 4. allgemein Sturktur
