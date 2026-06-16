@@ -12,6 +12,7 @@ ja:Infos anzeigen/ bearbeiten
 -todo presenter fixen 
 -irgendwie noch deadline mit einbeziehen?
 -alle Klassen in eine eigene Datei ?
+-fehlermeldung wenn beim todo erzeugen kein titel eingegeben wird
 
 Probleme
 gelöst: eingefügtes todo sieht man nicht in todo view
