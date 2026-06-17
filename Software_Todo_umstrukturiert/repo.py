@@ -48,7 +48,7 @@ class MongoTodoRepo(TodoRepo):
         )
 
     def lade_alle(self) -> ToDoListModel:
-        _todos: list[ToDoModel] = []
+        _todos: ToDoListModel= []
         for todo in self.db.todos.find(projection={"_id": False}):
             todo_obj = ToDoModel(**todo)
             _todos.append(todo_obj)
