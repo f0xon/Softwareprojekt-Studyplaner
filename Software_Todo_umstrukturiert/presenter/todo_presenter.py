@@ -14,7 +14,7 @@ class TodoListePresenter:
         self._model = model
         self._repo=repo
 
-    def get_todos(self):
+    def get_todos(self)->ToDoListModel:
         return self._repo.lade_alle()
     
 

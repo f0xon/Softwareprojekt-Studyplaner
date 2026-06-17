@@ -14,7 +14,10 @@ ja:Infos anzeigen/ bearbeiten
 -alle Klassen in eine eigene Datei ?
 -fehlermeldung wenn beim todo erzeugen kein titel eingegeben wird
 
+Fragen:
+-Repo wo auswählen Presenter/Router ? 
+
 Probleme
 gelöst: eingefügtes todo sieht man nicht in todo view
 
-4. allgemein Sturktur
+4. allgemein Sturktur 

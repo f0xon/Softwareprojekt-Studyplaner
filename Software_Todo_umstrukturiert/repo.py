@@ -247,7 +247,7 @@ class InMemoryTodoRepo(TodoRepo):
     def speichere(self,todo:ToDoModel)->None:
         self._todos.append(todo)
 
-    def lade_alle(self)->list[ToDoModel]:
+    def lade_alle(self)->ToDoListModel:#unstimmigkeit ?? nur ein model?
         return list(self._todos)
     
     def finde_todo_mit_id(self, todo_id:int)->ToDoModel | None:
