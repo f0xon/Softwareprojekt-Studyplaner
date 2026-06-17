@@ -21,8 +21,39 @@ class TodoView(ft.Column):
         alle_todos=self.presenter_filtere.get_filtered_todos()
 
         if alle_todos==[]:
+            # self.controls.append(
+            #     ft.Row( # row um horizontal zu zentrieren
+            #         controls=[
+            #             ft.Text("Keine Todos mit ausgewählten Filtern vorhanden")
+            #         ],
+            #         alignment=ft.MainAxisAlignment.CENTER,
+            #     )
+            # )
             self.controls.append(
-                ft.Text("Keine Todos mit ausgewählten Filtern vorhanden")
+                ft.Card(
+                    bgcolor=ft.Colors.SURFACE_CONTAINER_LOW,
+                    shadow_color=ft.Colors.ON_SURFACE_VARIANT,
+                    content=ft.Container(
+                        width=450,
+                        padding=10,
+                        content=ft.Column(
+                            controls=[
+                                ft.Row(
+                                    controls=[
+                                        ft.Icon(ft.Icons.INFO_OUTLINE_ROUNDED, size=50),
+                                        ft.Container(expand=True)
+                                    ]
+                                ),
+                                ft.Row(
+                                    controls=[
+                                        ft.Text("Keine Todos mit ausgewählten Filtern vorhanden",size=20,weight=ft.FontWeight.BOLD,),
+                                        ft.Container(expand=True)
+                                    ]
+                                ),
+                            ]
+                        )
+                    )
+                )
             )
         else:
             for todo in alle_todos:
