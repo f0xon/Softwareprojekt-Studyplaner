@@ -12,7 +12,7 @@ class TodoRepo(Protocol):
         ...
     def lade_alle(self)->list[ToDoModel]:
         ...
-    def loesche_todo(self, todo_id: int)->None:
+    def loesche_todo(self, todo:ToDoModel)->None:
         ...
     def naechste_id(self)->int:
         ...
@@ -261,10 +261,8 @@ class InMemoryTodoRepo(TodoRepo):
         if todo is not None:
             todo.erledige_todo()
 
-    def loesche_todo(self, todo_id: int)->None:
-        todo = self.finde_todo_mit_id(todo_id)
-        if todo is not None:
-            self._todos.remove(todo)
+    def loesche_todo(self, todo:ToDoModel)->None:
+        self._todos.remove(todo)
 
     def filtere_todos(self, kat: str, prio: str, status: str)->list[ToDoModel]:
         result:list[ToDoModel]=self._todos.copy()

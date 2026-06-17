@@ -19,24 +19,13 @@ class TodoListePresenter:
     
 
     def erledige_todo(self, id: int)->None:
-        todo = self._repo.finde_todo_mit_id(id)
-        if todo is None:
-            #TODO fix: behandle Fehler
-            ...
-            return
+        todo = self.todo_None(self._repo.finde_todo_mit_id(id))
         todo.toggle_erledigt_todo()
         self._repo.speichere(todo)
 
     def loesche_todo(self,id: int)->None:
-        todo = self._repo.finde_todo_mit_id(id)
-        # if todo is None:
-        #     #TODO fix: behandle Fehler
-        #     ...
-        #     return
-        # self._repo.loesche_todo() repo umbauen sodass todo haben will und nicht die todo id
-        for todo in self._repo.lade_alle():
-            if todo.id == id:
-                self._repo.loesche_todo(todo.id)
+        todo = self.todo_None(self._repo.finde_todo_mit_id(id))
+        self._repo.loesche_todo(todo)
 
 
     def lade_todo(self, id: int)->ToDoModel | None:
@@ -44,4 +33,10 @@ class TodoListePresenter:
             if todo.id == id:
                 return todo
         return None
+    
+    def todo_None(self, todo:ToDoModel|None)->ToDoModel:
+        if todo is None:
+            raise ValueError("Todo nicht gefunden")
+        return todo
+
 

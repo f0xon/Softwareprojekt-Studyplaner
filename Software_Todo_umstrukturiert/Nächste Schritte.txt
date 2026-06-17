@@ -8,7 +8,7 @@ ja: Priorität wird angezeigt mit einem, zwei oder drei Ausrufezeichen
 ja:Pickdate zeigt ein Tag weniger an als man auswählt
 ja:nach todo gespeichert bze klick speicher button soll in todoview hüpfen
 ja:Infos anzeigen/ bearbeiten
--extrakategorien beim detail todo wird gespeichert die werte die extrakategorien werden aber noch nicht gleich gebildet ->Betz fragen
+-extrakategorien beim detail todo wird gespeichert die werte, die extrakategorien werden aber noch nicht gleich gebildet ->Betz fragen
 -todo presenter fixen 
 -irgendwie noch deadline mit einbeziehen?
 -alle Klassen in eine eigene Datei ?
