@@ -19,5 +19,6 @@ Fragen:
 
 Probleme
 gelöst: eingefügtes todo sieht man nicht in todo view
+-wenn erledigt angehakt ist doppelt
 
 4. allgemein Sturktur 

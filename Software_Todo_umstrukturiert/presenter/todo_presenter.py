@@ -19,7 +19,7 @@ class TodoListePresenter:
     
 
     def erledige_todo(self, id: int)->None:
-        try:
+        try: # wenn erledigt angehakt ist doppelt
             todo = self.todo_None(self._repo.finde_todo_mit_id(id))
             todo.toggle_erledigt_todo()
             self._repo.speichere(todo)
