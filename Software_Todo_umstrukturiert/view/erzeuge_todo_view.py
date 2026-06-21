@@ -247,7 +247,7 @@ class ErzeugeTodoView(ft.Column):
             value = value 
         
         self.deadline = value 
-        self.deadline_text.value = self.deadline.isoformat()
+        self.deadline_text.value = self.deadline.isoformat()  # ty:ignore[unresolved-attribute] is never None
 
         self.update()
         #return self.selected_date 
@@ -267,35 +267,35 @@ class ErzeugeTodoView(ft.Column):
             return "false"
         raise ValueError(f"Ungültiger Wert: {wert_b}")
     
-    def lade_ui(self )->None:
-        # data = self.presenter.lade_todo(todo_id) if todo_id else {}
-        data: ToDoModel|None = self.presenter.current_todo
-        if data is not None:
-            self.title.value = data.titel
-            self.notiz.value = data.notiz
-            self.selected_date = data.deadline
-            self.calendar.value = "true" if data.calendar else "false"
-            self.prio.value = data.priority.name
-            self.category.value = data.category.name
-            category = data.category.name
-            if category == "Studium":
-                kat = self.kategorien["Studium"]
-                if isinstance(kat, StudiumKategorie)and isinstance(data.extra, Studium):
-                    kat.modul.value = data.extra.modul
-                    kat.gruppenarbeit.value = self.von_bool_zu_str(data.extra.gruppenarbeit)
-                kat.build_ui()# TODO fix: Extrafelder werden noch nicht angezeigt
-            elif category == "Haushalt":
-                kat = self.kategorien["Haushalt"]
-                kat.build_ui()
-                if isinstance(kat, HaushaltKategorie)and isinstance(data.extra, Haushalt):
-                    kat.wiederkehrend.value = self.von_bool_zu_str(data.extra.wiederkehrend)
-            elif category == "Freizeit":
-                kat = self.kategorien["Freizeit"]
-                kat.build_ui()
-                if isinstance(kat, FreizeitKategorie) and isinstance(data.extra, Freizeit):#für pyrigth klasse definiert
-                    kat.hobby.value = data.extra.hobby
-                    kat.ort.value=data.extra.ort
-
+    def lade_ui(self)->None:
+        if self.presenter.is_edit_mode:
+            # data = self.presenter.lade_todo(todo_id) if todo_id else {}
+            data: ToDoModel|None = self.presenter.current_todo
+            if data is not None:
+                self.title.value = data.titel
+                self.notiz.value = data.notiz
+                self.selected_date = data.deadline
+                self.calendar.value = "true" if data.calendar else "false"
+                self.prio.value = data.priority.name
+                self.category.value = data.category.name
+                category = data.category.name
+                if category == "Studium":
+                    kat = self.kategorien["Studium"]
+                    if isinstance(kat, StudiumKategorie)and isinstance(data.extra, Studium):
+                        kat.modul.value = data.extra.modul
+                        kat.gruppenarbeit.value = self.von_bool_zu_str(data.extra.gruppenarbeit)
+                    kat.build_ui()
+                elif category == "Haushalt":
+                    kat = self.kategorien["Haushalt"]
+                    kat.build_ui()
+                    if isinstance(kat, HaushaltKategorie)and isinstance(data.extra, Haushalt):
+                        kat.wiederkehrend.value = self.von_bool_zu_str(data.extra.wiederkehrend)
+                elif category == "Freizeit":
+                    kat = self.kategorien["Freizeit"]
+                    kat.build_ui()
+                    if isinstance(kat, FreizeitKategorie) and isinstance(data.extra, Freizeit):#für pyrigth klasse definiert
+                        kat.hobby.value = data.extra.hobby
+                        kat.ort.value=data.extra.ort
         #Kategorienspezifische Extrafelder fehlen noch
 
     # ---------------- SAVE ----------------
@@ -321,6 +321,13 @@ class ErzeugeTodoView(ft.Column):
 
         #if self.on_save:
         #   self.on_save()
+
+
+
+
+
+
+
 
     # def zeige_detail_todo(self):
     #     dict_todo:dict[str,Any]|None=self.presenter.get_current_todo_data()

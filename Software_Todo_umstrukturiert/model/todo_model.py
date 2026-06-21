@@ -14,7 +14,8 @@ prioritäten_dict={
     "keine": keine_p,
     "niedrig": niedrig,
     "mittel": mittel,
-    "hoch": hoch,}
+    "hoch": hoch
+}
 
 @dataclass(frozen=True)
 class Category:
@@ -48,13 +49,13 @@ class Freizeit:
 #Todo hat eine Kategorie Todo hat optionale Zusatzdaten
 @dataclass
 class ToDoModel:
-    _id: int = 0
-    titel: str = ""
-    notiz: str = ""
-    priority: Priority = keine_p
-    deadline: date = date(2024, 1, 1)
-    calendar:bool   = False
-    category: Category  = keine
+    _id: int
+    titel: str
+    notiz: str
+    priority: Priority
+    deadline: date
+    calendar:bool
+    category: Category
     extra: Studium | Haushalt | Freizeit |None = None
     _erledigt: bool = False
 
@@ -67,7 +68,7 @@ class ToDoModel:
         return self._erledigt
 
     def toggle_erledigt_todo(self)->None: 
-        if self._erledigt == False:
-            self._erledigt = True
-        elif self._erledigt == True:
+        if self._erledigt:
             self._erledigt = False
+        else:
+            self._erledigt = True

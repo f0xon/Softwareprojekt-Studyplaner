@@ -56,6 +56,15 @@ class TodoView(ft.Column):
                 )
             )
         else:
+            #anzahl_offener_todo = ft.Text(
+            #    value=f"Offene ToDos: {self.presenter_todo._model.anzahl_offene_todos}",
+            #    size=20,
+            #    weight=ft.FontWeight.BOLD,)
+            #ft.Column(
+            #    controls=[
+            #        ft.Text("Meine ToDo-Liste", size=30),
+            #            anzahl_offener_todo,]
+            #            )
             for todo in alle_todos:
                 self.controls.append(
                     ft.Card(

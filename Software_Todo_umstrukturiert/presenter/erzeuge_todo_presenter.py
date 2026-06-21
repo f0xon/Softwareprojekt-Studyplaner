@@ -1,81 +1,96 @@
-from dataclasses import asdict
+# from pydantic.v1.errors import NoneIsAllowedError
+# from dataclasses import asdict
 from typing import Any, Literal
 
-from model.ToDoListe_model import ToDoListModel,ToDoModel
-from model.todo_model import Priority, prioritäten_dict, kategorien_dict
-from model.todo_model import Studium,Haushalt, Freizeit, kategorien_dict
+from model.ToDoListe_model import ToDoListModel, ToDoModel
+from model.todo_model import prioritäten_dict, kategorien_dict
+from model.todo_model import Studium, Haushalt, Freizeit
 from repo import TodoRepo
 from datetime import date
 
-#class ErzeugeTodoPresenter:
+
+# class ErzeugeTodoPresenter:
 class TodoDetailPresenter:
+    _modus: Literal["create", "edit"]
+    _model: ToDoListModel
 
-    # _modus: Literal["create", "edit"]
-    _model: ToDoModel
-
-    def __init__(self, model: ToDoListModel,repo:TodoRepo):
-        self.model = model #unterstrich?
-        self.repo=repo
+    def __init__(self, model: ToDoListModel, repo: TodoRepo):
+        self._model = model
+        self.repo = repo
         self._current_todo: ToDoModel | None = None
 
-    # @property
-    # def is_create_mode(self) -> bool:
-    #     return self._modus == "create"
+    @property
+    def is_create_mode(self) -> bool:
+        return self._modus == "create"
 
-    # @property
-    # def is_edit_mode(self) -> bool:
-    #     return self._modus == "edit"
-    
+    @property
+    def is_edit_mode(self) -> bool:
+        return self._modus == "edit"
+
     @property
     def current_todo(self) -> ToDoModel | None:
         if self._current_todo:
             return self._current_todo
         return None
-    
-    def map_priority(self, value:str)->Any:#?eigentlich nur keine_p, niedrig, mittel, hoch
+
+    def set_modus(self, modus: Literal["create", "edit"]):
+        self._modus = modus
+
+    def map_priority(
+        self, value: str
+    ) -> Any:  # ?eigentlich nur keine_p, niedrig, mittel, hoch
         return prioritäten_dict.get(value)
 
-    def map_category(self, value:str)->Any:
+    def map_category(self, value: str) -> Any:
         return kategorien_dict.get(value)
 
-    def build_extra(self, category: str, data: dict[str,Any])->Studium|Haushalt|Freizeit|None:
+    def build_extra(
+        self, category: str, data: dict[str, Any]
+    ) -> Studium | Haushalt | Freizeit | None:
         if not data:
             return None
-        mapping:dict[str,type[Studium]|type[Haushalt]|type[Freizeit]] = {
+        mapping: dict[str, type[Studium] | type[Haushalt] | type[Freizeit]] = {
             "Studium": Studium,
             "Haushalt": Haushalt,
             "Freizeit": Freizeit,
         }
-        cls:type[Studium]|type[Haushalt]|type[Freizeit]=mapping.get(category)
-        return cls(**data) #return zB für Studium "Studium"=Studium?
-    
+        cls: type[Studium] | type[Haushalt] | type[Freizeit] | None = mapping.get(
+            category
+        )
+        if cls:
+            return cls(**data)  # return zB für Studium "Studium"=Studium?
+        else:
+            return None
+
     # LOAD (Edit-Modus)
-    def lade_todo(self, todo_id: int) -> None: 
+    def lade_todo(self, todo_id: int) -> None:
         todo = self.repo.finde_todo_mit_id(todo_id)
         self._current_todo = todo
 
     def save_todo(
-        # hat Variablenwerte der View 
+        # hat Variablenwerte der View
         self,
         titel: str,
         notiz: str,
-        deadline:date,
+        deadline: date,
         calendar: str,
         priority: str,
         category: str,
-        extra: dict[str,Any],
+        extra: dict[str, Any],
     ) -> None:
 
-        if self._current_todo:   # EDIT
+        if self._current_todo:  # EDIT
             todo = self._current_todo
             todo.titel = titel
             todo.notiz = notiz
             todo.deadline = deadline
-            todo.calendar = self.von_str_zu_bool(calendar)#ist Variablenwert von Model da in view str und im model bool
+            todo.calendar = self.von_str_zu_bool(
+                calendar
+            )  # ist Variablenwert von Model da in view str und im model bool
             todo.priority = self.map_priority(priority)
             todo.category = self.map_category(category)
             todo.extra = self.build_extra(category, extra)
-        else:               # CREATE
+        else:  # CREATE
             todo = ToDoModel(
                 _id=self.repo.naechste_id(),
                 titel=titel,
@@ -88,16 +103,12 @@ class TodoDetailPresenter:
             )
             self.repo.speichere(todo)
 
-    def von_str_zu_bool(self,string:str)->bool:
-        if string=="false":
+    def von_str_zu_bool(self, string: str) -> bool:
+        if string == "false":
             return False
-        elif string=="true":
-            return True 
+        elif string == "true":
+            return True
         raise ValueError(f"Ungültiger Bool-String: {string}")
-    
-
-
-
 
     # def save_todo(
     #     self,
@@ -116,7 +127,7 @@ class TodoDetailPresenter:
     #         notiz=notiz,
     #         deadline=deadline,
     #         calendar=calendar,
-    #         priority=self.map_priority(priority),  
+    #         priority=self.map_priority(priority),
     #         category=self.map_category(category),
     #         extra=self.build_extra(category, extra),
     #     )
