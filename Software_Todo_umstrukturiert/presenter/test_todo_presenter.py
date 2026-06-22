@@ -11,12 +11,10 @@ class TestTodoListePresenter(unittest.TestCase):
         self.mock_repo = Mock(spec=TodoRepo)
         self.presenter = TodoListePresenter(self.mock_model, self.mock_repo)
 
-    # --- Initialization Tests ---
     def test_initialization(self):
         self.assertIsInstance(self.presenter.model, Mock)
         self.assertIsInstance(self.presenter.repo, Mock)
 
-    # --- get_todos Tests ---
     def test_get_todos(self):
         mock_todo1 = Mock(spec=ToDoModel)
         mock_todo1.id = 1
@@ -33,7 +31,6 @@ class TestTodoListePresenter(unittest.TestCase):
         self.assertEqual(result[0].id, 1)
         self.assertEqual(result[1].id, 2)
 
-    # --- erledige_todo Tests ---
     def test_erledige_todo_success(self):
         mock_todo1 = Mock(spec=ToDoModel)
         mock_todo1.id = 1
@@ -56,7 +53,6 @@ class TestTodoListePresenter(unittest.TestCase):
         self.presenter.erledige_todo(999)
         mock_todo.erledige_todo.assert_not_called()
 
-    # --- loesche_todo Tests ---
     def test_loesche_todo_success(self):
         mock_todo1 = Mock(spec=ToDoModel)
         mock_todo1.id = 1
@@ -78,7 +74,6 @@ class TestTodoListePresenter(unittest.TestCase):
         self.presenter.loesche_todo(999)
         self.mock_repo.loesche_todo.assert_not_called()
 
-    # --- lade_todo Tests ---
     def test_lade_todo_success(self):
         mock_todo1 = Mock(spec=ToDoModel)
         mock_todo1.id = 1

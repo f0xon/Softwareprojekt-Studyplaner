@@ -14,13 +14,11 @@ class TestTodoDetailPresenter(unittest.TestCase):
         self.mock_repo = Mock(spec=TodoRepo)
         self.presenter = TodoDetailPresenter(self.mock_model, self.mock_repo)
 
-    # --- Initialization Tests ---
     def test_initialization(self):
         self.assertIsInstance(self.presenter.model, Mock)
         self.assertIsInstance(self.presenter.repo, Mock)
         self.assertIsNone(self.presenter._current_todo)
 
-    # --- Mode Property Tests ---
     def test_is_create_mode_with_modus_set(self):
         self.presenter._modus = "create"
         self.assertTrue(self.presenter.is_create_mode)
@@ -33,7 +31,6 @@ class TestTodoDetailPresenter(unittest.TestCase):
         self.presenter._modus = "create"
         self.assertFalse(self.presenter.is_edit_mode)
 
-    # --- Mapping Tests ---
     def test_map_priority(self):
         self.assertEqual(self.presenter.map_priority("keine"), prioritäten_dict["keine"])
         self.assertEqual(self.presenter.map_priority("niedrig"), prioritäten_dict["niedrig"])
@@ -48,7 +45,6 @@ class TestTodoDetailPresenter(unittest.TestCase):
         self.assertEqual(self.presenter.map_category("Freizeit"), kategorien_dict["Freizeit"])
         self.assertIsNone(self.presenter.map_category("invalid"))
 
-    # --- build_extra Tests ---
     def test_build_extra_studium(self):
         data = {"modul": "Mathe", "gruppenarbeit": True}
         extra = self.presenter.build_extra("Studium", data)
@@ -77,7 +73,6 @@ class TestTodoDetailPresenter(unittest.TestCase):
         with self.assertRaises(TypeError):
             self.presenter.build_extra("Invalid", {"key": "value"})
 
-    # --- lade_todo Tests ---
     def test_lade_todo_success(self):
         mock_todo = Mock(spec=ToDoModel)
         mock_todo.titel = "Test Todo"
@@ -106,7 +101,6 @@ class TestTodoDetailPresenter(unittest.TestCase):
         self.assertEqual(result, {})
         self.assertIsNone(self.presenter._current_todo)
 
-    # --- save_todo Tests ---
     def test_save_todo_create_mode(self):
         self.presenter._current_todo = None
         self.mock_repo.naechste_id.return_value = 100
