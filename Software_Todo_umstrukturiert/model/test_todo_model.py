@@ -63,3 +63,32 @@ class TestTodoModel(unittest.TestCase):
         self.assertEqual(todo.extra.modul, "Mathematik")
         self.assertTrue(todo.extra.gruppenarbeit)
         self.assertFalse(todo.erledigt)
+
+        todo.category = mock_Category.lade_alle()[2]
+        todo.extra = mock_Haushalt.lade_alle()[0]
+        self.assertEqual(todo.category.name, "Haushalt")
+        self.assertIsInstance(todo.extra, todo_model.Haushalt)
+        self.assertFalse(todo.extra.wiederkehrend)
+
+        todo.category = mock_Category.lade_alle()[3]
+        todo.extra = mock_Freizeit.lade_alle()[0]
+        self.assertEqual(todo.category.name, "Freizeit")
+        self.assertIsInstance(todo.extra, todo_model.Freizeit)
+        self.assertEqual(todo.extra.hobby, "Spaziergang")
+        self.assertEqual(todo.extra.ort, "Park")
+
+        todo.priority = mock_Priority.lade_alle()[1]
+        self.assertEqual(todo.priority.name, "niedrig")
+        todo.priority = mock_Priority.lade_alle()[2]
+        self.assertEqual(todo.priority.name, "mittel")
+        todo.priority = mock_Priority.lade_alle()[3]
+        self.assertEqual(todo.priority.name, "hoch")
+
+        self.assertEqual(todo.id, 1)
+
+        self.assertFalse(todo.erledigt)
+        
+        todo.erledige_todo()
+        self.assertTrue(todo.erledigt)
+        todo.erledige_todo()
+        self.assertFalse(todo.erledigt)
