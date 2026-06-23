@@ -156,20 +156,19 @@ class FiltereTodoView(ft.Column):
         self.presenter.prio="alle"
         self.update()
 
-    def category_changed(self, e: ft.Event[ft.RadioGroup]):
+    def category_changed(self):
         if self.category.value is not None:
             self.presenter.set_kategorie(self.category.value)
 
-    def priority_changed(self, e: ft.Event[ft.RadioGroup]):
+    def priority_changed(self):
         if self.priority.value is not None:
             self.presenter.set_priority(self.priority.value)
 
-    def status_changed(self, e: ft.Event[ft.RadioGroup]):
+    def status_changed(self):
         if self.status.value is not None:
             self.presenter.set_status(self.status.value)
     
-    def on_button_clicked_speichern(self,e: ft.Event[ft.Button]):
+    def on_button_clicked_speichern(self):
         self.presenter.get_filtered_todos()
         if isinstance(self.page, ft.Page): # für den TypeChecker, eigentlich immer der Fall
             self.page.go("/Todos")
-        #beim wieder auf view sprinegn soll rsult wieder dummydaten.cpoy sein

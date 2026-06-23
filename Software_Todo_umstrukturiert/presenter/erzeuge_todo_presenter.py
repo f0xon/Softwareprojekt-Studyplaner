@@ -1,23 +1,19 @@
 # from pydantic.v1.errors import NoneIsAllowedError
 # from dataclasses import asdict
 from typing import Any, Literal
-
-from model.ToDoListe_model import ToDoListModel, ToDoModel
-from model.todo_model import Category, Priority, PRIORITAETEN_DICT, KATEGORIEN_DICT, KEINE_P
-from model.todo_model import Studium, Haushalt, Freizeit
-from repo import TodoRepo
+from model.todo_model import KATEGORIEN_DICT, KEINE, KEINE_P, PRIORITAETEN_DICT, Category, Freizeit, Haushalt, Priority, Studium, ToDo
+from repo.todo_repo import TodoRepo
 from datetime import date
-
 
 # class ErzeugeTodoPresenter:
 class TodoDetailPresenter:
     _modus: Literal["create", "edit"]
-    _model: ToDoListModel
+    _model: ToDo
 
-    def __init__(self, model: ToDoListModel, repo: TodoRepo):
+    def __init__(self, model: ToDo, repo: TodoRepo):
         self._model = model
         self.repo = repo
-        self._current_todo: ToDoModel | None = None
+        self._current_todo: ToDo | None = None
 
     @property
     def is_create_mode(self) -> bool:
@@ -28,7 +24,7 @@ class TodoDetailPresenter:
         return self._modus == "edit"
 
     @property
-    def current_todo(self) -> ToDoModel | None:
+    def current_todo(self) -> ToDo | None:
         if self._current_todo:
             return self._current_todo
         return None
@@ -36,16 +32,14 @@ class TodoDetailPresenter:
     def set_modus(self, modus: Literal["create", "edit"]):
         self._modus = modus
 
-    def map_priority(self, value: str) -> Priority | None:  # ?eigentlich nur keine_p, niedrig, mittel, hoch
+    def map_priority(self, value: str) -> Priority | None:  
         # return prioritäten_dict[value]
         return PRIORITAETEN_DICT.get(value, KEINE_P)
 
     def map_category(self, value: str) -> Category|None:
-        return KATEGORIEN_DICT.get(value,KEINE)
+        return KATEGORIEN_DICT.get(value, KEINE)
 
-    def build_extra(
-        self, category: str, data: dict[str, Any]
-    ) -> Studium | Haushalt | Freizeit | None:
+    def build_extra(self, category: str, data: dict[str, Any]) -> Studium | Haushalt | Freizeit | None:
         if not data:
             return None
         mapping: dict[str, type[Studium] | type[Haushalt] | type[Freizeit]] = {
@@ -89,13 +83,14 @@ class TodoDetailPresenter:
             todo.category = self.map_category(category)
             todo.extra = self.build_extra(category, extra)
         else:  # CREATE
-            todo = ToDoModel(
+            todo = ToDo(
                 _id=self.repo.naechste_id(),
                 titel=titel,
                 notiz=notiz,
                 deadline=deadline,
                 calendar=self.von_str_zu_bool(calendar),
-                priority=self.map_priority(priority),
+                # priority=self.map_priority(priority),
+                priority = Priority.from_str(priority),
                 category=self.map_category(category),
                 extra=self.build_extra(category, extra),
             )
@@ -107,30 +102,3 @@ class TodoDetailPresenter:
         elif string == "true":
             return True
         raise ValueError(f"Ungültiger Bool-String: {string}")
-
-    # def save_todo(
-    #     self,
-    #     # id:int,
-    #     title: str,
-    #     notiz: str,
-    #     deadline:date,
-    #     calendar: bool,
-    #     priority: str,
-    #     category: str,
-    #     extra: dict[str,Any],
-    # )->None:
-    #     todo = ToDoModel(
-    #         _id=self.repo.naechste_id(),
-    #         titel=title,
-    #         notiz=notiz,
-    #         deadline=deadline,
-    #         calendar=calendar,
-    #         priority=self.map_priority(priority),
-    #         category=self.map_category(category),
-    #         extra=self.build_extra(category, extra),
-    #     )
-
-    #     # self.model.add_todo(todo)
-    #     self.repo.speichere(todo)
-
-    #     print("DEBUG: Todo gespeichert",todo)

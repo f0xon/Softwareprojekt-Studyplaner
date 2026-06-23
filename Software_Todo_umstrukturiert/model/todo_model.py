@@ -6,8 +6,9 @@ from datetime import date
 class Priority:
     name: str
     ausrufezeichen: str
+
     @classmethod
-    def from_str(cls, as_str: str) -> Priority:
+    def from_str(cls, as_str: str) -> Priority|None:
         if as_str in PRIORITAETEN_DICT:
             return PRIORITAETEN_DICT[as_str]
         else:
@@ -29,6 +30,7 @@ PRIORITAETEN_DICT: dict[str, Priority]={
 class Category:
     name: str
     farbe:str
+    
     @classmethod
     def from_str(cls, as_str: str) -> Category|None:
         if as_str in KATEGORIEN_DICT:

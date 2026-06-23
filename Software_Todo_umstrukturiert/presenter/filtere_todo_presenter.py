@@ -1,8 +1,9 @@
-from model.ToDoListe_model import ToDoListModel, ToDoModel
-from repo import TodoRepo
+from Software_Todo_umstrukturiert.model.todo_model import ToDo
+from model.todo_model import ToDo
+from repo.todo_repo import TodoRepo
 
 class FiltereTodoPresenter:
-    def __init__(self,model:ToDoListModel,repo:TodoRepo):
+    def __init__(self,model:ToDo,repo:TodoRepo):
         self.model=model
         self.repo=repo
         self.kat:str="alle"
@@ -18,8 +19,8 @@ class FiltereTodoPresenter:
     def set_status(self, value:str):
         self.status = value
 
-    def get_filtered_todos(self)->list[ToDoModel]:
-        result: list[ToDoModel]= self.repo.filtere_todos(self.kat,self.prio,self.status)
+    def get_filtered_todos(self)->list[ToDo]:
+        result: list[ToDo]= self.repo.filtere_todos(self.kat,self.prio,self.status)
         print("Debug", result)
         print("")
         return result

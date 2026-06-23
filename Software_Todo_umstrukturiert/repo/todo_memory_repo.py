@@ -190,7 +190,7 @@ class InMemoryTodoRepo(TodoRepo):
         self._todos.remove(todo)
         self._todos.append(todo)
 
-    def lade_alle(self) ->list[ToDo]:  # unstimmigkeit ?? nur ein model?
+    #def lade_alle(self) ->list[ToDo]:  # unstimmigkeit ?? nur ein model?
         # todoliste: ToDoListModel = ToDoListModel()
         # todoliste.todos = self._todos
         # return todoliste

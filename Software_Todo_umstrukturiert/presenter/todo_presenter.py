@@ -1,20 +1,18 @@
 # pyright: reportUnknownMemberType=false
 # #from model.todo_model import TodoModel
-from model.ToDoListe_model import ToDoListModel, ToDoModel
-from repo import TodoRepo
-
+from model.todo_model import ToDo
+from repo.todo_repo import TodoRepo
 
 class TodoListePresenter:
-    _model: ToDoListModel
+    _model: ToDo
     _repo: TodoRepo
 
-    def __init__(self, model: ToDoListModel, repo: TodoRepo):
-        # self._repo = repo
-        # self._model = self.repo.get_all_todos() #Repo wo auswählen Presenter/Router ?
+    def __init__(self, model: ToDo, repo: TodoRepo):
+        self._repo = repo
         self._model = model
         self._repo = repo
 
-    def get_todos(self) -> ToDoListModel:
+    def get_todos(self) -> list[ToDo]:
         return self._repo.lade_alle()
 
     def erledige_todo(self, id: int) -> None:
@@ -32,13 +30,13 @@ class TodoListePresenter:
         except ValueError as e:
             print(f"Fehler:{e}")
 
-    def lade_todo(self, id: int) -> ToDoModel | None:  # None passt hier
+    def lade_todo(self, id: int) -> ToDo | None:  # None passt hier
         for todo in self._repo.lade_alle().todos:
             if todo.id == id:
                 return todo
         return None
 
-    def todo_None(self, todo: ToDoModel | None) -> ToDoModel:
+    def todo_None(self, todo: ToDo | None) -> ToDo:
         if todo is None:
             raise ValueError("Todo nicht gefunden")
         return todo

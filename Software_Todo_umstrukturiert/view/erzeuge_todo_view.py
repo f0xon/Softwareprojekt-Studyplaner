@@ -4,7 +4,7 @@ from datetime import date
 from zoneinfo import ZoneInfo
 from typing import Any, Protocol
 import flet as ft
-from model.todo_model import Freizeit, Haushalt, Studium, ToDo
+from model.todo_model import Freizeit, Haushalt, Studium # view kennt model? braucht um typechekcer zufriedenzustellen
 from presenter.erzeuge_todo_presenter import TodoDetailPresenter
 
 class Kategorie(Protocol):
@@ -270,7 +270,7 @@ class ErzeugeTodoView(ft.Column):
     def lade_ui(self)->None:
         if self.presenter.is_edit_mode:
             # data = self.presenter.lade_todo(todo_id) if todo_id else {}
-            data: ToDo|None = self.presenter.current_todo
+            data = self.presenter.current_todo
             if data is not None:
                 self.title.value = data.titel
                 self.notiz.value = data.notiz
