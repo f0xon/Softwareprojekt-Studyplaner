@@ -16,9 +16,14 @@ ja:Infos anzeigen/ bearbeiten
 
 Fragen:
 -Repo wo auswählen Presenter/Router ? 
+-Was muss alles in das repo? 
+-Types von keine wie angeben?
+-Brauchen wir ein UML in der Dokomentation?
+-Brauchen wir das Model ToDOliste Model oder ist die unnötig? Wenn unnötig dann haben wir wieder nur ein Model
 
 Probleme
 gelöst: eingefügtes todo sieht man nicht in todo view
--wenn erledigt angehakt ist doppelt
+gelöst: wenn erledigt angehakt ist doppelt
+-extrakategorien beim detail todo wird gespeichert die werte, die extrakategorien werden aber noch nicht gleich gebildet ->Betz fragen
 
 4. allgemein Sturktur 
