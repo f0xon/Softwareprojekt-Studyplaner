@@ -27,3 +27,19 @@ gelöst: wenn erledigt angehakt ist doppelt
 -extrakategorien beim detail todo wird gespeichert die werte, die extrakategorien werden aber noch nicht gleich gebildet ->Betz fragen
 
 4. allgemein Sturktur 
+
+
+# Wasgehört ins Domänenmodel
+
+***Präsentation***
+
+was mach unserre App aus und andderst (mögich: Kurzversion der Doku)
+
+skitzen ideen
+domänen model
+views
+
+was lief gut was lief schelecht
+
+10 bis 15 Min
+nicht Notenrelevant
