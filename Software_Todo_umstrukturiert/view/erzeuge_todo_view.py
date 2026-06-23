@@ -247,17 +247,17 @@ class ErzeugeTodoView(ft.Column):
             value = value 
         
         self.deadline = value 
-        self.deadline_text.value = self.deadline.isoformat()  # ty:ignore[unresolved-attribute] is never None
-
+        if self.deadline is not None:
+            self.deadline_text.value = self.deadline.isoformat()   
         self.update()
-        #return self.selected_date 
 
-    def category_changed(self,e: ft.Event[ft.Dropdown])->None:
+    def category_changed(self,e: ft.Event[ft.RadioGroup])->None:
         self.category_fields.controls.clear()
-        kat = self.kategorien.get(self.category.value)
-        if kat:
-            self.category_fields.controls.extend(kat.build_ui())
-        self.update()
+        if self.category.value is not None:
+            kat = self.kategorien.get(self.category.value) 
+            if kat:
+                self.category_fields.controls.extend(kat.build_ui())
+            self.update()
 
     # ---------------- LOAD INTO VIEW ----------------
     def von_bool_zu_str(self,wert_b:bool)->str:

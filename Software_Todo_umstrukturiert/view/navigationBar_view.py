@@ -1,8 +1,9 @@
 # pyright: reportAttributeAccessIssue=false
+from typing import Any
 import flet as ft
 
 class NavigationBarView:
-    def __init__(self, router):
+    def __init__(self, router: Any):
         self.router = router
 
     def build(self)->ft.CupertinoNavigationBar:
