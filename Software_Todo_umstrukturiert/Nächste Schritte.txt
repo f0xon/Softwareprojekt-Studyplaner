@@ -5,27 +5,25 @@ Ja: Erledigt
 Ja: Löschen
 Ja: verschiedene Kategorien verschiedene Farben
 ja: Priorität wird angezeigt mit einem, zwei oder drei Ausrufezeichen
-ja:Pickdate zeigt ein Tag weniger an als man auswählt
-ja:nach todo gespeichert bze klick speicher button soll in todoview hüpfen
-ja:Infos anzeigen/ bearbeiten
--extrakategorien beim detail todo wird gespeichert die werte, die extrakategorien werden aber noch nicht gleich gebildet ->Betz fragen
--todo presenter fixen 
+ja: Pickdate zeigt ein Tag weniger an als man auswählt
+ja: nach todo gespeichert bze klick speicher button soll in todoview hüpfen
+ja: Infos anzeigen/ bearbeiten
+ja: extrakategorien beim detail todo wird gespeichert die werte, die extrakategorien werden aber noch nicht gleich gebildet ->Betz fragen
+ja: todo presenter fixen 
+- db repo fertigstellen
 -irgendwie noch deadline mit einbeziehen?
--alle Klassen in eine eigene Datei ?
--fehlermeldung wenn beim todo erzeugen kein titel eingegeben wird
+-fehlermeldung wenn beim todo erzeugen kein titel eingegeben wird?
 
 Fragen:
--Repo wo auswählen Router ? 
--Was muss alles in das repo? 
--Types von keine wie angeben?
--Brauchen wir ein UML in der Dokomentation?
--Brauchen wir das Model ToDOliste Model oder ist die unnötig? Wenn unnötig dann haben wir wieder nur ein Model
--repo alles mit id todo erzeugen oder mit todo
+-Repo wo auswählen Router ? ->passt
+-Was muss alles in das repo? ->passt
+-Types von keine wie angeben? ->gelöst 
+-Brauchen wir das Model ToDOliste Model oder ist die unnötig? Wenn unnötig dann haben wir wieder nur ein Model ->unötig nur ein Model 
+-repo alles mit id todo erzeugen oder mit todo -> so wie jetzt ist passt
 
 Probleme
 gelöst: eingefügtes todo sieht man nicht in todo view
 gelöst: wenn erledigt angehakt ist doppelt
--extrakategorien beim detail todo wird gespeichert die werte, die extrakategorien werden aber noch nicht gleich gebildet ->Betz fragen
 
 4. allgemein Sturktur 
 
