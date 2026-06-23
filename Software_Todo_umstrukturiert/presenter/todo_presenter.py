@@ -28,7 +28,7 @@ class TodoListePresenter:
             print(f"Fehler:{e}")
 
     def lade_todo(self, id: int) -> ToDo | None:  # None passt hier
-        for todo in self._repo.lade_alle().todos:
+        for todo in self._repo.lade_alle():
             if todo.id == id:
                 return todo
         return None
