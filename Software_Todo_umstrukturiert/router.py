@@ -4,7 +4,7 @@ from typing import Any
 import flet as ft
 
 # from model.todo_model import ToDoModel, Priority, hoch, mittel, niedrig, keine_p, Category, studium, haushalt, freizeit
-from model.ToDoListe_model import ToDoListModel
+from Software_Todo_umstrukturiert.model.todo_model import ToDo
 from view.todo_view import TodoView
 from view.filtere_todo_view import FiltereTodoView
 from view.navigationBar_view import NavigationBarView
@@ -12,9 +12,11 @@ from view.erzeuge_todo_view import ErzeugeTodoView
 from presenter.todo_presenter import TodoListePresenter
 from presenter.erzeuge_todo_presenter import TodoDetailPresenter
 from presenter.filtere_todo_presenter import FiltereTodoPresenter
-from repo import InMemoryTodoRepo, MongoTodoRepo
-from pymongo import MongoClient
-from pymongo.database import Database
+from repo.todo_memory_repo import InMemoryTodoRepo
+#from repo.todo_mongo_repo import MongoTodoRepo
+#from repo.todo_repo import TodoRepo
+# from pymongo import MongoClient
+# from pymongo.database import Database
 
 DB_URL = "mongodb+srv://cluster0.9w2gjme.mongodb.net"
 DB_USER = "soen_labor"
@@ -25,7 +27,8 @@ DB_NAME = "soen_vorlesung"
 class Router:
     def __init__(self, page: ft.Page):
         self.page = page
-        self.todolist_model = ToDoListModel()
+        #self.todolist_model = ToDoListModel()
+        self.todo_model=ToDo()
         self.todo: str = "/Todo"
         self.erzeuge_todo: str = "/erzeugeTodo"
         self.filtere_todo: str = "/filtereTodo"
@@ -34,30 +37,24 @@ class Router:
         page.on_route_change = self.on_route_change
 
         # Repo erzeugen und an Presenter übergeben
-        db: Database[Any] = MongoClient(                               #TODO Fragen wegen Type
-            DB_URL, username=DB_USER, password=DB_PASSWORD
-        ).get_database(DB_NAME)
-        self.repo_mongo = MongoTodoRepo(db)
+        # db: Database[Any] = MongoClient(                               #TODO Fragen wegen Type # type: ignore
+        #     DB_URL, username=DB_USER, password=DB_PASSWORD
+        # ).get_database(DB_NAME)
+        #self.repo_mongo = MongoTodoRepo(db)
         self.repo_memory = InMemoryTodoRepo()
         # wähle hier dein gewünschtes Repo aus:
         self.ausgewaehltes_repo = self.repo_memory
 
         # Presenter hier erzeugen
         self.presenter_todo = TodoListePresenter(
-            self.todolist_model, self.ausgewaehltes_repo
+            self.todo_model, self.ausgewaehltes_repo
         )
         self.presenter_detail = TodoDetailPresenter(
-            self.todolist_model, self.ausgewaehltes_repo
+            self.todo_model, self.ausgewaehltes_repo
         )
         self.presenter_filtern = FiltereTodoPresenter(
-            self.todolist_model, self.ausgewaehltes_repo
+            self.todo_model, self.ausgewaehltes_repo
         )
-
-        # self.routes:dict[str,Callable[[], ft.Column]]={ #richtiges Typing?
-        #   self.todo: lambda: TodoView(),
-        #   self.erzeuge_todo: lambda:ErzeugeTodoView(on_save=self.go_to_todos),
-        #   self.filtere_todo:lambda:FiltereTodoView(on_save=self.go_to_todos),
-        # }
 
         self.navigation: dict[int, str] = {
             0: self.erzeuge_todo,
@@ -69,37 +66,15 @@ class Router:
 
         self.page.navigation_bar = NavigationBarView(self).build()
 
-        """self.routes:dict[str,Callable[[], ft.Column]]={ #richtiges Typing?
-            self.todo: TodoView, 
-            self.erzeuge_todo: ErzeugeTodoView,
-            self.filtere_todo:FiltereTodoView,
-        }
-        """
-
-    def on_route_change(self, e: ft.RouteChangeEvent):
+    def on_route_change(self):
 
         self.page.clean()
         if self.page.route == self.todo:
-            self.page.add(
-                TodoView(
-                    self.presenter_todo, self.presenter_filtern, self.presenter_detail
-                )
-            )
-
+            self.page.add(TodoView(self.presenter_todo, self.presenter_filtern, self.presenter_detail))
+        
         elif self.page.route.startswith(self.erzeuge_todo):
             if "?" in self.page.route:
-                # TODO in Funktion packen
-                self.presenter_detail.set_modus("edit")
-                query = self.page.route.split("?")[1]
-                items = query.split("&")
-                values: dict[str, str] = {}
-                for item in items:
-                    key, value = item.split("=")
-                    values[key] = value
-
-                if "id" in values:
-                    todo_id = int(values["id"])
-                    self.presenter_detail.lade_todo(todo_id)
+                self.lade_todo_aus_route()
             else:
                 self.presenter_detail.set_modus("create")
             self.page.add(ErzeugeTodoView(self.presenter_detail))
@@ -110,15 +85,21 @@ class Router:
         else:
             self.page.go(self.todo)
 
+        self.page.add(ErzeugeTodoView(self.presenter_detail))
+
         self.page.update()
 
-        """      
-        self.page.clean()
-        erzeuge_view = self.routes.get(self.page.route)
-        if erzeuge_view:
-            self.page.add(erzeuge_view())
-        self.page.update()
-        """
+    def lade_todo_aus_route(self)->None:
+        self.presenter_detail.set_modus("edit")
+        query = self.page.route.split("?")[1]
+        items = query.split("&")
+        values: dict[str, str] = {}
+        for item in items:
+            key, value = item.split("=")
+            values[key] = value
+        if "id" in values:
+            todo_id = int(values["id"])
+            self.presenter_detail.lade_todo(todo_id)
 
     def on_nav_change(self, e: ft.ControlEvent):
         index: int = e.control.selected_index
