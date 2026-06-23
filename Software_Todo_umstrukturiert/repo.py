@@ -24,17 +24,13 @@ from dataclasses import asdict
 
 class TodoRepo(Protocol):
     def speichere(self, todo: ToDoModel) -> None: ...
-    def erledige_todo(self, todo_id: int) -> None: ...
-    def lade_alle(self) -> ToDoListModel: ...
-    def loesche_todo(self, todo: ToDoModel) -> None: ...
-    def naechste_id(self) -> int: ...
-    def filtere_todos(self, kat: str, prio: str, status: str) -> list[ToDoModel]: ...
-    def finde_todo_mit_id(self, todo_id: int) -> ToDoModel | None: ...
     def update_todo(self, todo: ToDoModel): ...
-
-    # def lade_todo(self,name:str):
-    #     ...
-
+    def lade_alle(self) -> ToDoListModel: ...
+    def finde_todo_mit_id(self, todo_id: int) -> ToDoModel | None: ...
+    def erledige_todo(self, todo_id: int) -> None: ...
+    def loesche_todo(self, todo: ToDoModel) -> None: ...
+    def filtere_todos(self, kat: str, prio: str, status: str) -> list[ToDoModel]: ...
+    def naechste_id(self) -> int:...
 
 class MongoTodoRepo(TodoRepo):
     def __init__(self, db: Database[Any]) -> None:
@@ -43,7 +39,19 @@ class MongoTodoRepo(TodoRepo):
     def speichere(self, todo: ToDoModel):
         self.db.todos.insert_one(asdict(todo))
 
-    def lade_todo(self, todo_id: int) -> ToDoModel | None:
+    # def update_todo(self, todo_id: int):
+    #     todo=self.db.todos.find_one({"_id": todo_id}, projection={"_id": False})
+    #     # self._todos.remove(todo)
+    #     # self._todos.append(todo)
+
+    def lade_alle(self) -> ToDoListModel:
+        _todos: ToDoListModel = ToDoListModel()
+        for todo in self.db.todos.find(projection={"_id": False}):
+            todo_obj = ToDoModel(**todo)
+            _todos.append(todo_obj)
+        return ToDoListModel(todos=_todos)
+
+    def finde_todo_mit_id(self, todo_id: int) -> ToDoModel | None: 
         todo = self.db.todos.find_one({"_id": todo_id}, projection={"_id": False})
         if todo is None:
             return None
@@ -54,15 +62,26 @@ class MongoTodoRepo(TodoRepo):
         neuer_status = not todo["_erledigt"]
         todo.update_one({"_id": todo_id}, {"$set": {"_erledigt": neuer_status}})
 
-    def lade_alle(self) -> ToDoListModel:
-        _todos: ToDoListModel = []
-        for todo in self.db.todos.find(projection={"_id": False}):
-            todo_obj = ToDoModel(**todo)
-            _todos.append(todo_obj)
-        return ToDoListModel(todos=_todos)
+    def loesche_todo(self, todo: ToDoModel) -> None:
+        self._collection.delete_one({"_id": todo.id})
+    
+    def filtere_todos(self, kat: str, prio: str, status: str) -> list[ToDoModel]:
+        query = {}
+        # Kategorie
+        if kat != "alle":
+            query["category"] = kategorien_dict[kat]
+        # Priorität
+        if prio != "alle":
+            query["priority"] = prioritäten_dict[prio]
+        # Status
+        if status == "offen":
+            query["erledigt"] = False
+        elif status == "erledigt":
+            query["erledigt"] = True
+        docs = self._collection.find(query)
+        return [ToDoModel(**doc) for doc in docs]
 
-    def lade_todo_mit_id(self, todo_id: int) -> ToDoModel | None: ...
-
+    def naechste_id(self) -> int:...
 
 class InMemoryTodoRepo(TodoRepo):
     _todos: list[ToDoModel]
