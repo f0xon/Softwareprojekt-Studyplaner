@@ -4,12 +4,9 @@ from model.todo_model import ToDo
 from repo.todo_repo import TodoRepo
 
 class TodoListePresenter:
-    _model: ToDo
     _repo: TodoRepo
 
-    def __init__(self, model: ToDo, repo: TodoRepo):
-        self._repo = repo
-        self._model = model
+    def __init__(self, repo: TodoRepo):
         self._repo = repo
 
     def get_todos(self) -> list[ToDo]:

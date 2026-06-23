@@ -8,10 +8,8 @@ from datetime import date
 # class ErzeugeTodoPresenter:
 class TodoDetailPresenter:
     _modus: Literal["create", "edit"]
-    _model: ToDo
 
-    def __init__(self, model: ToDo, repo: TodoRepo):
-        self._model = model
+    def __init__(self, repo: TodoRepo):
         self.repo = repo
         self._current_todo: ToDo | None = None
 

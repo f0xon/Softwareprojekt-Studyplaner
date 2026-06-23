@@ -4,7 +4,7 @@
 import flet as ft
 
 # from model.todo_model import ToDoModel, Priority, hoch, mittel, niedrig, keine_p, Category, studium, haushalt, freizeit
-from Software_Todo_umstrukturiert.model.todo_model import ToDo
+from model.todo_model import ToDo
 from view.todo_view import TodoView
 from view.filtere_todo_view import FiltereTodoView
 from view.navigationBar_view import NavigationBarView
@@ -26,8 +26,6 @@ DB_NAME = "soen_vorlesung"
 class Router:
     def __init__(self, page: ft.Page):
         self.page = page
-        #self.todolist_model = ToDoListModel()
-        self.todo_model=ToDo()
         self.todo: str = "/Todo"
         self.erzeuge_todo: str = "/erzeugeTodo"
         self.filtere_todo: str = "/filtereTodo"
@@ -45,15 +43,9 @@ class Router:
         self.ausgewaehltes_repo = self.repo_memory
 
         # Presenter hier erzeugen
-        self.presenter_todo = TodoListePresenter(
-            self.todo_model, self.ausgewaehltes_repo
-        )
-        self.presenter_detail = TodoDetailPresenter(
-            self.todo_model, self.ausgewaehltes_repo
-        )
-        self.presenter_filtern = FiltereTodoPresenter(
-            self.todo_model, self.ausgewaehltes_repo
-        )
+        self.presenter_todo = TodoListePresenter(self.ausgewaehltes_repo)
+        self.presenter_detail = TodoDetailPresenter(self.ausgewaehltes_repo)
+        self.presenter_filtern = FiltereTodoPresenter(self.ausgewaehltes_repo)
 
         self.navigation: dict[int, str] = {
             0: self.erzeuge_todo,

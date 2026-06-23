@@ -1,21 +1,6 @@
-from model.todo_model import (
-    ToDo,
-    HOCH,
-    MITTEL,
-    NIEDRIG,
-    KEINE_P,
-    STUDIUM,
-    KEINE,
-    HAUSHALT,
-    FREIZEIT,
-    KATEGORIEN_DICT,
-    PRIORITAETEN_DICT,
-    Studium,
-    Haushalt,
-    Freizeit,
-)
+from model.todo_model import ToDo,HOCH,MITTEL,NIEDRIG,KEINE_P,STUDIUM,KEINE,HAUSHALT,FREIZEIT,KATEGORIEN_DICT,PRIORITAETEN_DICT,Studium,Haushalt,Freizeit
 from datetime import date
-from repo.todorepo import TodoRepo
+from repo.todo_repo import TodoRepo
 
 class InMemoryTodoRepo(TodoRepo):
     _todos: list[ToDo]

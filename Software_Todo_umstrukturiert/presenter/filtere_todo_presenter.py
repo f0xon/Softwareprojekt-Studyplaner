@@ -1,10 +1,8 @@
-from Software_Todo_umstrukturiert.model.todo_model import ToDo
 from model.todo_model import ToDo
 from repo.todo_repo import TodoRepo
 
 class FiltereTodoPresenter:
-    def __init__(self,model:ToDo,repo:TodoRepo):
-        self.model=model
+    def __init__(self,repo:TodoRepo):
         self.repo=repo
         self.kat:str="alle"
         self.prio:str="alle"
