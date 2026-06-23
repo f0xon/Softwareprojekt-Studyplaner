@@ -11,4 +11,4 @@ def main(page: ft.Page):
     page.scroll = ft.ScrollMode.AUTO
     page.go("/Todo")
 
-ft.run(main)
+ft.run(main, view=ft.AppView.WEB_BROWSER, port=8080)

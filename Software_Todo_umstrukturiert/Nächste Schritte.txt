@@ -15,11 +15,12 @@ ja:Infos anzeigen/ bearbeiten
 -fehlermeldung wenn beim todo erzeugen kein titel eingegeben wird
 
 Fragen:
--Repo wo auswählen Presenter/Router ? 
+-Repo wo auswählen Router ? 
 -Was muss alles in das repo? 
 -Types von keine wie angeben?
 -Brauchen wir ein UML in der Dokomentation?
 -Brauchen wir das Model ToDOliste Model oder ist die unnötig? Wenn unnötig dann haben wir wieder nur ein Model
+-repo alles mit id todo erzeugen oder mit todo
 
 Probleme
 gelöst: eingefügtes todo sieht man nicht in todo view

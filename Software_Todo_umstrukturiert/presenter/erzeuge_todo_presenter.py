@@ -3,7 +3,7 @@
 from typing import Any, Literal
 
 from model.ToDoListe_model import ToDoListModel, ToDoModel
-from model.todo_model import prioritäten_dict, kategorien_dict
+from model.todo_model import Category, Priority, PRIORITAETEN_DICT, KATEGORIEN_DICT, KEINE_P
 from model.todo_model import Studium, Haushalt, Freizeit
 from repo import TodoRepo
 from datetime import date
@@ -36,13 +36,12 @@ class TodoDetailPresenter:
     def set_modus(self, modus: Literal["create", "edit"]):
         self._modus = modus
 
-    def map_priority(
-        self, value: str
-    ) -> Any:  # ?eigentlich nur keine_p, niedrig, mittel, hoch
-        return prioritäten_dict.get(value)
+    def map_priority(self, value: str) -> Priority | None:  # ?eigentlich nur keine_p, niedrig, mittel, hoch
+        # return prioritäten_dict[value]
+        return PRIORITAETEN_DICT.get(value, KEINE_P)
 
-    def map_category(self, value: str) -> Any:
-        return kategorien_dict.get(value)
+    def map_category(self, value: str) -> Category|None:
+        return KATEGORIEN_DICT.get(value,KEINE)
 
     def build_extra(
         self, category: str, data: dict[str, Any]
@@ -84,10 +83,9 @@ class TodoDetailPresenter:
             todo.titel = titel
             todo.notiz = notiz
             todo.deadline = deadline
-            todo.calendar = self.von_str_zu_bool(
-                calendar
-            )  # ist Variablenwert von Model da in view str und im model bool
-            todo.priority = self.map_priority(priority)
+            todo.calendar = self.von_str_zu_bool(calendar)  # ist Variablenwert von Model da in view str und im model bool
+            # todo.priority = self.map_priority(priority)
+            todo.priority = Priority.from_str(priority)
             todo.category = self.map_category(category)
             todo.extra = self.build_extra(category, extra)
         else:  # CREATE

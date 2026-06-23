@@ -1,4 +1,6 @@
 # pyright: ignore[reportArgumentType]
+from typing import Any
+
 import flet as ft
 
 # from model.todo_model import ToDoModel, Priority, hoch, mittel, niedrig, keine_p, Category, studium, haushalt, freizeit
@@ -32,7 +34,7 @@ class Router:
         page.on_route_change = self.on_route_change
 
         # Repo erzeugen und an Presenter übergeben
-        db: Database[] = MongoClient(                               #TODO Fragen wegen Type
+        db: Database[Any] = MongoClient(                               #TODO Fragen wegen Type
             DB_URL, username=DB_USER, password=DB_PASSWORD
         ).get_database(DB_NAME)
         self.repo_mongo = MongoTodoRepo(db)

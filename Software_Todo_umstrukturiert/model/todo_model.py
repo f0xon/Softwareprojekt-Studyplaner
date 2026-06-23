@@ -6,30 +6,46 @@ from datetime import date
 class Priority:
     name: str
     ausrufezeichen: str
-keine_p = Priority("keine", "X")
-niedrig = Priority("niedrig", "!")
-mittel = Priority("mittel", "!!")
-hoch = Priority("hoch", "!!!")
-prioritäten_dict={    
-    "keine": keine_p,
-    "niedrig": niedrig,
-    "mittel": mittel,
-    "hoch": hoch
+    @classmethod
+    def from_str(cls, as_str: str) -> Priority:
+        if as_str in PRIORITAETEN_DICT:
+            return PRIORITAETEN_DICT[as_str]
+        else:
+            return KEINE_P
+
+KEINE_P = Priority("keine", "X")
+NIEDRIG = Priority("niedrig", "!")
+MITTEL = Priority("mittel", "!!")
+HOCH = Priority("hoch", "!!!")
+
+PRIORITAETEN_DICT: dict[str, Priority]={    
+    "keine": KEINE_P,
+    "niedrig": NIEDRIG,
+    "mittel": MITTEL,
+    "hoch": HOCH
 }
 
 @dataclass(frozen=True)
 class Category:
     name: str
     farbe:str
-keine= Category("keine","GREY_300")
-studium = Category("Studium","BLUE_100")
-haushalt = Category("Haushalt","DEEP_PURPLE_100")
-freizeit = Category("Freizeit","TEAL_100")
-kategorien_dict={
-    "keine":keine,
-    "Studium":studium,
-    "Haushalt":haushalt,
-    "Freizeit":freizeit
+    @classmethod
+    def from_str(cls, as_str: str) -> Category|None:
+        if as_str in KATEGORIEN_DICT:
+            return KATEGORIEN_DICT[as_str]
+        else:
+            return KEINE
+        
+KEINE = Category("keine","GREY_300")
+STUDIUM = Category("Studium","BLUE_100")
+HAUSHALT = Category("Haushalt","DEEP_PURPLE_100")
+FREIZEIT = Category("Freizeit","TEAL_100")
+
+KATEGORIEN_DICT={
+    "keine":KEINE,
+    "Studium":STUDIUM,
+    "Haushalt":HAUSHALT,
+    "Freizeit":FREIZEIT
 }
 
 # --- Category Data Models ---
@@ -37,25 +53,27 @@ kategorien_dict={
 class Studium:
     modul: str
     gruppenarbeit: bool
+
 @dataclass
 class Haushalt:
     wiederkehrend: bool
+
 @dataclass
 class Freizeit:
     hobby: str
     ort: str
 
 # --- MAIN TODO ---
-#Todo hat eine Kategorie Todo hat optionale Zusatzdaten
+#Todo hat eine Kategorie Todo hat optionalen Zusatzdaten
 @dataclass
-class ToDoModel:
+class ToDo:
     _id: int
     titel: str
     notiz: str
-    priority: Priority
+    priority: Priority | None
     deadline: date
     calendar:bool
-    category: Category
+    category: Category | None
     extra: Studium | Haushalt | Freizeit |None = None
     _erledigt: bool = False
 
@@ -72,3 +90,7 @@ class ToDoModel:
             self._erledigt = False
         else:
             self._erledigt = True
+
+    # @property
+    # def anzahl_offene_todos(self):
+    #     return len(self.todos)
