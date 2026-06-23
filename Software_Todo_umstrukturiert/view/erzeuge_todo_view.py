@@ -259,7 +259,7 @@ class ErzeugeTodoView(ft.Column):
                 self.category_fields.controls.extend(kat.build_ui())
             self.update()
 
-    # ---------------- LOAD INTO VIEW ----------------
+    # ---------------- LOAD INTO VIEW ---------------- TODO in Presenter rein
     def von_bool_zu_str(self,wert_b:bool)->str:
         if wert_b:
             return "true"
