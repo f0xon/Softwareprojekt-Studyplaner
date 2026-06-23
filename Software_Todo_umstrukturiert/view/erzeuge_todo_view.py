@@ -276,9 +276,9 @@ class ErzeugeTodoView(ft.Column):
                 self.notiz.value = data.notiz
                 self.selected_date = data.deadline
                 self.calendar.value = "true" if data.calendar else "false"
-                self.prio.value = data.priority.name
-                self.category.value = data.category.name
-                category = data.category.name
+                self.prio.value = data.priority.name if data.priority else "keine"
+                self.category.value = data.category.name if data.category else "keine"
+                category = data.category.name if data.category else "keine"
                 if category == "Studium":
                     kat = self.kategorien["Studium"]
                     if isinstance(kat, StudiumKategorie)and isinstance(data.extra, Studium):
@@ -318,49 +318,3 @@ class ErzeugeTodoView(ft.Column):
 
         if isinstance(self.page, ft.Page): # für den TypeChecker, eigentlich immer der Fall
             self.page.go("/todos")
-
-        #if self.on_save:
-        #   self.on_save()
-
-
-
-
-
-
-
-
-    # def zeige_detail_todo(self):
-    #     dict_todo:dict[str,Any]|None=self.presenter.get_current_todo_data()
-    #     self.title.value = dict_todo.get("Titel")
-    #     self.notiz.value = dict_todo.get("Notiz")
-    #     self.selected_date= dict_todo.get("Deadline")
-    #     self.calendar.value = dict_todo.get("Kalender")
-    #     self.prio.value = dict_todo.get("Priorität")
-    #     self.category.value = dict_todo.get("Kategorie")
-    #     category:str=dict_todo.get("Kategorie")
-    #     #Kategorien-spezifische Felder
-    #     if category == "Studium":
-    #         self.modul=...
-    #         self.gruppenarbeit=...
-    #     elif category == "Haushalt":
-    #         self.wiederkehrend=...
-    #     elif category == "Freizeit":
-    #         self.hobby=...
-    #         self.ort=...
-
-    # def save(self, e) -> None:
-    #     kat=self.category.value
-    #     aktuelle_kat = self.kategorien.get(kat)
-    #     if aktuelle_kat:
-    #         extra:dict[str,Any] = aktuelle_kat.extract()
-    #     else:
-    #         extra = {}
-    #     self.presenter.save_todo(
-    #         title=self.title.value,
-    #         notiz=self.notiz.value,
-    #         deadline=self.selected_date,
-    #         calendar=self.calendar.value,
-    #         priority=self.prio.value,
-    #         category=kat,
-    #         extra=extra,
-    #     )

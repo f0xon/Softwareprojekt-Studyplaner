@@ -11,15 +11,8 @@ class TodoDetailPresenter:
 
     def __init__(self, repo: TodoRepo):
         self.repo = repo
+        self._modus:Literal["create", "edit"]="create"
         self._current_todo: ToDo | None = None
-
-    @property
-    def is_create_mode(self) -> bool:
-        return self._modus == "create"
-
-    @property
-    def is_edit_mode(self) -> bool:
-        return self._modus == "edit"
 
     @property
     def current_todo(self) -> ToDo | None:
@@ -30,8 +23,15 @@ class TodoDetailPresenter:
     def set_modus(self, modus: Literal["create", "edit"]):
         self._modus = modus
 
+    @property
+    def is_create_mode(self) -> bool:
+        return self._modus == "create"
+
+    @property
+    def is_edit_mode(self) -> bool:
+        return self._modus == "edit"
+
     def map_priority(self, value: str) -> Priority | None:  
-        # return prioritäten_dict[value]
         return PRIORITAETEN_DICT.get(value, KEINE_P)
 
     def map_category(self, value: str) -> Category|None:

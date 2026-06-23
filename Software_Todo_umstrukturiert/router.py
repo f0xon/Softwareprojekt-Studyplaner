@@ -76,8 +76,6 @@ class Router:
         else:
             self.page.go(self.todo)
 
-        self.page.add(ErzeugeTodoView(self.presenter_detail))
-
         self.page.update()
 
     def lade_todo_aus_route(self)->None:
