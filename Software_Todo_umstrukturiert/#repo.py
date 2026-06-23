@@ -27,7 +27,7 @@ from dataclasses import asdict
 class TodoRepo(Protocol):
     def speichere(self, todo: ToDo) -> None: ...
     def update_todo(self, todo: ToDo): ...
-    def lade_alle(self) -> ToDoListModel: ...
+    def lade_alle(self) -> list[ToDo]: ...
     def finde_todo_mit_id(self, todo_id: int) -> ToDo | None: ...
     def erledige_todo(self, todo_id: int) -> None: ...
     def loesche_todo(self, todo: ToDo) -> None: ...
@@ -38,15 +38,15 @@ class MongoTodoRepo(TodoRepo):
     def __init__(self, db: Database[Any]) -> None:
         self.db = db
 
-    def speichere(self, todo: ToDo):
-        self.db.todos.insert_one(asdict(todo))
+    def speichere(self, todo_id: int) ->None:
+        todo = self.finde_todo_mit_id(todo_id)
 
     # def update_todo(self, todo_id: int):
     #     todo=self.db.todos.find_one({"_id": todo_id}, projection={"_id": False})
     #     # self._todos.remove(todo)
     #     # self._todos.append(todo)
 
-    def lade_alle(self) -> ToDoListModel:
+    def lade_alle(self) -> list[ToDo]:
         _todos: ToDoListModel = ToDoListModel()
         for todo in self.db.todos.find(projection={"_id": False}):
             todo_obj = ToDo(**todo)
