@@ -110,7 +110,6 @@ class ErzeugeTodoView(ft.Column):
     def __init__(self, presenter:TodoDetailPresenter):
         super().__init__()
         self.presenter = presenter
-        #self.on_save=on_save
         self.selected_date = date.today()
         
         
@@ -284,19 +283,18 @@ class ErzeugeTodoView(ft.Column):
                     if isinstance(kat, StudiumKategorie)and isinstance(data.extra, Studium):
                         kat.modul.value = data.extra.modul
                         kat.gruppenarbeit.value = self.von_bool_zu_str(data.extra.gruppenarbeit)
-                    kat.build_ui()
+                    self.category_fields.controls.extend(kat.build_ui())
                 elif category == "Haushalt":
                     kat = self.kategorien["Haushalt"]
-                    kat.build_ui()
+                    self.category_fields.controls.extend(kat.build_ui())
                     if isinstance(kat, HaushaltKategorie)and isinstance(data.extra, Haushalt):
                         kat.wiederkehrend.value = self.von_bool_zu_str(data.extra.wiederkehrend)
                 elif category == "Freizeit":
                     kat = self.kategorien["Freizeit"]
-                    kat.build_ui()
+                    self.category_fields.controls.extend(kat.build_ui())
                     if isinstance(kat, FreizeitKategorie) and isinstance(data.extra, Freizeit):#für pyrigth klasse definiert
                         kat.hobby.value = data.extra.hobby
                         kat.ort.value=data.extra.ort
-        #Kategorienspezifische Extrafelder fehlen noch
 
     # ---------------- SAVE ----------------
     def save(self)->None:
