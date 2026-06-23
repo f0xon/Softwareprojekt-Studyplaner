@@ -1,94 +1,278 @@
 import unittest
 import todo_model
 from unittest.mock import Mock
-
+from datetime import date
 
 class TestTodoModel(unittest.TestCase):
-    def test_Priority(self):
+    # --- Priority Tests ---
+    def test_Priority_constants(self):
+        """Test all Priority constants and their attributes"""
         self.assertEqual(todo_model.keine_p.name, "keine")
+        self.assertEqual(todo_model.keine_p.ausrufezeichen, "X")
         self.assertEqual(todo_model.niedrig.name, "niedrig")
+        self.assertEqual(todo_model.niedrig.ausrufezeichen, "!")
         self.assertEqual(todo_model.mittel.name, "mittel")
+        self.assertEqual(todo_model.mittel.ausrufezeichen, "!!")
         self.assertEqual(todo_model.hoch.name, "hoch")
+        self.assertEqual(todo_model.hoch.ausrufezeichen, "!!!")
 
-    def test_Category(self):
+    def test_prioritäten_dict(self):
+        """Test the priority dictionary mappings"""
+        self.assertEqual(todo_model.prioritäten_dict["keine"], todo_model.keine_p)
+        self.assertEqual(todo_model.prioritäten_dict["niedrig"], todo_model.niedrig)
+        self.assertEqual(todo_model.prioritäten_dict["mittel"], todo_model.mittel)
+        self.assertEqual(todo_model.prioritäten_dict["hoch"], todo_model.hoch)
+
+    # --- Category Tests ---
+    def test_Category_constants(self):
+        """Test all Category constants and their attributes"""
         self.assertEqual(todo_model.keine.name, "keine")
+        self.assertEqual(todo_model.keine.farbe, "GREY_300")
         self.assertEqual(todo_model.studium.name, "Studium")
+        self.assertEqual(todo_model.studium.farbe, "BLUE_100")
         self.assertEqual(todo_model.haushalt.name, "Haushalt")
+        self.assertEqual(todo_model.haushalt.farbe, "DEEP_PURPLE_100")
         self.assertEqual(todo_model.freizeit.name, "Freizeit")
+        self.assertEqual(todo_model.freizeit.farbe, "TEAL_100")
 
+    def test_kategorien_dict(self):
+        """Test the category dictionary mappings"""
+        self.assertEqual(todo_model.kategorien_dict["keine"], todo_model.keine)
+        self.assertEqual(todo_model.kategorien_dict["Studium"], todo_model.studium)
+        self.assertEqual(todo_model.kategorien_dict["Haushalt"], todo_model.haushalt)
+        self.assertEqual(todo_model.kategorien_dict["Freizeit"], todo_model.freizeit)
+
+    # --- Extra Data Model Tests ---
     def test_Studium(self):
+        """Test Studium dataclass"""
         studium = todo_model.Studium(modul="Mathematik", gruppenarbeit=True)
         self.assertEqual(studium.modul, "Mathematik")
         self.assertTrue(studium.gruppenarbeit)
 
+        studium2 = todo_model.Studium(modul="Informatik", gruppenarbeit=False)
+        self.assertEqual(studium2.modul, "Informatik")
+        self.assertFalse(studium2.gruppenarbeit)
+
     def test_Haushalt(self):
+        """Test Haushalt dataclass"""
         haushalt = todo_model.Haushalt(wiederkehrend=False)
         self.assertFalse(haushalt.wiederkehrend)
 
+        haushalt2 = todo_model.Haushalt(wiederkehrend=True)
+        self.assertTrue(haushalt2.wiederkehrend)
+
     def test_Freizeit(self):
+        """Test Freizeit dataclass"""
         freizeit = todo_model.Freizeit(hobby="Spaziergang", ort="Park")
         self.assertEqual(freizeit.hobby, "Spaziergang")
         self.assertEqual(freizeit.ort, "Park")
 
-    def test_ToDoModel(self):
-        mock_Priority = Mock()
-        mock_Priority.lade_alle.return_value = [todo_model.Priority("keine", "X"), todo_model.Priority("niedrig", "!"), todo_model.Priority("mittel", "!!"), todo_model.Priority("hoch", "!!!")]
-        mock_Category = Mock()
-        mock_Category.lade_alle.return_value = [todo_model.Category("keine", "GREY_300"), todo_model.Category("Studium", "BLUE_100"), todo_model.Category("Haushalt", "DEEP_PURPLE_100"), todo_model.Category("Freizeit", "TEAL_100")]
-        mock_Studium = Mock()
-        mock_Studium.lade_alle.return_value = [todo_model.Studium(modul="Mathematik", gruppenarbeit=True)]
-        mock_Haushalt = Mock()
-        mock_Haushalt.lade_alle.return_value = [todo_model.Haushalt(wiederkehrend=False)]
-        mock_Freizeit = Mock()
-        mock_Freizeit.lade_alle.return_value = [todo_model.Freizeit(hobby="Spaziergang", ort="Park")]
+        freizeit2 = todo_model.Freizeit(hobby="Lesen", ort="Bibliothek")
+        self.assertEqual(freizeit2.hobby, "Lesen")
+        self.assertEqual(freizeit2.ort, "Bibliothek")
+
+    # --- ToDoModel Tests ---
+    def test_ToDoModel_creation_with_Studium(self):
+        """Test ToDoModel creation with Studium extra data"""
         todo = todo_model.ToDoModel(
-            _id=1, # type: ignore
-            titel="Test ToDo",
-            notiz="Dies ist ein Test.",
-            priority=mock_Priority.lade_alle()[0],
-            deadline=todo_model.date(2024, 1, 1),
+            _id=1,
+            titel="Mathe lernen",
+            notiz="Kapitel 1-3 durcharbeiten",
+            priority=todo_model.hoch,
+            deadline=date(2024, 12, 1),
             calendar=True,
-            category=mock_Category.lade_alle()[1],
-            extra=mock_Studium.lade_alle()[0],
+            category=todo_model.studium,
+            extra=todo_model.Studium(modul="Mathematik", gruppenarbeit=True),
             _erledigt=False
-            )
+        )
+
         self.assertEqual(todo.id, 1)
-        self.assertEqual(todo.titel, "Test ToDo")
-        self.assertEqual(todo.notiz, "Dies ist ein Test.")
-        self.assertEqual(todo.priority.name, "keine")
-        self.assertEqual(todo.deadline, todo_model.date(2024, 1, 1))
+        self.assertEqual(todo.titel, "Mathe lernen")
+        self.assertEqual(todo.notiz, "Kapitel 1-3 durcharbeiten")
+        self.assertEqual(todo.priority.name, "hoch")
+        self.assertEqual(todo.priority.ausrufezeichen, "!!!")
+        self.assertEqual(todo.deadline, date(2024, 12, 1))
         self.assertTrue(todo.calendar)
         self.assertEqual(todo.category.name, "Studium")
+        self.assertEqual(todo.category.farbe, "BLUE_100")
         self.assertIsInstance(todo.extra, todo_model.Studium)
         self.assertEqual(todo.extra.modul, "Mathematik")
         self.assertTrue(todo.extra.gruppenarbeit)
         self.assertFalse(todo.erledigt)
 
-        todo.category = mock_Category.lade_alle()[2]
-        todo.extra = mock_Haushalt.lade_alle()[0]
+    def test_ToDoModel_creation_with_Haushalt(self):
+        """Test ToDoModel creation with Haushalt extra data"""
+        todo = todo_model.ToDoModel(
+            _id=2,
+            titel="Wohnung putzen",
+            notiz="Staubsaugen und wischen",
+            priority=todo_model.mittel,
+            deadline=date(2024, 11, 15),
+            calendar=False,
+            category=todo_model.haushalt,
+            extra=todo_model.Haushalt(wiederkehrend=True),
+            _erledigt=True
+        )
+
+        self.assertEqual(todo.id, 2)
         self.assertEqual(todo.category.name, "Haushalt")
+        self.assertIsInstance(todo.extra, todo_model.Haushalt)
+        self.assertTrue(todo.extra.wiederkehrend)
+        self.assertTrue(todo.erledigt)
+
+    def test_ToDoModel_creation_with_Freizeit(self):
+        """Test ToDoModel creation with Freizeit extra data"""
+        todo = todo_model.ToDoModel(
+            _id=3,
+            titel="Wandertour",
+            notiz="Gipfelsturm",
+            priority=todo_model.niedrig,
+            deadline=date(2024, 10, 10),
+            calendar=True,
+            category=todo_model.freizeit,
+            extra=todo_model.Freizeit(hobby="Wandern", ort="Alpen"),
+            _erledigt=False
+        )
+
+        self.assertEqual(todo.id, 3)
+        self.assertEqual(todo.category.name, "Freizeit")
+        self.assertIsInstance(todo.extra, todo_model.Freizeit)
+        self.assertEqual(todo.extra.hobby, "Wandern")
+        self.assertEqual(todo.extra.ort, "Alpen")
+
+    def test_ToDoModel_creation_with_no_extra(self):
+        """Test ToDoModel creation without extra data"""
+        todo = todo_model.ToDoModel(
+            _id=4,
+            titel="Einkaufen",
+            notiz="Milch, Eier, Brot",
+            priority=todo_model.keine_p,
+            deadline=date(2024, 9, 1),
+            calendar=False,
+            category=todo_model.keine,
+            extra=None,
+            _erledigt=False
+        )
+
+        self.assertEqual(todo.id, 4)
+        self.assertEqual(todo.category.name, "keine")
+        self.assertIsNone(todo.extra)
+        self.assertFalse(todo.erledigt)
+
+    # --- Toggle Completion Tests ---
+    def test_toggle_erledigt_todo(self):
+        """Test the toggle_erledigt_todo method"""
+        todo = todo_model.ToDoModel(
+            _id=5,
+            titel="Test",
+            notiz="Testbeschreibung",
+            priority=todo_model.keine_p,
+            deadline=date(2024, 1, 1),
+            calendar=False,
+            category=todo_model.keine,
+            _erledigt=False
+        )
+
+        # Initial state
+        self.assertFalse(todo.erledigt)
+
+        # First toggle: False -> True
+        todo.toggle_erledigt_todo()
+        self.assertTrue(todo.erledigt)
+
+        # Second toggle: True -> False
+        todo.toggle_erledigt_todo()
+        self.assertFalse(todo.erledigt)
+
+        # Third toggle: False -> True
+        todo.toggle_erledigt_todo()
+        self.assertTrue(todo.erledigt)
+
+    # --- Mutation Tests ---
+    def test_ToDoModel_change_category_and_extra(self):
+        """Test changing category and extra after creation"""
+        todo = todo_model.ToDoModel(
+            _id=6,
+            titel="Aktivität",
+            notiz="Test",
+            priority=todo_model.mittel,
+            deadline=date(2024, 1, 1),
+            calendar=True,
+            category=todo_model.studium,
+            extra=todo_model.Studium(modul="Informatik", gruppenarbeit=True),
+            _erledigt=False
+        )
+
+        # Change to Haushalt
+        todo.category = todo_model.haushalt
+        todo.extra = todo_model.Haushalt(wiederkehrend=False)
+        self.assertEqual(todo.category.name, "Haushalt")
+        self.assertEqual(todo.category.farbe, "DEEP_PURPLE_100")
         self.assertIsInstance(todo.extra, todo_model.Haushalt)
         self.assertFalse(todo.extra.wiederkehrend)
 
-        todo.category = mock_Category.lade_alle()[3]
-        todo.extra = mock_Freizeit.lade_alle()[0]
+        # Change to Freizeit
+        todo.category = todo_model.freizeit
+        todo.extra = todo_model.Freizeit(hobby="Kino", ort="Cinemax")
         self.assertEqual(todo.category.name, "Freizeit")
         self.assertIsInstance(todo.extra, todo_model.Freizeit)
-        self.assertEqual(todo.extra.hobby, "Spaziergang")
-        self.assertEqual(todo.extra.ort, "Park")
+        self.assertEqual(todo.extra.hobby, "Kino")
+        self.assertEqual(todo.extra.ort, "Cinemax")
 
-        todo.priority = mock_Priority.lade_alle()[1]
+        # Change to keine with no extra
+        todo.category = todo_model.keine
+        todo.extra = None
+        self.assertEqual(todo.category.name, "keine")
+        self.assertIsNone(todo.extra)
+
+    def test_ToDoModel_change_priority(self):
+        """Test changing priority after creation"""
+        todo = todo_model.ToDoModel(
+            _id=7,
+            titel="Priority Test",
+            notiz="Test",
+            priority=todo_model.keine_p,
+            deadline=date(2024, 1, 1),
+            calendar=False,
+            category=todo_model.keine,
+            _erledigt=False
+        )
+
+        self.assertEqual(todo.priority.name, "keine")
+
+        todo.priority = todo_model.niedrig
         self.assertEqual(todo.priority.name, "niedrig")
-        todo.priority = mock_Priority.lade_alle()[2]
+
+        todo.priority = todo_model.mittel
         self.assertEqual(todo.priority.name, "mittel")
-        todo.priority = mock_Priority.lade_alle()[3]
+
+        todo.priority = todo_model.hoch
         self.assertEqual(todo.priority.name, "hoch")
 
-        self.assertEqual(todo.id, 1)
+    # --- Mock Tests (for potential future repository integration) ---
+    def test_ToDoModel_with_mock_repository_data(self):
+        """Test ToDoModel with mock data (simulating repository behavior)"""
+        # Mock a repository that returns test data
+        mock_repo = Mock()
+        mock_repo.get_priority.return_value = todo_model.hoch
+        mock_repo.get_category.return_value = todo_model.studium
+        mock_repo.get_extra.return_value = todo_model.Studium(modul="Physik", gruppenarbeit=False)
 
-        self.assertFalse(todo.erledigt)
-        
-        todo.erledige_todo()
-        self.assertTrue(todo.erledigt)
-        todo.erledige_todo()
-        self.assertFalse(todo.erledigt)
+        # Create ToDoModel using mock data
+        todo = todo_model.ToDoModel(
+            _id=100,
+            titel=mock_repo.get_title.return_value or "Mock Todo",
+            notiz="Mock Notiz",
+            priority=mock_repo.get_priority(),
+            deadline=date(2024, 6, 15),
+            calendar=True,
+            category=mock_repo.get_category(),
+            extra=mock_repo.get_extra(),
+            _erledigt=False
+        )
+
+        self.assertEqual(todo.priority.name, "hoch")
+        self.assertEqual(todo.category.name, "Studium")
+        self.assertIsInstance(todo.extra, todo_model.Studium)
+        self.assertEqual(todo.extra.modul, "Physik")
+        self.assertFalse(todo.extra.gruppenarbeit)
