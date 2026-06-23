@@ -11,7 +11,6 @@ from model.todo_model import (
     freizeit,
     kategorien_dict,
     prioritäten_dict,
-    Category,
     Studium,
     Haushalt,
     Freizeit,
