@@ -1,5 +1,5 @@
 # pyright: ignore[reportArgumentType]
-from typing import Any
+# from typing import Any
 
 import flet as ft
 
@@ -22,7 +22,6 @@ DB_URL = "mongodb+srv://cluster0.9w2gjme.mongodb.net"
 DB_USER = "soen_labor"
 DB_PASSWORD = "6HQgiBWd7IDAXa6g"
 DB_NAME = "soen_vorlesung"
-
 
 class Router:
     def __init__(self, page: ft.Page):
