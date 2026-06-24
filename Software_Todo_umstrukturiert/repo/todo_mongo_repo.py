@@ -30,16 +30,16 @@ class MongoTodoRepo(TodoRepo):
 
     def lade_alle(self) -> list[ToDo]:
         todos: list[ToDo] = []
-        alle_eintraege=self.db.todos.find(projection={"_id": False})
-        for eintrag in alle_eintraege:
-            todos.append(self.doc_to_list(eintrag))
+        alle_eintraege=self.db.todos.find(projection={"_id": False})# type: ignore
+        for eintrag in alle_eintraege:# type: ignore
+            todos.append(self.doc_to_list(eintrag))# type: ignore
         return todos
 
     def finde_todo_mit_id(self, todo_id: int) -> ToDo: 
-        todo = self.db.todos.find_one({"_id": todo_id}, projection={"_id": False})
+        todo = self.db.todos.find_one({"_id": todo_id}, projection={"_id": False}) # type: ignore
         if todo is None:
             raise ValueError(f"ToDo mit der Id-{todo_id} existiert nicht")
-        return self.doc_to_list(todo)
+        return self.doc_to_list(todo) # type: ignore
 
     def erledige_todo(self, todo_id: int) -> None:
         todo = self.finde_todo_mit_id(todo_id)
@@ -66,11 +66,15 @@ class MongoTodoRepo(TodoRepo):
         elif status == "erledigt":
             query["erledigt"] = True
         todos: list[ToDo] = []
-        for doc in self.db.todos.find(query):
-            todos.append(self.doc_to_list(doc))
+        for doc in self.db.todos.find(query):# type: ignore
+            todos.append(self.doc_to_list(doc))# type: ignore
         return todos
     
-    def naechste_id(self) -> int:...
+    def naechste_id(self) -> int:
+        letztes_todo = self.db.todos.find_one(sort=[("_todo_id", -1)]) #sortiert  absteigend
+        if letztes_todo is None:
+            return 1
+        return letztes_todo["_todo_id"] + 1
 
     #Übersetzung von Liste in Mongo Dict:
     def list_to_doc(self, todo: ToDo) -> dict[str,Any]:
@@ -86,9 +90,8 @@ class MongoTodoRepo(TodoRepo):
     
     #Betz: Model mit im repo ok?
     def doc_to_list(self, todo_doc:dict[str,Any])->ToDo:
-        todo_doc["priority"] = Priority.from_str(todo_doc["priority"]) #vorher "hoch"-> Priority(name="hoch", ausrufezeichen="!!!")
+        todo_doc["priority"] = Priority.from_str(todo_doc["priority"]) # "hoch"-> Priority(name="hoch", ausrufezeichen="!!!")
         todo_doc["category"] = Category.from_str(todo_doc["category"])
         todo_doc["deadline"] = date.fromisoformat(todo_doc["deadline"])
         todo_doc["extra"] = todo_doc["extra"]
         return ToDo(**todo_doc)
-
