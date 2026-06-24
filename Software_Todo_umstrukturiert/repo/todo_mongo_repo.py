@@ -22,7 +22,7 @@ class MongoTodoRepo(TodoRepo):
 
     def update_todo(self, todo: ToDo)->None:
         self.db.todos.update_one(
-            {"_id": todo.todo_id},
+            {"_todo_id": todo.todo_id},
             {"$set": self.list_to_doc(todo)}
         )
         # self._todos.remove(todo)
@@ -36,7 +36,7 @@ class MongoTodoRepo(TodoRepo):
         return todos
 
     def finde_todo_mit_id(self, todo_id: int) -> ToDo: 
-        todo = self.db.todos.find_one({"_id": todo_id}, projection={"_id": False}) # type: ignore
+        todo = self.db.todos.find_one({"_todo_id": todo_id}, projection={"_id": False}) # type: ignore
         if todo is None:
             raise ValueError(f"ToDo mit der Id-{todo_id} existiert nicht")
         return self.doc_to_list(todo) # type: ignore
@@ -45,12 +45,12 @@ class MongoTodoRepo(TodoRepo):
         todo = self.finde_todo_mit_id(todo_id)
         neuer_status = not todo.erledigt
         self.db.todos.update_one(
-            {"_id": todo_id},
+            {"_todo_id": todo_id},
             {"$set": {"erledigt": neuer_status}}
         )
 
     def loesche_todo(self, todo:ToDo) -> None:
-        self.db.todos.delete_one({"_id": todo.todo_id})
+        self.db.todos.delete_one({"_todo_id": todo.todo_id})
     
     def filtere_todos(self, kat: str, prio: str, status: str) -> list[ToDo]:
         query: dict[str, Any] = {}
@@ -66,7 +66,7 @@ class MongoTodoRepo(TodoRepo):
         elif status == "erledigt":
             query["erledigt"] = True
         todos: list[ToDo] = []
-        for doc in self.db.todos.find(query):# type: ignore
+        for doc in self.db.todos.find(query,projection={"_id": False}):# type: ignore
             todos.append(self.doc_to_list(doc))# type: ignore
         return todos
     

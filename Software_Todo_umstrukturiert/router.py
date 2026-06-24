@@ -1,10 +1,7 @@
 # pyright: ignore[reportArgumentType]
-# from typing import Any
-
 import flet as ft
-
+from typing import Any
 # from model.todo_model import ToDoModel, Priority, hoch, mittel, niedrig, keine_p, Category, studium, haushalt, freizeit
-from model.todo_model import ToDo
 from view.todo_view import TodoView
 from view.filtere_todo_view import FiltereTodoView
 from view.navigationBar_view import NavigationBarView
@@ -14,7 +11,6 @@ from presenter.erzeuge_todo_presenter import TodoDetailPresenter
 from presenter.filtere_todo_presenter import FiltereTodoPresenter
 from repo.todo_memory_repo import InMemoryTodoRepo
 from repo.todo_mongo_repo import MongoTodoRepo
-f#rom repo.todo_repo import TodoRepo
 from pymongo import MongoClient
 from pymongo.database import Database
 
@@ -35,13 +31,12 @@ class Router:
         page.on_route_change = self.on_route_change
 
         # Repo erzeugen und an Presenter übergeben
-        db: Database[Any] = MongoClient(                               #TODO Fragen wegen Type # type: ignore
-            DB_URL, username=DB_USER, password=DB_PASSWORD
-        ).get_database(DB_NAME)
+        db: Database[Any] = MongoClient(DB_URL, username=DB_USER, password=DB_PASSWORD).get_database(DB_NAME)
         self.repo_mongo = MongoTodoRepo(db)
         self.repo_memory = InMemoryTodoRepo()
         # wähle hier dein gewünschtes Repo aus:
-        self.ausgewaehltes_repo = self.repo_memory
+        # self.ausgewaehltes_repo = self.repo_memory
+        self.ausgewaehltes_repo = self.repo_mongo
 
         # Presenter hier erzeugen
         self.presenter_todo = TodoListePresenter(self.ausgewaehltes_repo)
