@@ -85,7 +85,7 @@ class MongoTodoRepo(TodoRepo):
         # Date → ISO String
         todo_doc["deadline"] = todo.deadline.isoformat()
         # Extra (nested dataclass → dict)
-        todo_doc["extra"] = asdict(todo.extra) if todo.extra else None
+        todo_doc["extra"] = asdict(todo.extra) if todo.extra else None #TODO: extra richtig umwandeln überall
         return todo_doc
     
     #Betz: Model mit im repo ok?
@@ -95,3 +95,4 @@ class MongoTodoRepo(TodoRepo):
         todo_doc["deadline"] = date.fromisoformat(todo_doc["deadline"])
         todo_doc["extra"] = todo_doc["extra"]
         return ToDo(**todo_doc)
+
