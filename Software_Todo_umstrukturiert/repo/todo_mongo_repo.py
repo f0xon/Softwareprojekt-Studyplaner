@@ -4,7 +4,6 @@
 # pyright: reportOptionalMemberAccess=false
 from dataclasses import asdict
 from datetime import date
-from sqlite3 import Cursor
 from typing import Any
 from model.todo_model import FREIZEIT, HAUSHALT, KATEGORIEN_DICT, PRIORITAETEN_DICT, STUDIUM, Category, Freizeit, Haushalt, Priority, Studium, ToDo
 from repo.todo_repo import TodoRepo
@@ -38,7 +37,7 @@ class MongoTodoRepo(TodoRepo):
     def finde_todo_mit_id(self, todo_id: int) -> ToDo: 
         todo = self.db.todos.find_one({"_todo_id": todo_id}, projection={"_id": False}) # type: ignore
         if todo is None:
-            raise ValueError(f"ToDo mit der Id-{todo_id} existiert nicht")
+            raise ValueError(f"ToDo mit der Id: {todo_id} existiert nicht")
         return self.doc_to_list(todo) # type: ignore
 
     def erledige_todo(self, todo_id: int) -> None:
@@ -85,7 +84,7 @@ class MongoTodoRepo(TodoRepo):
         # Date → ISO String
         todo_doc["deadline"] = todo.deadline.isoformat()
         # Extra (nested dataclass → dict)
-        todo_doc["extra"] = asdict(todo.extra) if todo.extra is not None else None #TODO: extra richtig umwandeln überall
+        todo_doc["extra"] = asdict(todo.extra) if todo.extra is not None else None 
         return todo_doc
     
     #Betz: Model mit im repo ok?
@@ -95,7 +94,7 @@ class MongoTodoRepo(TodoRepo):
         todo_doc["deadline"] = date.fromisoformat(todo_doc["deadline"])
         if todo_doc["extra"] is not None:
             if todo_doc["category"] == STUDIUM:
-                todo_doc["extra"] = Studium(**todo_doc["extra"])
+                todo_doc["extra"] = Studium(**todo_doc["extra"]) 
             elif todo_doc["category"] == HAUSHALT:
                 todo_doc["extra"] = Haushalt(**todo_doc["extra"])
             elif todo_doc["category"] == FREIZEIT:
