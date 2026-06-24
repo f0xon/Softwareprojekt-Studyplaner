@@ -24,7 +24,7 @@ class InMemoryTodoRepo(TodoRepo):
     def __init__(self):
         self._todos: list[ToDo] = [
             ToDo(
-                _id=1,
+                _todo_id=1,
                 titel="Mathe lernen",
                 notiz="Kapitel 3 üben",
                 priority=HOCH,
@@ -34,7 +34,7 @@ class InMemoryTodoRepo(TodoRepo):
                 extra=Studium(modul="Mathe 2", gruppenarbeit=True),
             ),
             ToDo(
-                _id=2,
+                _todo_id=2,
                 titel="Hund bürsten",
                 notiz="Hundebürste",
                 priority=KEINE_P,
@@ -44,7 +44,7 @@ class InMemoryTodoRepo(TodoRepo):
                 extra=Freizeit(hobby="Hundepflege", ort="Zuhause"),
             ),
             ToDo(
-                _id=3,
+                _todo_id=3,
                 titel="Mathe",
                 notiz="MaMo",
                 priority=MITTEL,
@@ -54,7 +54,7 @@ class InMemoryTodoRepo(TodoRepo):
                 extra=Studium(modul="Mathematik", gruppenarbeit=False),
             ),
             ToDo(
-                _id=4,
+                _todo_id=4,
                 titel="Wäsche waschen",
                 notiz="",
                 priority=MITTEL,
@@ -63,7 +63,7 @@ class InMemoryTodoRepo(TodoRepo):
                 category=KEINE,
             ),
             ToDo(
-                _id=5,
+                _todo_id=5,
                 titel="Oma anrufen",
                 notiz="gut",
                 priority=HOCH,
@@ -73,7 +73,7 @@ class InMemoryTodoRepo(TodoRepo):
                 extra=Freizeit(hobby="Familie", ort="Telefon"),
             ),
             ToDo(
-                _id=6,
+                _todo_id=6,
                 titel="Staubsaugen",
                 notiz="",
                 priority=NIEDRIG,
@@ -83,7 +83,7 @@ class InMemoryTodoRepo(TodoRepo):
                 extra=Haushalt(wiederkehrend=True),
             ),
             ToDo(
-                _id=7,
+                _todo_id=7,
                 titel="Softwareprojekt-Studyplaner",
                 notiz="",
                 priority=HOCH,
@@ -93,7 +93,7 @@ class InMemoryTodoRepo(TodoRepo):
                 extra=Studium(modul="Software Engineering", gruppenarbeit=True),
             ),
             ToDo(
-                _id=8,
+                _todo_id=8,
                 titel="Einkaufen",
                 notiz="",
                 priority=NIEDRIG,
@@ -103,7 +103,7 @@ class InMemoryTodoRepo(TodoRepo):
                 extra=Haushalt(wiederkehrend=False),
             ),
             ToDo(
-                _id=9,
+                _todo_id=9,
                 titel="Freunde treffen",
                 notiz="",
                 priority=MITTEL,
@@ -113,7 +113,7 @@ class InMemoryTodoRepo(TodoRepo):
                 extra=Freizeit(hobby="Treffen", ort="Stadt"),
             ),
             ToDo(
-                _id=10,
+                _todo_id=10,
                 titel="Buch lesen",
                 notiz="",
                 priority=NIEDRIG,
@@ -123,7 +123,7 @@ class InMemoryTodoRepo(TodoRepo):
                 extra=Freizeit(hobby="Lesen", ort="Wohnzimmer"),
             ),
             ToDo(
-                _id=11,
+                _todo_id=11,
                 titel="Sport machen",
                 notiz="",
                 priority=MITTEL,
@@ -133,7 +133,7 @@ class InMemoryTodoRepo(TodoRepo):
                 extra=Freizeit(hobby="Fitness", ort="Fitnessstudio"),
             ),
             ToDo(
-                _id=12,
+                _todo_id=12,
                 titel="Projektarbeit",
                 notiz="",
                 priority=HOCH,
@@ -143,7 +143,7 @@ class InMemoryTodoRepo(TodoRepo):
                 extra=Studium(modul="Projektmanagement", gruppenarbeit=True),
             ),
             ToDo(
-                _id=13,
+                _todo_id=13,
                 titel="Auto waschen",
                 notiz="",
                 priority=NIEDRIG,
@@ -153,7 +153,7 @@ class InMemoryTodoRepo(TodoRepo):
                 extra=Haushalt(wiederkehrend=False),
             ),
             ToDo(
-                _id=14,
+                _todo_id=14,
                 titel="Gartenarbeit",
                 notiz="",
                 priority=MITTEL,
@@ -163,7 +163,7 @@ class InMemoryTodoRepo(TodoRepo):
                 extra=Haushalt(wiederkehrend=True),
             ),
             ToDo(
-                _id=15,
+                _todo_id=15,
                 titel="Kino besuchen",
                 notiz="",
                 priority=NIEDRIG,
@@ -173,7 +173,7 @@ class InMemoryTodoRepo(TodoRepo):
                 extra=Freizeit(hobby="Filme", ort="Kino"),
             ),
             ToDo(
-                _id=16,
+                _todo_id=16,
                 titel="Hausaufgaben",
                 notiz="",
                 priority=MITTEL,
@@ -196,7 +196,7 @@ class InMemoryTodoRepo(TodoRepo):
 
     def finde_todo_mit_id(self, todo_id: int) -> ToDo | None:
         for todo in self._todos:
-            if todo.id == todo_id:
+            if todo.todo_id == todo_id:
                 return todo
         return None
 
@@ -240,4 +240,4 @@ class InMemoryTodoRepo(TodoRepo):
         return result
 
     def naechste_id(self) -> int:
-        return max(todo.id for todo in self._todos) + 1
+        return max(todo.todo_id for todo in self._todos) + 1

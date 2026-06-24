@@ -13,10 +13,10 @@ from presenter.todo_presenter import TodoListePresenter
 from presenter.erzeuge_todo_presenter import TodoDetailPresenter
 from presenter.filtere_todo_presenter import FiltereTodoPresenter
 from repo.todo_memory_repo import InMemoryTodoRepo
-# from repo.todo_mongo_repo import MongoTodoRepo
-# from repo.todo_repo import TodoRepo
-# from pymongo import MongoClient
-# from pymongo.database import Database
+from repo.todo_mongo_repo import MongoTodoRepo
+f#rom repo.todo_repo import TodoRepo
+from pymongo import MongoClient
+from pymongo.database import Database
 
 DB_URL = "mongodb+srv://cluster0.9w2gjme.mongodb.net"
 DB_USER = "soen_labor"
@@ -35,10 +35,10 @@ class Router:
         page.on_route_change = self.on_route_change
 
         # Repo erzeugen und an Presenter übergeben
-        # db: Database[Any] = MongoClient(                               #TODO Fragen wegen Type # type: ignore
-        #     DB_URL, username=DB_USER, password=DB_PASSWORD
-        # ).get_database(DB_NAME)
-        # self.repo_mongo = MongoTodoRepo(db)
+        db: Database[Any] = MongoClient(                               #TODO Fragen wegen Type # type: ignore
+            DB_URL, username=DB_USER, password=DB_PASSWORD
+        ).get_database(DB_NAME)
+        self.repo_mongo = MongoTodoRepo(db)
         self.repo_memory = InMemoryTodoRepo()
         # wähle hier dein gewünschtes Repo aus:
         self.ausgewaehltes_repo = self.repo_memory

@@ -30,7 +30,7 @@ class TodoListePresenter:
 
     def lade_todo(self, id: int) -> ToDo | None:  # None passt hier
         for todo in self._repo.lade_alle():
-            if todo.id == id:
+            if todo.todo_id == id:
                 return todo
         return None
 

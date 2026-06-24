@@ -78,7 +78,7 @@ class Freizeit:
 # Todo hat eine Kategorie Todo hat optionalen Zusatzdaten
 @dataclass
 class ToDo:
-    _id: int
+    _todo_id: int
     titel: str
     notiz: str
     priority: Priority | None
@@ -89,8 +89,8 @@ class ToDo:
     _erledigt: bool = False
 
     @property
-    def id(self) -> int:
-        return self._id
+    def todo_id(self) -> int:
+        return self._todo_id
 
     @property
     def erledigt(self) -> bool:

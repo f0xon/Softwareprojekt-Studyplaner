@@ -98,7 +98,7 @@ class TodoDetailPresenter:
             todo.extra = self.build_extra(category, extra)
         else:  # CREATE
             todo = ToDo(
-                _id=self.repo.naechste_id(),
+                _todo_id=self.repo.naechste_id(),
                 titel=titel,
                 notiz=notiz,
                 deadline=deadline,

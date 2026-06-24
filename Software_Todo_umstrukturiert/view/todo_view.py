@@ -98,19 +98,19 @@ class TodoView(ft.Column):
                                         icon_color=ft.Colors.BLUE
                                         if todo.erledigt
                                         else ft.Colors.GREY,
-                                        data=todo.id,
+                                        data=todo.todo_id,
                                         on_click=self.on_button_clicked_done,
                                     ),
                                     ft.IconButton(
                                         icon=ft.Icons.INFO_OUTLINE,
                                         tooltip="Details",
-                                        data=todo.id,
+                                        data=todo.todo_id,
                                         on_click=self.on_button_clicked_detail,
                                     ),
                                     ft.IconButton(
                                         icon=ft.Icons.DELETE_OUTLINE,
                                         tooltip="Löschen",
-                                        data=todo.id,
+                                        data=todo.todo_id,
                                         on_click=self.on_button_clicked_delete,
                                     ),
                                 ],

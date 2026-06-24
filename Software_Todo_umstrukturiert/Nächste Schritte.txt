@@ -15,11 +15,12 @@ ja: todo presenter fixen
 -fehlermeldung wenn beim todo erzeugen kein titel eingegeben wird?
 
 Fragen:
--Repo wo auswählen Router ? ->passt
--Was muss alles in das repo? ->passt
--Types von keine wie angeben? ->gelöst 
--Brauchen wir das Model ToDOliste Model oder ist die unnötig? Wenn unnötig dann haben wir wieder nur ein Model ->unötig nur ein Model 
--repo alles mit id todo erzeugen oder mit todo -> so wie jetzt ist passt
+Repo wo auswählen Router ? ->passt
+Was muss alles in das repo? ->passt
+Types von keine wie angeben? ->gelöst 
+Brauchen wir das Model ToDOliste Model oder ist die unnötig? Wenn unnötig dann haben wir wieder nur ein Model ->unötig nur ein Model 
+repo alles mit id todo erzeugen oder mit todo -> so wie jetzt ist passt
+-Auf die datenbank greifen am ende verschiedene benutzer zu. bei todos laden will ja jeder benutzer nur seine sehen? oder nur einen Testbenutzer?
 
 Probleme
 gelöst: eingefügtes todo sieht man nicht in todo view

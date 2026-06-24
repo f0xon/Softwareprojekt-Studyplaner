@@ -1,0 +1,62 @@
+Python Objekt:
+    ToDo(
+        _todo_id=1,
+        titel="Mathe lernen",
+        notiz="Kapitel 3 üben",
+        priority=HOCH,
+        deadline=date(2026, 6, 10),
+        calendar=False,
+        category=STUDIUM,
+        extra=Studium(modul="Mathe 2", gruppenarbeit=True),
+    )
+    Übersetzung von Mongo Dict in Liste:
+    def doc_to_list:
+        doc["priority"] = Priority.from_str(doc["priority"]) #vorher "hoch"-> Priority(name="hoch", ausrufezeichen="!!!")
+        doc["category"] = Category.from_str(doc["category"])
+        doc["deadline"] = date.fromisoformat(doc["deadline"])
+        doc["extra"] = doc["extra"]
+        return ToDo(**doc)
+
+MongoDB
+    {
+    #objekt id wird automatisch erezeugt sobald keine _id angegeben wird
+    "_id: ObjectId("65f1c2a9e4b0c8a1d2f3a456")
+    "_todo_id": 1,
+    "titel": "Mathe lernen",
+    "notiz": "Kapitel 3 üben",
+    "priority": "Hoch",
+    "deadline": "2026-06-10",
+    "calendar": false,
+    "category": "Studium", #KATEGORIEN_DICT = {"keine":KEINE, "Studium":STUDIUM,...}
+    "extra": {
+        "modul": "Mathe 2",
+        "gruppenarbeit": true
+    }
+    }
+    Übersetzung von Liste in Mongo Dict:
+        #Umwandlung von list ->db format
+        def list_to_doc(todo: ToDo) -> dict[str,Any]:
+            todo_doc = asdict(todo)
+            #Value Object → string
+            doc["priority"] = todo.priority.name if todo.priority else None
+            todo_doc["category"] = todo.category.name if todo.category else None
+            # Date → ISO String
+            todo_doc["deadline"] = todo.deadline.isoformat()
+            # Extra (nested dataclass → dict)
+            todo_doc["extra"] = asdict(todo.extra) if todo.extra else None
+            return doc
+
+        doc = {
+            "_todo_id": 1,
+            "titel": "Mathe lernen",
+            "notiz": "Kapitel 3 üben",
+            "priority": Priority(name="hoch", ausrufezeichen="!!!"),
+            "deadline": datetime.date(2026, 6, 10),
+            "calendar": False,
+            "category": Category(name="Studium", farbe="BLUE_100"),
+            "extra": {
+                "modul": "Mathe 2",
+                "gruppenarbeit": True
+            },
+            "_erledigt": False
+        }
