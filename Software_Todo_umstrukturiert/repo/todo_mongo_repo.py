@@ -6,7 +6,7 @@ from dataclasses import asdict
 from datetime import date
 from sqlite3 import Cursor
 from typing import Any
-from model.todo_model import KATEGORIEN_DICT, PRIORITAETEN_DICT, Category, Priority, ToDo
+from model.todo_model import FREIZEIT, HAUSHALT, KATEGORIEN_DICT, PRIORITAETEN_DICT, STUDIUM, Category, Freizeit, Haushalt, Priority, Studium, ToDo
 from repo.todo_repo import TodoRepo
 
 #Datenbank: soen_vorlesung
@@ -85,7 +85,7 @@ class MongoTodoRepo(TodoRepo):
         # Date → ISO String
         todo_doc["deadline"] = todo.deadline.isoformat()
         # Extra (nested dataclass → dict)
-        todo_doc["extra"] = asdict(todo.extra) if todo.extra else None #TODO: extra richtig umwandeln überall
+        todo_doc["extra"] = asdict(todo.extra) if todo.extra is not None else None #TODO: extra richtig umwandeln überall
         return todo_doc
     
     #Betz: Model mit im repo ok?
@@ -93,6 +93,12 @@ class MongoTodoRepo(TodoRepo):
         todo_doc["priority"] = Priority.from_str(todo_doc["priority"]) # "hoch"-> Priority(name="hoch", ausrufezeichen="!!!")
         todo_doc["category"] = Category.from_str(todo_doc["category"])
         todo_doc["deadline"] = date.fromisoformat(todo_doc["deadline"])
-        todo_doc["extra"] = todo_doc["extra"]
+        if todo_doc["extra"] is not None:
+            if todo_doc["category"] == STUDIUM:
+                todo_doc["extra"] = Studium(**todo_doc["extra"])
+            elif todo_doc["category"] == HAUSHALT:
+                todo_doc["extra"] = Haushalt(**todo_doc["extra"])
+            elif todo_doc["category"] == FREIZEIT:
+                todo_doc["extra"] = Freizeit(**todo_doc["extra"])
         return ToDo(**todo_doc)
 
