@@ -4,7 +4,7 @@ from datetime import date
 from model.ToDoListe_model import ToDoListModel, ToDoModel
 from model.ToDoListe_model import prioritäten_dict, kategorien_dict
 from model.ToDoListe_model import Studium, Haushalt, Freizeit
-from repo import TodoRepo
+from repo import todo_memory_repo, todo_mongo_repo, todo_repo
 from erzeuge_todo_presenter import TodoDetailPresenter
 
 class TestTodoDetailPresenter(unittest.TestCase):
