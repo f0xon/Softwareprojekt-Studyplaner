@@ -170,5 +170,5 @@ class FiltereTodoView(ft.Column):
     
     def on_button_clicked_speichern(self):
         self.presenter.get_filtered_todos()
-        if isinstance(self.page, ft.Page): # für den TypeChecker, eigentlich immer der Fall
+        if isinstance(self.page, ft.Page):
             self.page.go("/Todos")
