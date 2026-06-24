@@ -2,6 +2,7 @@
 # pyright: reportUnknownMemberType=false
 # pyright: reportAttributeAccessIssue=false
 # pyright: reportOptionalMemberAccess=false
+from dataclasses import asdict
 from model.todo_model import ToDo
 from repo.todo_repo import TodoRepo
 

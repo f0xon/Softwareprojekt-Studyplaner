@@ -2,6 +2,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import date
 
+
 # --- Domain Core ---
 @dataclass(frozen=True)
 class Priority:
@@ -9,47 +10,51 @@ class Priority:
     ausrufezeichen: str
 
     @classmethod
-    def from_str(cls, as_str: str) -> Priority|None:
+    def from_str(cls, as_str: str) -> Priority | None:
         if as_str in PRIORITAETEN_DICT:
             return PRIORITAETEN_DICT[as_str]
         else:
             return KEINE_P
+
 
 KEINE_P = Priority("keine", "X")
 NIEDRIG = Priority("niedrig", "!")
 MITTEL = Priority("mittel", "!!")
 HOCH = Priority("hoch", "!!!")
 
-PRIORITAETEN_DICT: dict[str, Priority]={    
+PRIORITAETEN_DICT: dict[str, Priority] = {
     "keine": KEINE_P,
     "niedrig": NIEDRIG,
     "mittel": MITTEL,
-    "hoch": HOCH
+    "hoch": HOCH,
 }
+
 
 @dataclass(frozen=True)
 class Category:
     name: str
-    farbe:str
-    
+    farbe: str
+
     @classmethod
-    def from_str(cls, as_str: str) -> Category|None:
+    def from_str(cls, as_str: str) -> Category | None:
         if as_str in KATEGORIEN_DICT:
             return KATEGORIEN_DICT[as_str]
         else:
             return KEINE
-        
-KEINE = Category("keine","GREY_300")
-STUDIUM = Category("Studium","BLUE_100")
-HAUSHALT = Category("Haushalt","DEEP_PURPLE_100")
-FREIZEIT = Category("Freizeit","TEAL_100")
 
-KATEGORIEN_DICT={
-    "keine":KEINE,
-    "Studium":STUDIUM,
-    "Haushalt":HAUSHALT,
-    "Freizeit":FREIZEIT
+
+KEINE = Category("keine", "GREY_300")
+STUDIUM = Category("Studium", "BLUE_100")
+HAUSHALT = Category("Haushalt", "DEEP_PURPLE_100")
+FREIZEIT = Category("Freizeit", "TEAL_100")
+
+KATEGORIEN_DICT = {
+    "keine": KEINE,
+    "Studium": STUDIUM,
+    "Haushalt": HAUSHALT,
+    "Freizeit": FREIZEIT,
 }
+
 
 # --- Category Data Models ---
 @dataclass
@@ -57,17 +62,20 @@ class Studium:
     modul: str
     gruppenarbeit: bool
 
+
 @dataclass
 class Haushalt:
     wiederkehrend: bool
+
 
 @dataclass
 class Freizeit:
     hobby: str
     ort: str
 
+
 # --- MAIN TODO ---
-#Todo hat eine Kategorie Todo hat optionalen Zusatzdaten
+# Todo hat eine Kategorie Todo hat optionalen Zusatzdaten
 @dataclass
 class ToDo:
     _id: int
@@ -75,25 +83,21 @@ class ToDo:
     notiz: str
     priority: Priority | None
     deadline: date
-    calendar:bool
+    calendar: bool
     category: Category | None
-    extra: Studium | Haushalt | Freizeit |None = None
+    extra: Studium | Haushalt | Freizeit | None = None
     _erledigt: bool = False
 
     @property
-    def id(self)->int:
+    def id(self) -> int:
         return self._id
 
     @property
-    def erledigt(self)->bool:
+    def erledigt(self) -> bool:
         return self._erledigt
 
-    def toggle_erledigt_todo(self)->None: 
+    def toggle_erledigt_todo(self) -> None:
         if self._erledigt:
             self._erledigt = False
         else:
             self._erledigt = True
-
-    # @property
-    # def anzahl_offene_todos(self):
-    #     return len(self.todos)

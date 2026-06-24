@@ -3,18 +3,19 @@
 from model.todo_model import ToDo
 from repo.todo_repo import TodoRepo
 
+
 class TodoListePresenter:
     _repo: TodoRepo
 
     def __init__(self, repo: TodoRepo):
-        self._repo = repo
+        self._repo: TodoRepo = repo
 
     def get_todos(self) -> list[ToDo]:
         return self._repo.lade_alle()
 
     def erledige_todo(self, id: int) -> None:
         try:  # wenn erledigt angehakt ist doppelt
-            todo = self.todo_None(self._repo.finde_todo_mit_id(id))
+            todo: ToDo = self.todo_None(todo=self._repo.finde_todo_mit_id(todo_id=id))
             todo.toggle_erledigt_todo()
             self._repo.update_todo(todo)
         except ValueError as e:
@@ -22,7 +23,7 @@ class TodoListePresenter:
 
     def loesche_todo(self, id: int) -> None:
         try:
-            todo = self.todo_None(self._repo.finde_todo_mit_id(id))
+            todo: ToDo = self.todo_None(todo=self._repo.finde_todo_mit_id(todo_id=id))
             self._repo.loesche_todo(todo)
         except ValueError as e:
             print(f"Fehler:{e}")
