@@ -1,13 +1,15 @@
 # pyright: reportAttributeAccessIssue=false
 
+from flet.controls.core.column import Column
 import flet as ft
 from presenter.filtere_todo_presenter import FiltereTodoPresenter
 
+
 class FiltereTodoView(ft.Column):
-    def __init__(self,presenter:FiltereTodoPresenter):
+    def __init__(self, presenter: FiltereTodoPresenter):
         super().__init__()
         # self.on_save=on_save
-        self.presenter = presenter
+        self.presenter: FiltereTodoPresenter = presenter
 
         # RadioGroups
         self.status = ft.RadioGroup(
@@ -19,7 +21,7 @@ class FiltereTodoView(ft.Column):
                     ft.Radio(value="erledigt", label="Erledigt"),
                 ]
             ),
-            on_change=self.status_changed
+            on_change=self.status_changed,
         )
 
         self.category = ft.RadioGroup(
@@ -33,7 +35,7 @@ class FiltereTodoView(ft.Column):
                     ft.Radio(value="Freizeit", label="Freizeit"),
                 ]
             ),
-            on_change=self.category_changed
+            on_change=self.category_changed,
         )
 
         self.priority = ft.RadioGroup(
@@ -47,7 +49,7 @@ class FiltereTodoView(ft.Column):
                     ft.Radio(value="hoch", label="Hoch"),
                 ]
             ),
-            on_change=self.priority_changed
+            on_change=self.priority_changed,
         )
 
         # Container für ein-/ausblendbare Bereiche
@@ -60,7 +62,7 @@ class FiltereTodoView(ft.Column):
                         self.status,
                     ]
                 )
-            ]
+            ],
         )
 
         self.category_container = ft.Column(
@@ -72,7 +74,7 @@ class FiltereTodoView(ft.Column):
                         self.category,
                     ]
                 )
-            ]
+            ],
         )
 
         self.priority_container = ft.Column(
@@ -84,7 +86,7 @@ class FiltereTodoView(ft.Column):
                         self.priority,
                     ]
                 )
-            ]
+            ],
         )
 
         # UI aufbauen
@@ -93,7 +95,6 @@ class FiltereTodoView(ft.Column):
                 controls=[
                     ft.Text("Filterfunktion"),
                     ft.Divider(),
-
                     # Status
                     ft.Row(
                         controls=[
@@ -106,7 +107,6 @@ class FiltereTodoView(ft.Column):
                             self.status_container,
                         ]
                     ),
-
                     # Kategorie
                     ft.Row(
                         controls=[
@@ -119,7 +119,6 @@ class FiltereTodoView(ft.Column):
                             self.category_container,
                         ]
                     ),
-
                     # Priorität
                     ft.Row(
                         controls=[
@@ -132,28 +131,28 @@ class FiltereTodoView(ft.Column):
                             self.priority_container,
                         ]
                     ),
-                    ft.Button("Speichern",on_click=self.on_button_clicked_speichern)
+                    ft.Button("Speichern", on_click=self.on_button_clicked_speichern),
                 ]
             )
         ]
 
-    #verstößt gegen DRY
+    # verstößt gegen DRY
     def on_switch_changed_status(self, e: ft.Event[ft.Switch]):
         print("Switch Status changed:", e.control.value, type(e))
         self.status_container.visible = e.control.value
-        self.presenter.status="alle"
+        self.presenter.status = "alle"
         # self.status.value=self.presenter.status
         self.update()
 
     def on_switch_changed_category(self, e: ft.Event[ft.Switch]):
         self.category_container.visible = e.control.value
-        self.presenter.kat="alle"
+        self.presenter.kat = "alle"
         # self.category.value=self.presenter.kat
         self.update()
 
     def on_switch_changed_priority(self, e: ft.Event[ft.Switch]):
         self.priority_container.visible = e.control.value
-        self.presenter.prio="alle"
+        self.presenter.prio = "alle"
         self.update()
 
     def category_changed(self):
@@ -167,8 +166,10 @@ class FiltereTodoView(ft.Column):
     def status_changed(self):
         if self.status.value is not None:
             self.presenter.set_status(self.status.value)
-    
+
     def on_button_clicked_speichern(self):
         self.presenter.get_filtered_todos()
-        if isinstance(self.page, ft.Page): # für den TypeChecker, eigentlich immer der Fall
-            self.page.go("/Todos")
+        if isinstance(
+            self.page, ft.Page
+        ):  # für den TypeChecker, eigentlich immer der Fall
+            self.page.go(route="/Todos")
