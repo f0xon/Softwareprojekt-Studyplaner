@@ -99,6 +99,7 @@ class TodoDetailPresenter:
         else:  # CREATE
             todo = ToDo(
                 _todo_id=self.repo.naechste_id(),
+                _user_id=self.presenter_login.login(),
                 titel=titel,
                 notiz=notiz,
                 deadline=deadline,

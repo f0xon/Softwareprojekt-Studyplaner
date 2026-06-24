@@ -17,5 +17,6 @@ class NavigationBarView:
                 ft.NavigationBarDestination(icon=ft.Icons.ADD, label="ADD"),
                 ft.NavigationBarDestination(icon=ft.Icons.CHECKLIST_RTL, label="ToDos"),
                 ft.NavigationBarDestination(icon=ft.Icons.FILTER_ALT, label="Filter"),
+                ft.NavigationBarDestination(icon=ft.Icons.FILTER_ALT, label="Einloggen"),
             ],
         )

@@ -21,7 +21,7 @@ class MongoTodoRepo(TodoRepo):
 
     def update_todo(self, todo: ToDo)->None:
         self.db.todos.update_one(
-            {"_todo_id": todo.todo_id},
+            {"_todo_id": todo.todo_id,"_user_id": todo.user_id},
             {"$set": self.list_to_doc(todo)}
         )
         # self._todos.remove(todo)
@@ -29,7 +29,7 @@ class MongoTodoRepo(TodoRepo):
 
     def lade_alle(self) -> list[ToDo]:
         todos: list[ToDo] = []
-        alle_eintraege=self.db.todos.find(projection={"_id": False})# type: ignore
+        alle_eintraege=self.db.todos.find({ "_user_id": todo.user_id},projection={"_id": False})# type: ignore
         for eintrag in alle_eintraege:# type: ignore
             todos.append(self.doc_to_list(eintrag))# type: ignore
         return todos
@@ -44,12 +44,12 @@ class MongoTodoRepo(TodoRepo):
         todo = self.finde_todo_mit_id(todo_id)
         neuer_status = not todo.erledigt
         self.db.todos.update_one(
-            {"_todo_id": todo_id},
+            {"_user_id": todo.user_id},
             {"$set": {"erledigt": neuer_status}}
         )
 
     def loesche_todo(self, todo:ToDo) -> None:
-        self.db.todos.delete_one({"_todo_id": todo.todo_id})
+        self.db.todos.delete_one({"_todo_id": todo.todo_id, "_user_id": todo.user_id})
     
     def filtere_todos(self, kat: str, prio: str, status: str) -> list[ToDo]:
         query: dict[str, Any] = {}
@@ -74,6 +74,8 @@ class MongoTodoRepo(TodoRepo):
         if letztes_todo is None:
             return 1
         return letztes_todo["_todo_id"] + 1
+    
+
 
     #Übersetzung von Liste in Mongo Dict:
     def list_to_doc(self, todo: ToDo) -> dict[str,Any]:

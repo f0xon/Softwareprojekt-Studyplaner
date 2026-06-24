@@ -25,6 +25,7 @@ class InMemoryTodoRepo(TodoRepo):
         self._todos: list[ToDo] = [
             ToDo(
                 _todo_id=1,
+                _user_id="Ferdinand",
                 titel="Mathe lernen",
                 notiz="Kapitel 3 üben",
                 priority=HOCH,
@@ -35,6 +36,7 @@ class InMemoryTodoRepo(TodoRepo):
             ),
             ToDo(
                 _todo_id=2,
+                _user_id="Miri",
                 titel="Hund bürsten",
                 notiz="Hundebürste",
                 priority=KEINE_P,
@@ -45,6 +47,7 @@ class InMemoryTodoRepo(TodoRepo):
             ),
             ToDo(
                 _todo_id=3,
+                _user_id="Miri",
                 titel="Mathe",
                 notiz="MaMo",
                 priority=MITTEL,
@@ -55,6 +58,7 @@ class InMemoryTodoRepo(TodoRepo):
             ),
             ToDo(
                 _todo_id=4,
+                _user_id="Ferdinand",
                 titel="Wäsche waschen",
                 notiz="",
                 priority=MITTEL,
@@ -64,6 +68,7 @@ class InMemoryTodoRepo(TodoRepo):
             ),
             ToDo(
                 _todo_id=5,
+                _user_id="Miri",
                 titel="Oma anrufen",
                 notiz="gut",
                 priority=HOCH,
@@ -74,6 +79,7 @@ class InMemoryTodoRepo(TodoRepo):
             ),
             ToDo(
                 _todo_id=6,
+                _user_id="Selina",
                 titel="Staubsaugen",
                 notiz="",
                 priority=NIEDRIG,
@@ -84,6 +90,7 @@ class InMemoryTodoRepo(TodoRepo):
             ),
             ToDo(
                 _todo_id=7,
+                _user_id="Ferdinand",
                 titel="Softwareprojekt-Studyplaner",
                 notiz="",
                 priority=HOCH,
@@ -94,6 +101,7 @@ class InMemoryTodoRepo(TodoRepo):
             ),
             ToDo(
                 _todo_id=8,
+                _user_id="Ferdinand",
                 titel="Einkaufen",
                 notiz="",
                 priority=NIEDRIG,
@@ -104,6 +112,7 @@ class InMemoryTodoRepo(TodoRepo):
             ),
             ToDo(
                 _todo_id=9,
+                _user_id="Ferdinand",
                 titel="Freunde treffen",
                 notiz="",
                 priority=MITTEL,
@@ -114,6 +123,7 @@ class InMemoryTodoRepo(TodoRepo):
             ),
             ToDo(
                 _todo_id=10,
+                _user_id="Ferdinand",
                 titel="Buch lesen",
                 notiz="",
                 priority=NIEDRIG,
@@ -124,6 +134,7 @@ class InMemoryTodoRepo(TodoRepo):
             ),
             ToDo(
                 _todo_id=11,
+                _user_id="Ferdinand",
                 titel="Sport machen",
                 notiz="",
                 priority=MITTEL,
@@ -134,6 +145,7 @@ class InMemoryTodoRepo(TodoRepo):
             ),
             ToDo(
                 _todo_id=12,
+                _user_id="Ferdinand",
                 titel="Projektarbeit",
                 notiz="",
                 priority=HOCH,
@@ -144,6 +156,7 @@ class InMemoryTodoRepo(TodoRepo):
             ),
             ToDo(
                 _todo_id=13,
+                _user_id="Ferdinand",
                 titel="Auto waschen",
                 notiz="",
                 priority=NIEDRIG,
@@ -154,6 +167,7 @@ class InMemoryTodoRepo(TodoRepo):
             ),
             ToDo(
                 _todo_id=14,
+                _user_id="Ferdinand",
                 titel="Gartenarbeit",
                 notiz="",
                 priority=MITTEL,
@@ -164,6 +178,7 @@ class InMemoryTodoRepo(TodoRepo):
             ),
             ToDo(
                 _todo_id=15,
+                _user_id="Ferdinand",
                 titel="Kino besuchen",
                 notiz="",
                 priority=NIEDRIG,
@@ -174,6 +189,7 @@ class InMemoryTodoRepo(TodoRepo):
             ),
             ToDo(
                 _todo_id=16,
+                _user_id="Ferdinand",
                 titel="Hausaufgaben",
                 notiz="",
                 priority=MITTEL,

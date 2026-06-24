@@ -2,6 +2,8 @@
 import flet as ft
 from typing import Any
 # from model.todo_model import ToDoModel, Priority, hoch, mittel, niedrig, keine_p, Category, studium, haushalt, freizeit
+from Software_Todo_umstrukturiert.presenter.login_presenter import LoginPresenter
+from Software_Todo_umstrukturiert.view.login_view import LoginView
 from view.todo_view import TodoView
 from view.filtere_todo_view import FiltereTodoView
 from view.navigationBar_view import NavigationBarView
@@ -26,6 +28,7 @@ class Router:
         self.todo: str = "/Todo"
         self.erzeuge_todo: str = "/erzeugeTodo"
         self.filtere_todo: str = "/filtereTodo"
+        self.login: str = "/login"
         self.page.navigation_bar = NavigationBarView(self).build()
 
         page.on_route_change = self.on_route_change
@@ -42,11 +45,13 @@ class Router:
         self.presenter_todo = TodoListePresenter(self.ausgewaehltes_repo)
         self.presenter_detail = TodoDetailPresenter(self.ausgewaehltes_repo)
         self.presenter_filtern = FiltereTodoPresenter(self.ausgewaehltes_repo)
+        self.presenter_login = LoginPresenter(self.ausgewaehltes_repo)
 
         self.navigation: dict[int, str] = {
             0: self.erzeuge_todo,
             1: self.todo,
             2: self.filtere_todo,
+            3: self.login,
         }
 
         self.page.on_route_change = self.on_route_change
@@ -72,6 +77,9 @@ class Router:
 
         elif self.page.route == self.filtere_todo:
             self.page.add(FiltereTodoView(self.presenter_filtern))
+        
+        elif self.page.route == self.login:
+            self.page.add(LoginView(self.presenter_login))
 
         else:
             self.page.go(self.todo)

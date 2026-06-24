@@ -79,6 +79,7 @@ class Freizeit:
 @dataclass
 class ToDo:
     _todo_id: int
+    _user_id: str
     titel: str
     notiz: str
     priority: Priority | None
@@ -91,6 +92,10 @@ class ToDo:
     @property
     def todo_id(self) -> int:
         return self._todo_id
+    
+    @property
+    def user_id(self) -> str:
+        return self._user_id
 
     @property
     def erledigt(self) -> bool:
