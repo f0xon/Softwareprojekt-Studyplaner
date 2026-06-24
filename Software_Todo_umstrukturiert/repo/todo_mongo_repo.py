@@ -18,7 +18,7 @@ class MongoTodoRepo(TodoRepo):
         self.db = db 
 
     def speichere(self, todo: ToDo) ->None:
-        self.db.todos.insert_one(self.list_to_doc(todo)) #TODO todo_id mit erzeugen
+        self.db.todos.insert_one(self.list_to_doc(todo)) #TODO todo_id mit erzeugen oder ist schon im presenter?
 
     def update_todo(self, todo: ToDo)->None:
         self.db.todos.update_one(
