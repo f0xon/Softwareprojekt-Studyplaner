@@ -13,8 +13,8 @@ from presenter.todo_presenter import TodoListePresenter
 from presenter.erzeuge_todo_presenter import TodoDetailPresenter
 from presenter.filtere_todo_presenter import FiltereTodoPresenter
 from repo.todo_memory_repo import InMemoryTodoRepo
-#from repo.todo_mongo_repo import MongoTodoRepo
-#from repo.todo_repo import TodoRepo
+# from repo.todo_mongo_repo import MongoTodoRepo
+# from repo.todo_repo import TodoRepo
 # from pymongo import MongoClient
 # from pymongo.database import Database
 
@@ -22,6 +22,7 @@ DB_URL = "mongodb+srv://cluster0.9w2gjme.mongodb.net"
 DB_USER = "soen_labor"
 DB_PASSWORD = "6HQgiBWd7IDAXa6g"
 DB_NAME = "soen_vorlesung"
+
 
 class Router:
     def __init__(self, page: ft.Page):
@@ -37,7 +38,7 @@ class Router:
         # db: Database[Any] = MongoClient(                               #TODO Fragen wegen Type # type: ignore
         #     DB_URL, username=DB_USER, password=DB_PASSWORD
         # ).get_database(DB_NAME)
-        #self.repo_mongo = MongoTodoRepo(db)
+        # self.repo_mongo = MongoTodoRepo(db)
         self.repo_memory = InMemoryTodoRepo()
         # wähle hier dein gewünschtes Repo aus:
         self.ausgewaehltes_repo = self.repo_memory
@@ -61,8 +62,12 @@ class Router:
 
         self.page.clean()
         if self.page.route == self.todo:
-            self.page.add(TodoView(self.presenter_todo, self.presenter_filtern, self.presenter_detail))
-        
+            self.page.add(
+                TodoView(
+                    self.presenter_todo, self.presenter_filtern, self.presenter_detail
+                )
+            )
+
         elif self.page.route.startswith(self.erzeuge_todo):
             if "?" in self.page.route:
                 self.lade_todo_aus_route()
@@ -78,7 +83,7 @@ class Router:
 
         self.page.update()
 
-    def lade_todo_aus_route(self)->None:
+    def lade_todo_aus_route(self) -> None:
         self.presenter_detail.set_modus("edit")
         query = self.page.route.split("?")[1]
         items = query.split("&")

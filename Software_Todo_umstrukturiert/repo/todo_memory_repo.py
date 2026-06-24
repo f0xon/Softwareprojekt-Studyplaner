@@ -1,12 +1,28 @@
-from model.todo_model import ToDo,HOCH,MITTEL,NIEDRIG,KEINE_P,STUDIUM,KEINE,HAUSHALT,FREIZEIT,KATEGORIEN_DICT,PRIORITAETEN_DICT,Studium,Haushalt,Freizeit
+from model.todo_model import (
+    ToDo,
+    HOCH,
+    MITTEL,
+    NIEDRIG,
+    KEINE_P,
+    STUDIUM,
+    KEINE,
+    HAUSHALT,
+    FREIZEIT,
+    KATEGORIEN_DICT,
+    PRIORITAETEN_DICT,
+    Studium,
+    Haushalt,
+    Freizeit,
+)
 from datetime import date
 from repo.todo_repo import TodoRepo
+
 
 class InMemoryTodoRepo(TodoRepo):
     _todos: list[ToDo]
 
     def __init__(self):
-        self._todos = [
+        self._todos: list[ToDo] = [
             ToDo(
                 _id=1,
                 titel="Mathe lernen",
@@ -171,11 +187,11 @@ class InMemoryTodoRepo(TodoRepo):
     def speichere(self, todo: ToDo) -> None:
         self._todos.append(todo)
 
-    def update_todo(self, todo: ToDo)->None:
+    def update_todo(self, todo: ToDo) -> None:
         self._todos.remove(todo)
         self._todos.append(todo)
 
-    def lade_alle(self) ->list[ToDo]:  # unstimmigkeit ?? nur ein model?
+    def lade_alle(self) -> list[ToDo]:  # unstimmigkeit ?? nur ein model?
         return self._todos
 
     def finde_todo_mit_id(self, todo_id: int) -> ToDo | None:
@@ -199,7 +215,7 @@ class InMemoryTodoRepo(TodoRepo):
             for todo in result:
                 if todo.category == KATEGORIEN_DICT[kat]:
                     gefiltert_nach_kategorie.append(todo)
-            result = gefiltert_nach_kategorie
+            result: list[ToDo] = gefiltert_nach_kategorie
         # Priorität
         if prio != "alle":
             gefiltert_nach_priority: list[ToDo] = []
@@ -207,20 +223,20 @@ class InMemoryTodoRepo(TodoRepo):
                 if todo.priority == PRIORITAETEN_DICT[prio]:
                     gefiltert_nach_priority.append(todo)
 
-            result = gefiltert_nach_priority
+            result: list[ToDo] = gefiltert_nach_priority
         # Status
         if status == "offen":
             gefiltert_nach_status: list[ToDo] = []
             for todo in result:
                 if todo.erledigt is False:
                     gefiltert_nach_status.append(todo)
-            result = gefiltert_nach_status
+            result: list[ToDo] = gefiltert_nach_status
         elif status == "erledigt":
-            gefiltert_nach_status = []
+            gefiltert_nach_status: list[ToDo] = []
             for todo in result:
                 if todo.erledigt is True:
                     gefiltert_nach_status.append(todo)
-            result = gefiltert_nach_status
+            result: list[ToDo] = gefiltert_nach_status
         return result
 
     def naechste_id(self) -> int:

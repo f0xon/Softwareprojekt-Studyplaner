@@ -1,17 +1,29 @@
 # from pydantic.v1.errors import NoneIsAllowedError
 # from dataclasses import asdict
 from typing import Any, Literal
-from model.todo_model import KATEGORIEN_DICT, KEINE, KEINE_P, PRIORITAETEN_DICT, Category, Freizeit, Haushalt, Priority, Studium, ToDo
+from model.todo_model import (
+    KATEGORIEN_DICT,
+    KEINE,
+    KEINE_P,
+    PRIORITAETEN_DICT,
+    Category,
+    Freizeit,
+    Haushalt,
+    Priority,
+    Studium,
+    ToDo,
+)
 from repo.todo_repo import TodoRepo
 from datetime import date
+
 
 # class ErzeugeTodoPresenter:
 class TodoDetailPresenter:
     _modus: Literal["create", "edit"]
 
     def __init__(self, repo: TodoRepo):
-        self.repo = repo
-        self._modus:Literal["create", "edit"]="create"
+        self.repo: TodoRepo = repo
+        self._modus: Literal["create", "edit"] = "create"
         self._current_todo: ToDo | None = None
 
     @property
@@ -21,7 +33,7 @@ class TodoDetailPresenter:
         return None
 
     def set_modus(self, modus: Literal["create", "edit"]):
-        self._modus = modus
+        self._modus: Literal["create", "edit"] = modus
 
     @property
     def is_create_mode(self) -> bool:
@@ -31,13 +43,15 @@ class TodoDetailPresenter:
     def is_edit_mode(self) -> bool:
         return self._modus == "edit"
 
-    def map_priority(self, value: str) -> Priority | None:  
+    def map_priority(self, value: str) -> Priority | None:
         return PRIORITAETEN_DICT.get(value, KEINE_P)
 
-    def map_category(self, value: str) -> Category|None:
+    def map_category(self, value: str) -> Category | None:
         return KATEGORIEN_DICT.get(value, KEINE)
 
-    def build_extra(self, category: str, data: dict[str, Any]) -> Studium | Haushalt | Freizeit | None:
+    def build_extra(
+        self, category: str, data: dict[str, Any]
+    ) -> Studium | Haushalt | Freizeit | None:
         if not data:
             return None
         mapping: dict[str, type[Studium] | type[Haushalt] | type[Freizeit]] = {
@@ -75,7 +89,9 @@ class TodoDetailPresenter:
             todo.titel = titel
             todo.notiz = notiz
             todo.deadline = deadline
-            todo.calendar = self.von_str_zu_bool(calendar)  # ist Variablenwert von Model da in view str und im model bool
+            todo.calendar = self.von_str_zu_bool(
+                calendar
+            )  # ist Variablenwert von Model da in view str und im model bool
             # todo.priority = self.map_priority(priority)
             todo.priority = Priority.from_str(priority)
             todo.category = self.map_category(category)
@@ -88,7 +104,7 @@ class TodoDetailPresenter:
                 deadline=deadline,
                 calendar=self.von_str_zu_bool(calendar),
                 # priority=self.map_priority(priority),
-                priority = Priority.from_str(priority),
+                priority=Priority.from_str(priority),
                 category=self.map_category(category),
                 extra=self.build_extra(category, extra),
             )
