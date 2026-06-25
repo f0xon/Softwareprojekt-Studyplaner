@@ -10,14 +10,14 @@ from repo.todo_repo import TodoRepo
 
 #Datenbank: soen_vorlesung
 #Collection: todos -> wird lazy erstellt
-#Dokumente: Todoobjekt in json 
+#Dokumente: Todoobjekt in json artigen dict
 
 class MongoTodoRepo(TodoRepo):
     def __init__(self, db) -> None: 
         self.db = db 
 
     def speichere(self, todo: ToDo) ->None:
-        self.db.todos.insert_one(self.list_to_doc(todo)) #TODO todo_id mit erzeugen oder ist schon im presenter?
+        self.db.todos.insert_one(self.list_to_doc(todo)) 
 
     def update_todo(self, todo: ToDo)->None:
         self.db.todos.update_one(
@@ -87,7 +87,6 @@ class MongoTodoRepo(TodoRepo):
         todo_doc["extra"] = asdict(todo.extra) if todo.extra is not None else None 
         return todo_doc
     
-    #Betz: Model mit im repo ok?
     def doc_to_list(self, todo_doc:dict[str,Any])->ToDo:
         todo_doc["priority"] = Priority.from_str(todo_doc["priority"]) # "hoch"-> Priority(name="hoch", ausrufezeichen="!!!")
         todo_doc["category"] = Category.from_str(todo_doc["category"])
@@ -100,4 +99,3 @@ class MongoTodoRepo(TodoRepo):
             elif todo_doc["category"] == FREIZEIT:
                 todo_doc["extra"] = Freizeit(**todo_doc["extra"])
         return ToDo(**todo_doc)
-
