@@ -36,7 +36,7 @@ class Router:
         self.repo_memory = InMemoryTodoRepo()
         # wähle hier dein gewünschtes Repo aus:
         # self.ausgewaehltes_repo = self.repo_memory
-        self.ausgewaehltes_repo = self.repo_mongo
+        self.ausgewaehltes_repo = self.repo_memory
 
         # Presenter hier erzeugen
         self.presenter_todo = TodoListePresenter(self.ausgewaehltes_repo)
