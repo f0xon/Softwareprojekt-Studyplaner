@@ -124,7 +124,7 @@ class TestTodoDetailPresenter(unittest.TestCase):
 
         self.mock_repo.speichere.assert_called_once()
         saved_todo = self.mock_repo.speichere.call_args[0][0]
-        self.assertEqual(saved_todo._id, 100)
+        self.assertEqual(saved_todo._todo_id, 100)
         self.assertEqual(saved_todo.titel, "New Todo")
         self.assertEqual(saved_todo.notiz, "New Notiz")
         self.assertEqual(saved_todo.deadline, date(2026, 6, 25))

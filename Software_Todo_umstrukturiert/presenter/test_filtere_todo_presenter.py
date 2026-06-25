@@ -36,9 +36,9 @@ class TestFiltereTodoPresenter(unittest.TestCase):
 
     def test_get_filtered_todos_default(self):
         mock_todo1 = Mock(spec=ToDo)
-        mock_todo1.id = 1
+        mock_todo1.todo_id = 1
         mock_todo2 = Mock(spec=ToDo)
-        mock_todo2.id = 2
+        mock_todo2.todo_id = 2
         mock_todos = [mock_todo1, mock_todo2]
 
         self.mock_repo.filtere_todos.return_value = mock_todos
@@ -47,8 +47,8 @@ class TestFiltereTodoPresenter(unittest.TestCase):
 
         self.mock_repo.filtere_todos.assert_called_once_with("alle", "alle", "alle")
         self.assertEqual(len(result), 2)
-        self.assertEqual(result[0].id, 1)
-        self.assertEqual(result[1].id, 2)
+        self.assertEqual(result[0].todo_id, 1)
+        self.assertEqual(result[1].todo_id, 2)
 
     def test_get_filtered_todos_with_custom_filters(self):
         self.presenter.set_kategorie("Studium")
@@ -56,11 +56,11 @@ class TestFiltereTodoPresenter(unittest.TestCase):
         self.presenter.set_status("offen")
 
         mock_todo = Mock(spec=ToDo)
-        mock_todo.id = 1
+        mock_todo.todo_id = 1
         self.mock_repo.filtere_todos.return_value = [mock_todo]
 
         result = self.presenter.get_filtered_todos()
 
         self.mock_repo.filtere_todos.assert_called_once_with("Studium", "hoch", "offen")
         self.assertEqual(len(result), 1)
-        self.assertEqual(result[0].id, 1)
+        self.assertEqual(result[0].todo_id, 1)

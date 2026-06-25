@@ -75,7 +75,7 @@ class TestTodoModel(unittest.TestCase):
     def test_ToDoModel_creation_with_Studium(self):
         """Test ToDoModel creation with Studium extra data"""
         todo = todo_model.ToDo(
-            _id=1,
+            _todo_id=1,
             titel="Mathe lernen",
             notiz="Kapitel 1-3 durcharbeiten",
             priority=todo_model.HOCH,
@@ -86,7 +86,7 @@ class TestTodoModel(unittest.TestCase):
             _erledigt=False
         )
 
-        self.assertEqual(todo.id, 1)
+        self.assertEqual(todo.todo_id, 1)
         self.assertEqual(todo.titel, "Mathe lernen")
         self.assertEqual(todo.notiz, "Kapitel 1-3 durcharbeiten")
         if todo.priority is not None:
@@ -108,7 +108,7 @@ class TestTodoModel(unittest.TestCase):
     def test_ToDoModel_creation_with_Haushalt(self):
         """Test ToDoModel creation with Haushalt extra data"""
         todo = todo_model.ToDo(
-            _id=2,
+            _todo_id=2,
             titel="Wohnung putzen",
             notiz="Staubsaugen und wischen",
             priority=todo_model.MITTEL,
@@ -119,7 +119,7 @@ class TestTodoModel(unittest.TestCase):
             _erledigt=True
         )
 
-        self.assertEqual(todo.id, 2)
+        self.assertEqual(todo.todo_id, 2)
         if todo.category is not None:
             self.assertEqual(todo.category.name, "Haushalt")
         self.assertIsInstance(todo.extra, todo_model.Haushalt)
@@ -130,7 +130,7 @@ class TestTodoModel(unittest.TestCase):
     def test_ToDoModel_creation_with_Freizeit(self):
         """Test ToDoModel creation with Freizeit extra data"""
         todo = todo_model.ToDo(
-            _id=3,
+            _todo_id=3,
             titel="Wandertour",
             notiz="Gipfelsturm",
             priority=todo_model.NIEDRIG,
@@ -141,7 +141,7 @@ class TestTodoModel(unittest.TestCase):
             _erledigt=False
         )
 
-        self.assertEqual(todo.id, 3)
+        self.assertEqual(todo.todo_id, 3)
         if todo.category is not None:
             self.assertEqual(todo.category.name, "Freizeit")
         self.assertIsInstance(todo.extra, todo_model.Freizeit)
@@ -152,7 +152,7 @@ class TestTodoModel(unittest.TestCase):
     def test_ToDoModel_creation_with_no_extra(self):
         """Test ToDoModel creation without extra data"""
         todo = todo_model.ToDo(
-            _id=4,
+            _todo_id=4,
             titel="Einkaufen",
             notiz="Milch, Eier, Brot",
             priority=todo_model.KEINE_P,
@@ -163,7 +163,7 @@ class TestTodoModel(unittest.TestCase):
             _erledigt=False
         )
 
-        self.assertEqual(todo.id, 4)
+        self.assertEqual(todo.todo_id, 4)
         if todo.category is not None:
             self.assertEqual(todo.category.name, "keine")
         self.assertIsNone(todo.extra)
@@ -173,7 +173,7 @@ class TestTodoModel(unittest.TestCase):
     def test_toggle_erledigt_todo(self):
         """Test the toggle_erledigt_todo method"""
         todo = todo_model.ToDo(
-            _id=5,
+            _todo_id=5,
             titel="Test",
             notiz="Testbeschreibung",
             priority=todo_model.KEINE_P,
@@ -202,7 +202,7 @@ class TestTodoModel(unittest.TestCase):
     def test_ToDoModel_change_category_and_extra(self):
         """Test changing category and extra after creation"""
         todo = todo_model.ToDo(
-            _id=6,
+            _todo_id=6,
             titel="Aktivität",
             notiz="Test",
             priority=todo_model.MITTEL,
@@ -238,7 +238,7 @@ class TestTodoModel(unittest.TestCase):
     def test_ToDoModel_change_priority(self):
         """Test changing priority after creation"""
         todo = todo_model.ToDo(
-            _id=7,
+            _todo_id=7,
             titel="Priority Test",
             notiz="Test",
             priority=todo_model.KEINE_P,
@@ -271,7 +271,7 @@ class TestTodoModel(unittest.TestCase):
 
         # Create ToDoModel using mock data
         todo = todo_model.ToDo(
-            _id=100,
+            _todo_id=100,
             titel=mock_repo.get_title.return_value or "Mock Todo",
             notiz="Mock Notiz",
             priority=mock_repo.get_priority(),
