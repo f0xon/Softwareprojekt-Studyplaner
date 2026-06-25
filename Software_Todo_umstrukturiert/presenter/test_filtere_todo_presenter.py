@@ -1,18 +1,16 @@
 import unittest
 from unittest.mock import Mock
-from model.ToDoListe_model import ToDoListModel, ToDoModel
-from repo import TodoRepo
+from model.todo_model import ToDo
+from repo.todo_repo import TodoRepo
 from filtere_todo_presenter import FiltereTodoPresenter
 
 class TestFiltereTodoPresenter(unittest.TestCase):
 
     def setUp(self):
-        self.mock_model = Mock(spec=ToDoListModel)
         self.mock_repo = Mock(spec=TodoRepo)
-        self.presenter = FiltereTodoPresenter(self.mock_model, self.mock_repo)
+        self.presenter = FiltereTodoPresenter(self.mock_repo)
 
     def test_initialization(self):
-        self.assertIsInstance(self.presenter.model, Mock)
         self.assertIsInstance(self.presenter.repo, Mock)
         self.assertEqual(self.presenter.kat, "alle")
         self.assertEqual(self.presenter.prio, "alle")
@@ -37,9 +35,9 @@ class TestFiltereTodoPresenter(unittest.TestCase):
         self.assertEqual(self.presenter.status, "erledigt")
 
     def test_get_filtered_todos_default(self):
-        mock_todo1 = Mock(spec=ToDoModel)
+        mock_todo1 = Mock(spec=ToDo)
         mock_todo1.id = 1
-        mock_todo2 = Mock(spec=ToDoModel)
+        mock_todo2 = Mock(spec=ToDo)
         mock_todo2.id = 2
         mock_todos = [mock_todo1, mock_todo2]
 
@@ -57,7 +55,7 @@ class TestFiltereTodoPresenter(unittest.TestCase):
         self.presenter.set_priority("hoch")
         self.presenter.set_status("offen")
 
-        mock_todo = Mock(spec=ToDoModel)
+        mock_todo = Mock(spec=ToDo)
         mock_todo.id = 1
         self.mock_repo.filtere_todos.return_value = [mock_todo]
 
