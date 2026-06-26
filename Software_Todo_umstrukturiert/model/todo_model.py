@@ -16,6 +16,7 @@ class Priority:
         else:
             return KEINE_P
 
+
 KEINE_P = Priority("keine", "X")
 NIEDRIG = Priority("niedrig", "!")
 MITTEL = Priority("mittel", "!!")
@@ -27,6 +28,7 @@ PRIORITAETEN_DICT: dict[str, Priority] = {
     "mittel": MITTEL,
     "hoch": HOCH,
 }
+
 
 @dataclass(frozen=True)
 class Category:
@@ -40,6 +42,7 @@ class Category:
         else:
             return KEINE
 
+
 KEINE = Category("keine", "GREY_300")
 STUDIUM = Category("Studium", "BLUE_100")
 HAUSHALT = Category("Haushalt", "DEEP_PURPLE_100")
@@ -52,31 +55,35 @@ KATEGORIEN_DICT = {
     "Freizeit": FREIZEIT,
 }
 
+
 # --- Category Data Models ---
 @dataclass
 class Studium:
     modul: str
     gruppenarbeit: bool
 
+
 @dataclass
 class Haushalt:
     wiederkehrend: bool
+
 
 @dataclass
 class Freizeit:
     hobby: str
     ort: str
 
+
 @dataclass
 class ToDo:
     _todo_id: int
     titel: str
     notiz: str
-    priority: Priority | None
+    priority: Priority
     deadline: date
     calendar: bool
-    category: Category | None #TODO sinnvoll hier mit None zu arbeiten?
-    extra: Studium | Haushalt | Freizeit | None = None # hat optionalen Zusatzdaten
+    category: Category
+    extra: Studium | Haushalt | Freizeit | None = None  # hat optionalen Zusatzdaten
     _erledigt: bool = False
 
     @property
