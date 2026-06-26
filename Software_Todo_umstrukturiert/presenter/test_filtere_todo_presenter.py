@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import Mock
-from model.todo_model import ToDo
+from Software_Todo_umstrukturiert.model.todo_model import ToDo
 from repo.todo_repo import TodoRepo
 from filtere_todo_presenter import FiltereTodoPresenter
 
