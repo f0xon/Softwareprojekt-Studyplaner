@@ -97,7 +97,4 @@ class ToDo:
         return self._erledigt
 
     def toggle_erledigt_todo(self) -> None:
-        if self._erledigt:
-            self._erledigt = False
-        else:
-            self._erledigt = True
+        self._erledigt = not self._erledigt

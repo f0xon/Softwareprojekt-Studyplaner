@@ -45,7 +45,7 @@ class MongoTodoRepo(TodoRepo):
         neuer_status = not todo.erledigt
         self.db.todos.update_one(
             {"_todo_id": todo_id},
-            {"$set": {"erledigt": neuer_status}}
+            {"$set": {"_erledigt": neuer_status}}
         )
 
     def loesche_todo(self, todo:ToDo) -> None:
@@ -61,9 +61,9 @@ class MongoTodoRepo(TodoRepo):
             query["priority"] = PRIORITAETEN_DICT[prio].name
         # Status
         if status == "offen":
-            query["erledigt"] = False
+            query["_erledigt"] = False
         elif status == "erledigt":
-            query["erledigt"] = True
+            query["_erledigt"] = True
         todos: list[ToDo] = []
         for doc in self.db.todos.find(query,projection={"_id": False}):# type: ignore
             todos.append(self.doc_to_list(doc))# type: ignore

@@ -8,7 +8,7 @@ from model.todo_model import (
     Freizeit,
     Haushalt,
     Studium,
-)  # view kennt model? braucht um typechekcer zufriedenzustellen
+)  #Betz: view kennt model? braucht um typechekcer zufriedenzustellen
 from presenter.erzeuge_todo_presenter import TodoDetailPresenter
 
 
@@ -21,7 +21,7 @@ class StudiumKategorie:
     def __init__(self):
         self.modul = ft.TextField(label="Modul")
         self.gruppenarbeit = ft.RadioGroup(
-            value="false",  # gehen keine bools?
+            value="false",  
             content=ft.Row(
                 controls=[
                     ft.Radio(value="true", label="Ja"),
