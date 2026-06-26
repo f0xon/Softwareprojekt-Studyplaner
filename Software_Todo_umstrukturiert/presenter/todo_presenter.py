@@ -14,7 +14,7 @@ class TodoListePresenter:
         return self._repo.lade_alle()
 
     def erledige_todo(self, id: int) -> None:
-        try:  # wenn erledigt angehakt ist doppelt
+        try: 
             todo: ToDo = self.todo_None(todo=self._repo.finde_todo_mit_id(todo_id=id))
             todo.toggle_erledigt_todo()
             self._repo.update_todo(todo)
@@ -32,7 +32,7 @@ class TodoListePresenter:
         for todo in self._repo.lade_alle():
             if todo.todo_id == id:
                 return todo
-        return None
+        return None #TODO: wenn None dann in View Text mit  keine Todos vorhanden
 
     def todo_None(self, todo: ToDo | None) -> ToDo:
         if todo is None:

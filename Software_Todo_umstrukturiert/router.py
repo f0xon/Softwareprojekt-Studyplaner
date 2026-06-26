@@ -34,11 +34,11 @@ class Router:
         db: Database[Any] = MongoClient(DB_URL, username=DB_USER, password=DB_PASSWORD).get_database(DB_NAME)
         self.repo_mongo = MongoTodoRepo(db)
         self.repo_memory = InMemoryTodoRepo()
-        # wähle hier dein gewünschtes Repo aus:
+    # wähle hier dein gewünschtes Repo aus:
         # self.ausgewaehltes_repo = self.repo_memory
         self.ausgewaehltes_repo = self.repo_mongo
 
-        # Presenter hier erzeugen
+        # Presenter erzeugen
         self.presenter_todo = TodoListePresenter(self.ausgewaehltes_repo)
         self.presenter_detail = TodoDetailPresenter(self.ausgewaehltes_repo)
         self.presenter_filtern = FiltereTodoPresenter(self.ausgewaehltes_repo)
@@ -91,7 +91,7 @@ class Router:
             self.presenter_detail.lade_todo(todo_id)
 
     def on_nav_change(self, e: ft.ControlEvent):
-        index: int = e.control.selected_index
+        index: int = e.control.selected_index #Betz: Was ist hier der richtige Typ?
         route = self.navigation.get(index)
         if route:
             if isinstance(self.page, ft.Page):  # pyright: ignore[reportUnnecessaryIsInstance]

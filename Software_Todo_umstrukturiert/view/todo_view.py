@@ -24,15 +24,7 @@ class TodoView(ft.Column):
         self.controls.clear()
         alle_todos: list[ToDo] = self.presenter_filtere.get_filtered_todos()
 
-        if alle_todos == []:
-            # self.controls.append(
-            #     ft.Row( # row um horizontal zu zentrieren
-            #         controls=[
-            #             ft.Text("Keine Todos mit ausgewählten Filtern vorhanden")
-            #         ],
-            #         alignment=ft.MainAxisAlignment.CENTER,
-            #     )
-            # )
+        if alle_todos == []:#TODO: Aufteilung in Liste ist leer bzw es gibt keine gefilterten todos
             self.controls.append(
                 ft.Card(
                     bgcolor=ft.Colors.SURFACE_CONTAINER_LOW,
@@ -118,7 +110,6 @@ class TodoView(ft.Column):
                         ),
                     )
                 )
-        # self.update()
 
     def rebuild(self):
         self.controls.clear()
@@ -137,7 +128,6 @@ class TodoView(ft.Column):
 
     def on_button_clicked_detail(self, e: ft.Event[ft.IconButton]):
         todo_id: int = e.control.data
-        # self.presenter_detail.lade_todo(todo_id) # TODO: entfernen
         if isinstance(
             self.page, ft.Page
         ):  # für den TypeChecker, eigentlich immer der Fall

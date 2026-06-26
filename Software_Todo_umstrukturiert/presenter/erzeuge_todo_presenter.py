@@ -17,7 +17,6 @@ from repo.todo_repo import TodoRepo
 from datetime import date
 
 
-# class ErzeugeTodoPresenter:
 class TodoDetailPresenter:
     _modus: Literal["create", "edit"]
 
@@ -70,7 +69,7 @@ class TodoDetailPresenter:
             category
         )
         if cls:
-            return cls(**data)  # return zB für Studium "Studium"=Studium?
+            return cls(**data)  # return Haushalt(wiederkehrend=False)
         else:
             return None
 
@@ -99,11 +98,10 @@ class TodoDetailPresenter:
             todo.calendar = self.von_str_zu_bool(
                 calendar
             )  # ist Variablenwert von Model da in view str und im model bool
-            # todo.priority = self.map_priority(priority)
             todo.priority = Priority.from_str(priority)
             todo.category = Category.from_str(category)
             todo.extra = self.build_extra(category, extra)
-            self.repo.update_todo(todo) #passt das auch wenn man wieder auf inmemoryrepo umschaltet?
+            self.repo.update_todo(todo) #TODO:passt das auch wenn man wieder auf inmemoryrepo umschaltet?
         else:  # CREATE
             todo = ToDo(
                 _todo_id=self.repo.naechste_id(),

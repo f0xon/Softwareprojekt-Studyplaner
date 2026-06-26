@@ -146,7 +146,6 @@ class ErzeugeTodoView(ft.Column):
             on_change=self.category_changed,
         )
 
-        # RadioGroup Kalender
         self.calendar = ft.RadioGroup(
             value="false",
             content=ft.Row(
@@ -253,9 +252,6 @@ class ErzeugeTodoView(ft.Column):
             if kat:
                 self.category_fields.controls.extend(kat.build_ui())
             self.update()
-
-    # ---------------- LOAD INTO VIEW ---------------- TODO in Presenter rein
-
 
     def lade_ui(self) -> None:
         if self.presenter.is_edit_mode:

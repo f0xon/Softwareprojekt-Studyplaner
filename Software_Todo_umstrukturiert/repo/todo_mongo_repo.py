@@ -24,12 +24,10 @@ class MongoTodoRepo(TodoRepo):
             {"_todo_id": todo.todo_id},
             {"$set": self.list_to_doc(todo)}
         )
-        # self._todos.remove(todo)
-        # self._todos.append(todo)
 
     def lade_alle(self) -> list[ToDo]:
         todos: list[ToDo] = []
-        alle_eintraege=self.db.todos.find(projection={"_id": False})# type: ignore
+        alle_eintraege=self.db.todos.find(projection={"_id": False})# type: ignore #Betz ist das ok zu ignorieren?
         for eintrag in alle_eintraege:# type: ignore
             todos.append(self.doc_to_list(eintrag))# type: ignore
         return todos
@@ -70,7 +68,7 @@ class MongoTodoRepo(TodoRepo):
         return todos
     
     def naechste_id(self) -> int:
-        letztes_todo = self.db.todos.find_one(sort=[("_todo_id", -1)]) #sortiert  absteigend
+        letztes_todo = self.db.todos.find_one(sort=[("_todo_id", -1)]) #sortiert  absteigend #Betz warum ist das hier rot? Können wir es ignorieren?
         if letztes_todo is None:
             return 1
         return letztes_todo["_todo_id"] + 1
