@@ -3,13 +3,9 @@ from unittest.mock import Mock
 from datetime import date
 from model.todo_model import (
     KATEGORIEN_DICT,
-    KEINE,
-    KEINE_P,
     PRIORITAETEN_DICT,
-    Category,
     Freizeit,
     Haushalt,
-    Priority,
     Studium,
     ToDo,
 )
@@ -24,18 +20,18 @@ class TestTodoDetailPresenter(unittest.TestCase):
 
     def test_initialization(self):
         self.assertIsInstance(self.presenter.repo, Mock)
-        self.assertIsNone(self.presenter._current_todo)
+        self.assertIsNone(self.presenter.current_todo)
 
     def test_is_create_mode_with_modus_set(self):
-        self.presenter._modus = "create"
+        self.presenter._modus = "create" # pyright: ignore[reportPrivateUsage]
         self.assertTrue(self.presenter.is_create_mode)
-        self.presenter._modus = "edit"
+        self.presenter._modus = "edit" # pyright: ignore[reportPrivateUsage]
         self.assertFalse(self.presenter.is_create_mode)
 
     def test_is_edit_mode_with_modus_set(self):
-        self.presenter._modus = "edit"
+        self.presenter._modus = "edit" # pyright: ignore[reportPrivateUsage]
         self.assertTrue(self.presenter.is_edit_mode)
-        self.presenter._modus = "create"
+        self.presenter._modus = "create" # pyright: ignore[reportPrivateUsage]
         self.assertFalse(self.presenter.is_edit_mode)
 
     def test_map_priority(self):
@@ -53,24 +49,27 @@ class TestTodoDetailPresenter(unittest.TestCase):
         self.assertIsNone(self.presenter.map_category("invalid"))
 
     def test_build_extra_studium(self):
-        data = {"modul": "Mathe", "gruppenarbeit": True}
+        data: dict[str, str|bool] = {"modul": "Mathe", "gruppenarbeit": True}
         extra = self.presenter.build_extra("Studium", data)
         self.assertIsInstance(extra, Studium)
-        self.assertEqual(extra.modul, "Mathe")
-        self.assertTrue(extra.gruppenarbeit)
+        if isinstance(extra, Studium):
+            self.assertEqual(extra.modul, "Mathe")
+            self.assertTrue(extra.gruppenarbeit)
 
     def test_build_extra_haushalt(self):
         data = {"wiederkehrend": False}
         extra = self.presenter.build_extra("Haushalt", data)
         self.assertIsInstance(extra, Haushalt)
-        self.assertFalse(extra.wiederkehrend)
+        if isinstance(extra, Haushalt):
+            self.assertFalse(extra.wiederkehrend)
 
     def test_build_extra_freizeit(self):
         data = {"hobby": "Lesen", "ort": "Zuhause"}
         extra = self.presenter.build_extra("Freizeit", data)
         self.assertIsInstance(extra, Freizeit)
-        self.assertEqual(extra.hobby, "Lesen")
-        self.assertEqual(extra.ort, "Zuhause")
+        if isinstance(extra, Freizeit):
+            self.assertEqual(extra.hobby, "Lesen")
+            self.assertEqual(extra.ort, "Zuhause")
 
     def test_build_extra_empty_data(self):
         extra = self.presenter.build_extra("Studium", {})
@@ -94,29 +93,30 @@ class TestTodoDetailPresenter(unittest.TestCase):
         result = self.presenter.lade_todo(1)
 
         self.mock_repo.finde_todo_mit_id.assert_called_once_with(1)
-        self.assertEqual(self.presenter._current_todo, mock_todo)
-        self.assertEqual(result["Titel"], "Test Todo")
-        self.assertEqual(result["Notiz"], "Test Notiz")
-        self.assertEqual(result["Deadline"], date(2026, 6, 25))
-        self.assertFalse(result["Kalender"])
-        self.assertEqual(result["Priorität"], "hoch")
-        self.assertEqual(result["Kategorie"], "Studium")
+        self.assertEqual(self.presenter.current_todo, mock_todo)
+        if result is not None:
+            self.assertEqual(result["Titel"], "Test Todo")
+            self.assertEqual(result["Notiz"], "Test Notiz")
+            self.assertEqual(result["Deadline"], date(2026, 6, 25))
+            self.assertFalse(result["Kalender"])
+            self.assertEqual(result["Priorität"], "hoch")
+            self.assertEqual(result["Kategorie"], "Studium")
 
     def test_lade_todo_not_found(self):
         self.mock_repo.finde_todo_mit_id.return_value = None
         result = self.presenter.lade_todo(999)
         self.assertEqual(result, {})
-        self.assertIsNone(self.presenter._current_todo)
+        self.assertIsNone(self.presenter.current_todo)
 
     def test_save_todo_create_mode(self):
-        self.presenter._current_todo = None
+        self.presenter._current_todo = None # pyright: ignore[reportPrivateUsage]
         self.mock_repo.naechste_id.return_value = 100
 
         self.presenter.save_todo(
             titel="New Todo",
             notiz="New Notiz",
             deadline=date(2026, 6, 25),
-            calendar=True,
+            calendar="True",
             priority="hoch",
             category="Studium",
             extra={"modul": "Mathe", "gruppenarbeit": False}
@@ -145,13 +145,13 @@ class TestTodoDetailPresenter(unittest.TestCase):
         mock_todo.category = KATEGORIEN_DICT["Haushalt"]
         mock_todo.extra = Haushalt(wiederkehrend=True)
 
-        self.presenter._current_todo = mock_todo
+        self.presenter._current_todo = mock_todo  # pyright: ignore[reportPrivateUsage]
 
         self.presenter.save_todo(
             titel="Updated Todo",
             notiz="Updated Notiz",
             deadline=date(2026, 6, 25),
-            calendar=True,
+            calendar="True",
             priority="hoch",
             category="Studium",
             extra={"modul": "Mathe", "gruppenarbeit": True}

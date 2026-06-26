@@ -11,7 +11,7 @@ class TestTodoListePresenter(unittest.TestCase):
         self.presenter = TodoListePresenter(self.mock_repo)
 
     def test_initialization(self):
-        self.assertIsInstance(self.presenter._repo, Mock)
+        self.assertIsInstance(self.presenter._repo, Mock)  # pyright: ignore[reportPrivateUsage]
 
     def test_get_todos(self):
         mock_todo1 = Mock(spec=ToDo)
