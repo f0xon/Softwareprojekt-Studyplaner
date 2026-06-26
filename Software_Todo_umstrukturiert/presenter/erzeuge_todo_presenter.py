@@ -54,6 +54,13 @@ class TodoDetailPresenter:
     ) -> Studium | Haushalt | Freizeit | None:
         if not data:
             return None
+        
+        #Umwandlung von View=str zu Model=bool
+        if category == "Studium":
+            data["gruppenarbeit"] = self.von_str_zu_bool(data["gruppenarbeit"])
+        elif category == "Haushalt":
+            data["wiederkehrend"] = self.von_str_zu_bool(data["wiederkehrend"])
+        
         mapping: dict[str, type[Studium] | type[Haushalt] | type[Freizeit]] = {
             "Studium": Studium,
             "Haushalt": Haushalt,
@@ -117,3 +124,10 @@ class TodoDetailPresenter:
         elif string == "true":
             return True
         raise ValueError(f"Ungültiger Bool-String: {string}")
+    
+    def von_bool_zu_str(self, wert_b: bool) -> str:
+        if wert_b:
+            return "true"
+        elif wert_b is False:
+            return "false"
+        raise ValueError(f"Ungültiger Wert: {wert_b}")
