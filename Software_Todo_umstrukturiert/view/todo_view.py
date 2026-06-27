@@ -45,7 +45,7 @@ class TodoView(ft.Column):
                     ),
                 )
             )
-        elif alle_todos == []:#TODO: Aufteilung in Liste ist leer bzw es gibt keine gefilterten todos
+        elif alle_todos == []:
             self.controls.append(
                 ft.Card(
                     bgcolor=ft.Colors.SURFACE_CONTAINER_LOW,

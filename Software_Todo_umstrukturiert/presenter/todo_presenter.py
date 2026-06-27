@@ -32,7 +32,7 @@ class TodoListePresenter:
         for todo in self._repo.lade_alle():
             if todo.todo_id == id:
                 return todo
-        return None #TODO: wenn None dann in View Text mit  keine Todos vorhanden
+        return None 
 
     def todo_None(self, todo: ToDo | None) -> ToDo:
         if todo is None:
