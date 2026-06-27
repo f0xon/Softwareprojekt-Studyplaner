@@ -38,3 +38,6 @@ class TodoListePresenter:
         if todo is None:
             raise ValueError("Todo nicht gefunden")
         return todo
+    
+    def ist_liste_leer(self) -> bool:
+        return len(self._repo.lade_alle()) == 0

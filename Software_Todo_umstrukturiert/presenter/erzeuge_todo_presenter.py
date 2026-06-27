@@ -98,10 +98,10 @@ class TodoDetailPresenter:
             todo.calendar = self.von_str_zu_bool(
                 calendar
             )  # ist Variablenwert von Model da in view str und im model bool
-            todo.priority = Priority.from_str(priority)
+            todo.priority = Priority.from_str(priority) #TODO: Was ist hier das Problem?
             todo.category = Category.from_str(category)
             todo.extra = self.build_extra(category, extra)
-            self.repo.update_todo(todo) #TODO:passt das auch wenn man wieder auf inmemoryrepo umschaltet?
+            self.repo.update_todo(todo) 
         else:  # CREATE
             todo = ToDo(
                 _todo_id=self.repo.naechste_id(),

@@ -35,8 +35,8 @@ class Router:
         self.repo_mongo = MongoTodoRepo(db)
         self.repo_memory = InMemoryTodoRepo()
     # wähle hier dein gewünschtes Repo aus:
-        # self.ausgewaehltes_repo = self.repo_memory
-        self.ausgewaehltes_repo = self.repo_mongo
+        self.ausgewaehltes_repo = self.repo_memory
+        #self.ausgewaehltes_repo = self.repo_mongo
 
         # Presenter erzeugen
         self.presenter_todo = TodoListePresenter(self.ausgewaehltes_repo)

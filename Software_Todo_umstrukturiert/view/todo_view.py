@@ -24,7 +24,28 @@ class TodoView(ft.Column):
         self.controls.clear()
         alle_todos: list[ToDo] = self.presenter_filtere.get_filtered_todos()
 
-        if alle_todos == []:#TODO: Aufteilung in Liste ist leer bzw es gibt keine gefilterten todos
+        if self.presenter_todo.ist_liste_leer():
+            self.controls.append(
+                ft.Card(
+                    bgcolor=ft.Colors.SURFACE_CONTAINER_LOW,
+                    shadow_color=ft.Colors.ON_SURFACE_VARIANT,
+                    content=ft.Container(
+                        width=450,
+                        padding=10,
+                        content=ft.Column(
+                            controls=[
+                                ft.Row(controls=[ft.Icon(ft.Icons.INFO_OUTLINE_ROUNDED, size=50)]),
+                                ft.Row(controls=[ft.Text(
+                                    "Keine Todos verfügbar",
+                                    size=20,
+                                    weight=ft.FontWeight.BOLD,
+                                )]),
+                            ]
+                        ),
+                    ),
+                )
+            )
+        elif alle_todos == []:#TODO: Aufteilung in Liste ist leer bzw es gibt keine gefilterten todos
             self.controls.append(
                 ft.Card(
                     bgcolor=ft.Colors.SURFACE_CONTAINER_LOW,
