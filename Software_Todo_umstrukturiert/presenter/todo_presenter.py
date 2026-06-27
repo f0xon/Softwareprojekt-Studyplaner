@@ -10,27 +10,27 @@ class TodoListePresenter:
     def __init__(self, repo: TodoRepo):
         self._repo: TodoRepo = repo
 
-    def get_todos(self) -> list[ToDo]:
+    def get_todos(self) -> list[ToDo]:#
         return self._repo.lade_alle()
 
-    def erledige_todo(self, id: int) -> None:
-        todo: ToDo = self.todo_None(todo=self._repo.finde_todo_mit_id(todo_id=id))
+    def erledige_todo(self, id: int) -> None:#
+        todo: ToDo = self._todo_None(todo=self._repo.finde_todo_mit_id(todo_id=id))
         todo.toggle_erledigt_todo()
         self._repo.update_todo(todo)
 
 
-    def loesche_todo(self, id: int) -> None:
-        todo: ToDo = self.todo_None(todo=self._repo.finde_todo_mit_id(todo_id=id))
+    def loesche_todo(self, id: int) -> None:#
+        todo: ToDo = self._todo_None(todo=self._repo.finde_todo_mit_id(todo_id=id))
         self._repo.loesche_todo(todo)
 
 
     def lade_todo(self, id: int) -> ToDo | None:  # None passt hier
-        for todo in self._repo.lade_alle():
+        for todo in self._repo.lade_alle():#
             if todo.todo_id == id:
                 return todo
         return None 
 
-    def todo_None(self, todo: ToDo | None) -> ToDo:
+    def _todo_None(self, todo: ToDo | None) -> ToDo:#
         if todo is None:
             raise ValueError("Todo nicht gefunden")
         return todo
