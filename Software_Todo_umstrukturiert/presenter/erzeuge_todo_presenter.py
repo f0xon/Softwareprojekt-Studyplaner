@@ -16,7 +16,7 @@ from model.todo_model import (
 from repo.todo_repo import TodoRepo
 from datetime import date
 
-
+#Betz wir haben keine ViewModels ist das trotzdem ok?
 class TodoDetailPresenter:
     _modus: Literal["create", "edit"]
 
