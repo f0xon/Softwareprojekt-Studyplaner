@@ -7,7 +7,7 @@ from datetime import date
 @dataclass(frozen=True)
 class Priority:
     name: str
-    ausrufezeichen: str
+    symbol: str
 
     @classmethod
     def from_str(cls, as_str: str) -> Priority | None:
