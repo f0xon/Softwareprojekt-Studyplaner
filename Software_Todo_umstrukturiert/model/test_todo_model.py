@@ -7,14 +7,14 @@ class TestTodoModel(unittest.TestCase):
     # --- Priority Tests ---
     def test_Priority_constants(self):
         """Test all Priority constants and their attributes"""
-        self.assertEqual(todo_model.KEINE_P.name, "keine")
-        self.assertEqual(todo_model.KEINE_P.ausrufezeichen, "X")
-        self.assertEqual(todo_model.NIEDRIG.name, "niedrig")
-        self.assertEqual(todo_model.NIEDRIG.ausrufezeichen, "!")
-        self.assertEqual(todo_model.MITTEL.name, "mittel")
-        self.assertEqual(todo_model.MITTEL.ausrufezeichen, "!!")
-        self.assertEqual(todo_model.HOCH.name, "hoch")
-        self.assertEqual(todo_model.HOCH.ausrufezeichen, "!!!")
+        self.assertEqual(todo_model.PRIORITAETEN_DICT["keine"].name, "keine")
+        self.assertEqual(todo_model.PRIORITAETEN_DICT["keine"].symbol, "X")
+        self.assertEqual(todo_model.PRIORITAETEN_DICT["niedrig"].name, "niedrig")
+        self.assertEqual(todo_model.PRIORITAETEN_DICT["niedrig"].symbol, "!")
+        self.assertEqual(todo_model.PRIORITAETEN_DICT["mittel"].name, "mittel")
+        self.assertEqual(todo_model.PRIORITAETEN_DICT["mittel"].symbol, "!!")
+        self.assertEqual(todo_model.PRIORITAETEN_DICT["hoch"].name, "hoch")
+        self.assertEqual(todo_model.PRIORITAETEN_DICT["hoch"].symbol, "!!!")
 
     def test_prioritäten_dict(self):
         """Test the priority dictionary mappings"""
@@ -89,16 +89,12 @@ class TestTodoModel(unittest.TestCase):
         self.assertEqual(todo.todo_id, 1)
         self.assertEqual(todo.titel, "Mathe lernen")
         self.assertEqual(todo.notiz, "Kapitel 1-3 durcharbeiten")
-        if todo.priority is not None:
-            self.assertEqual(todo.priority.name, "hoch")
-            self.assertEqual(todo.priority.ausrufezeichen, "!!!")
-        else:
-            self.assertIsNone(todo.priority, msg= "priority ist None")
+        self.assertEqual(todo.priority.name, "hoch")
+        self.assertEqual(todo.priority.symbol, "!!!")
         self.assertEqual(todo.deadline, date(2024, 12, 1))
         self.assertTrue(todo.calendar)
-        if todo.category is not None:
-            self.assertEqual(todo.category.name, "Studium")
-            self.assertEqual(todo.category.farbe, "BLUE_100")
+        self.assertEqual(todo.category.name, "Studium")
+        self.assertEqual(todo.category.farbe, "BLUE_100")
         self.assertIsInstance(todo.extra, todo_model.Studium)
         if isinstance(todo.extra, todo_model.Studium):
             self.assertEqual(todo.extra.modul, "Mathematik")
@@ -120,8 +116,7 @@ class TestTodoModel(unittest.TestCase):
         )
 
         self.assertEqual(todo.todo_id, 2)
-        if todo.category is not None:
-            self.assertEqual(todo.category.name, "Haushalt")
+        self.assertEqual(todo.category.name, "Haushalt")
         self.assertIsInstance(todo.extra, todo_model.Haushalt)
         if isinstance(todo.extra, todo_model.Haushalt):
             self.assertTrue(todo.extra.wiederkehrend)
@@ -142,8 +137,7 @@ class TestTodoModel(unittest.TestCase):
         )
 
         self.assertEqual(todo.todo_id, 3)
-        if todo.category is not None:
-            self.assertEqual(todo.category.name, "Freizeit")
+        self.assertEqual(todo.category.name, "Freizeit")
         self.assertIsInstance(todo.extra, todo_model.Freizeit)
         if isinstance(todo.extra, todo_model.Freizeit):
             self.assertEqual(todo.extra.hobby, "Wandern")
@@ -164,8 +158,7 @@ class TestTodoModel(unittest.TestCase):
         )
 
         self.assertEqual(todo.todo_id, 4)
-        if todo.category is not None:
-            self.assertEqual(todo.category.name, "keine")
+        self.assertEqual(todo.category.name, "keine")
         self.assertIsNone(todo.extra)
         self.assertFalse(todo.erledigt)
 
@@ -248,8 +241,7 @@ class TestTodoModel(unittest.TestCase):
             _erledigt=False
         )
 
-        if todo.priority is not None:
-            self.assertEqual(todo.priority.name, "keine")
+        self.assertEqual(todo.priority.name, "keine")
 
         todo.priority = todo_model.NIEDRIG
         self.assertEqual(todo.priority.name, "niedrig")
@@ -282,9 +274,8 @@ class TestTodoModel(unittest.TestCase):
             _erledigt=False
         )
 
-        if todo.priority is not None and todo.category is not None:
-            self.assertEqual(todo.priority.name, "hoch")
-            self.assertEqual(todo.category.name, "Studium")
+        self.assertEqual(todo.priority.name, "hoch")
+        self.assertEqual(todo.category.name, "Studium")
         self.assertIsInstance(todo.extra, todo_model.Studium)
         if isinstance(todo.extra, todo_model.Studium):
             self.assertEqual(todo.extra.modul, "Physik")
