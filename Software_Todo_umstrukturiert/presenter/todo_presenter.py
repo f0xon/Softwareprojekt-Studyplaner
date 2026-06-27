@@ -14,19 +14,15 @@ class TodoListePresenter:
         return self._repo.lade_alle()
 
     def erledige_todo(self, id: int) -> None:
-        try: 
-            todo: ToDo = self.todo_None(todo=self._repo.finde_todo_mit_id(todo_id=id))
-            todo.toggle_erledigt_todo()
-            self._repo.update_todo(todo)
-        except ValueError as e:
-            print(f"Fehler:{e}")
+        todo: ToDo = self.todo_None(todo=self._repo.finde_todo_mit_id(todo_id=id))
+        todo.toggle_erledigt_todo()
+        self._repo.update_todo(todo)
+
 
     def loesche_todo(self, id: int) -> None:
-        try:
-            todo: ToDo = self.todo_None(todo=self._repo.finde_todo_mit_id(todo_id=id))
-            self._repo.loesche_todo(todo)
-        except ValueError as e:
-            print(f"Fehler:{e}")
+        todo: ToDo = self.todo_None(todo=self._repo.finde_todo_mit_id(todo_id=id))
+        self._repo.loesche_todo(todo)
+
 
     def lade_todo(self, id: int) -> ToDo | None:  # None passt hier
         for todo in self._repo.lade_alle():
