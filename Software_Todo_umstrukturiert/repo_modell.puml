@@ -1,0 +1,94 @@
+@startuml
+!pragma layout smetana
+
+skinparam classAttributeIconSize 0
+
+interface TodoRepo <<Protocol>> {
+    + speichere(todo: ToDoModel): None
+    + lade_alle(): List<ToDoModel>
+    + finde_todo_mit_id(todo_id: int): Optional<ToDoModel>
+    + loesche_todo(todo_id: int): bool
+    + wechsle_erledigungsstatus(todo_id: int): bool
+    + filtere_todos(kategorie: Category, prioritaet: Priority, erledigt: bool): List<ToDoModel>
+    + naechste_id(): int
+}
+
+class InMemoryTodoRepo {
+    - _todos: List<ToDoModel>
+    + speichere(todo: ToDoModel): None
+    + lade_alle(): List<ToDoModel>
+    + finde_todo_mit_id(todo_id: int): Optional<ToDoModel>
+    + loesche_todo(todo_id: int): bool
+    + wechsle_erledigungsstatus(todo_id: int): bool
+    + filtere_todos(kategorie: Category, prioritaet: Priority, erledigt: bool): List<ToDoModel>
+    + naechste_id(): int
+}
+
+class MongoTodoRepo {
+    - _collection: Collection
+    + speichere(todo: ToDoModel): None
+    + lade_alle(): List<ToDoModel>
+    + finde_todo_mit_id(todo_id: int): Optional<ToDoModel>
+    + loesche_todo(todo_id: int): bool
+    + wechsle_erledigungsstatus(todo_id: int): bool
+    + filtere_todos(kategorie: Category, prioritaet: Priority, erledigt: bool): List<ToDoModel>
+    + naechste_id(): int
+    - _todo_zu_dokument(todo: ToDoModel): dict
+    - _dokument_zu_todo(dokument: dict): ToDoModel
+}
+
+
+class ToDoModel {
+    - _id: int
+    + titel: str
+    + notiz: str
+    + priority: Priority
+    + deadline: date
+    + calendar: bool
+    + category: Category
+    + extra: Studium | Haushalt | Freizeit | None
+    - _erledigt: bool
+    + id: int
+    + erledigt: bool
+    + toggle_erledigt_todo(): None
+}
+
+class Priority <<ValueObject>> {
+    + name: str
+    + ausrufezeichen: str
+}
+
+class Category <<ValueObject>> {
+    + name: str
+    + farbe: str
+}
+
+class Studium {
+    + modul: str
+    + gruppenarbeit: bool
+}
+
+class Haushalt {
+    + wiederkehrend: bool
+}
+
+class Freizeit {
+    + hobby: str
+    + ort: str
+}
+
+InMemoryTodoRepo ..|> TodoRepo
+MongoTodoRepo ..|> TodoRepo
+
+TodoRepo ..> ToDoModel : verwaltet
+TodoRepo ..> Category : verwendet
+TodoRepo ..> Priority : verwendet
+
+
+ToDoModel --> Priority
+ToDoModel --> Category
+ToDoModel --> Studium
+ToDoModel --> Haushalt
+ToDoModel --> Freizeit
+
+@enduml

@@ -1,0 +1,75 @@
+@startuml domaenenmodell
+!pragma layout smetana
+
+skinparam classAttributeIconSize 0
+
+class ToDo {
+  +# _todo_id: int
+  + titel: str
+  + notiz: str
+  + priority: Priority
+  + deadline: date
+  + calendar: bool
+  + category: Category
+  + extra: Studium | Haushalt | Freizeit | None = None
+  +# _erledigt: bool = False
+  --
+  +/ todo_id: int
+  +/ erledigt: 
+  + toggle_erledigt_todo()
+}
+
+class Priority <<Value Object>> {
+  + name: str
+  + ausrufezeichen: str
+  --
+  + from_str(value: str): Priority
+}
+
+class Category <<Value Object>> {
+  + name: str
+  + farbe: str
+  --
+  + from_str(value: str): Category
+}
+
+class Studium {
+  + modul: str
+  + gruppenarbeit: bool
+}
+
+class Haushalt {
+  + wiederkehrend: bool
+}
+
+class Freizeit {
+  + hobby: str
+  + ort: str
+}
+
+interface TodoRepo {
+  + speichere(todo: ToDo): void
+  + update_todo(todo: ToDo): void
+  + lade_alle(): List<ToDo>
+  + finde_todo_mit_id(todoId: int): ToDo
+  + erledige_todo(todoId: int): void
+  + loesche_todo(todo: ToDo): void
+  + filtere_todos(kategorie: str, prioritaet: str, status: str): List<ToDo>
+  + naechste_id(): int
+}
+
+ToDo "1" *-- "1" Studium
+ToDo "1" *-- "1" Haushalt
+ToDo "1" *-- "1" Freizeit
+
+ToDo "1" *-- "1" Priority
+ToDo "1" *-- "1" Category
+TodoRepo ..> ToDo : verwaltet
+
+/'
+note right of ToDo
+Die Art der Zusatzinformationen
+muss zur gewählten Kategorie passen.
+end note
+'/
+@enduml

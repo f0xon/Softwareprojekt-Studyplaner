@@ -8,10 +8,8 @@ from presenter.filtere_todo_presenter import FiltereTodoPresenter
 class FiltereTodoView(ft.Column):
     def __init__(self, presenter: FiltereTodoPresenter):
         super().__init__()
-        # self.on_save=on_save
         self.presenter: FiltereTodoPresenter = presenter
 
-        # RadioGroups
         self.status = ft.RadioGroup(
             value=presenter.status,
             content=ft.Row(
@@ -95,7 +93,6 @@ class FiltereTodoView(ft.Column):
                 controls=[
                     ft.Text("Filterfunktion"),
                     ft.Divider(),
-                    # Status
                     ft.Row(
                         controls=[
                             ft.Text("Status filtern:"),
@@ -107,7 +104,6 @@ class FiltereTodoView(ft.Column):
                             self.status_container,
                         ]
                     ),
-                    # Kategorie
                     ft.Row(
                         controls=[
                             ft.Text("Kategorie filtern:"),
@@ -119,7 +115,6 @@ class FiltereTodoView(ft.Column):
                             self.category_container,
                         ]
                     ),
-                    # Priorität
                     ft.Row(
                         controls=[
                             ft.Text("Priorität filtern:"),
@@ -136,18 +131,15 @@ class FiltereTodoView(ft.Column):
             )
         ]
 
-    # verstößt gegen DRY
+    #Betz: verstößt gegen DRY, trotzdem ok?
     def on_switch_changed_status(self, e: ft.Event[ft.Switch]):
-        print("Switch Status changed:", e.control.value, type(e))
         self.status_container.visible = e.control.value
         self.presenter.status = "alle"
-        # self.status.value=self.presenter.status
         self.update()
 
     def on_switch_changed_category(self, e: ft.Event[ft.Switch]):
         self.category_container.visible = e.control.value
         self.presenter.kat = "alle"
-        # self.category.value=self.presenter.kat
         self.update()
 
     def on_switch_changed_priority(self, e: ft.Event[ft.Switch]):

@@ -24,15 +24,30 @@ class TodoView(ft.Column):
         self.controls.clear()
         alle_todos: list[ToDo] = self.presenter_filtere.get_filtered_todos()
 
-        if alle_todos == []:
-            # self.controls.append(
-            #     ft.Row( # row um horizontal zu zentrieren
-            #         controls=[
-            #             ft.Text("Keine Todos mit ausgewählten Filtern vorhanden")
-            #         ],
-            #         alignment=ft.MainAxisAlignment.CENTER,
-            #     )
-            # )
+        if self.presenter_todo.ist_liste_leer():
+            self.controls.append(
+                ft.Card(
+                    bgcolor=ft.Colors.SURFACE_CONTAINER_LOW,
+                    shadow_color=ft.Colors.ON_SURFACE_VARIANT,
+                    content=ft.Container(
+                        width=450,
+                        padding=10,
+                        content=ft.Column(
+                            controls=[
+                                ft.Row(controls=[ft.Icon(ft.Icons.INFO_OUTLINE_ROUNDED, size=50)]),
+                                ft.Row(controls=[ft.Text(
+                                    "Keine Todos verfügbar",
+                                    size=20,
+                                    weight=ft.FontWeight.BOLD,
+                                )]),
+                            ]
+                        ),
+                    ),
+                )
+            )
+        elif (
+            alle_todos == []
+        ):  
             self.controls.append(
                 ft.Card(
                     bgcolor=ft.Colors.SURFACE_CONTAINER_LOW,
@@ -80,7 +95,7 @@ class TodoView(ft.Column):
                                 tight=True,
                                 controls=[
                                     ft.Button(
-                                        todo.priority.ausrufezeichen,
+                                        todo.priority.symbol,
                                         tooltip="Priorität: " + todo.priority.name,
                                         style=ft.ButtonStyle(
                                             color=ft.Colors.RED_ACCENT_700,
@@ -118,7 +133,6 @@ class TodoView(ft.Column):
                         ),
                     )
                 )
-        # self.update()
 
     def rebuild(self):
         self.controls.clear()
@@ -137,7 +151,6 @@ class TodoView(ft.Column):
 
     def on_button_clicked_detail(self, e: ft.Event[ft.IconButton]):
         todo_id: int = e.control.data
-        # self.presenter_detail.lade_todo(todo_id) # TODO: entfernen
         if isinstance(
             self.page, ft.Page
         ):  # für den TypeChecker, eigentlich immer der Fall

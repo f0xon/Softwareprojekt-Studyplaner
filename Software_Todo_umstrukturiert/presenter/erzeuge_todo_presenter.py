@@ -16,8 +16,7 @@ from model.todo_model import (
 from repo.todo_repo import TodoRepo
 from datetime import date
 
-
-# class ErzeugeTodoPresenter:
+#Betz wir haben keine ViewModels ist das trotzdem ok?
 class TodoDetailPresenter:
     _modus: Literal["create", "edit"]
 
@@ -54,6 +53,13 @@ class TodoDetailPresenter:
     ) -> Studium | Haushalt | Freizeit | None:
         if not data:
             return None
+        
+        #Umwandlung von View=str zu Model=bool
+        if category == "Studium":
+            data["gruppenarbeit"] = self.von_str_zu_bool(data["gruppenarbeit"])
+        elif category == "Haushalt":
+            data["wiederkehrend"] = self.von_str_zu_bool(data["wiederkehrend"])
+        
         mapping: dict[str, type[Studium] | type[Haushalt] | type[Freizeit]] = {
             "Studium": Studium,
             "Haushalt": Haushalt,
@@ -63,7 +69,7 @@ class TodoDetailPresenter:
             category
         )
         if cls:
-            return cls(**data)  # return zB für Studium "Studium"=Studium?
+            return cls(**data)  # return Haushalt(wiederkehrend=False)
         else:
             return None
 
@@ -92,10 +98,10 @@ class TodoDetailPresenter:
             todo.calendar = self.von_str_zu_bool(
                 calendar
             )  # ist Variablenwert von Model da in view str und im model bool
-            # todo.priority = self.map_priority(priority)
-            todo.priority = Priority.from_str(priority)
-            todo.category = self.map_category(category)
+            todo.priority = Priority.from_str(priority) #TODO: Was ist hier das Problem?
+            todo.category = Category.from_str(category)
             todo.extra = self.build_extra(category, extra)
+            self.repo.update_todo(todo) 
         else:  # CREATE
             todo = ToDo(
                 _todo_id=self.repo.naechste_id(),
@@ -105,7 +111,7 @@ class TodoDetailPresenter:
                 calendar=self.von_str_zu_bool(calendar),
                 # priority=self.map_priority(priority),
                 priority=Priority.from_str(priority),
-                category=self.map_category(category),
+                category=Category.from_str(category),
                 extra=self.build_extra(category, extra),
             )
             self.repo.speichere(todo)
@@ -116,3 +122,10 @@ class TodoDetailPresenter:
         elif string == "true":
             return True
         raise ValueError(f"Ungültiger Bool-String: {string}")
+    
+    def von_bool_zu_str(self, wert_b: bool) -> str:
+        if wert_b:
+            return "true"
+        elif wert_b is False:
+            return "false"
+        raise ValueError(f"Ungültiger Wert: {wert_b}")

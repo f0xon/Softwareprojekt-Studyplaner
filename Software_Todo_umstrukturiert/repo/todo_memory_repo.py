@@ -17,7 +17,6 @@ from model.todo_model import (
 from datetime import date
 from repo.todo_repo import TodoRepo
 
-
 class InMemoryTodoRepo(TodoRepo):
     _todos: list[ToDo]
 
@@ -191,7 +190,7 @@ class InMemoryTodoRepo(TodoRepo):
         self._todos.remove(todo)
         self._todos.append(todo)
 
-    def lade_alle(self) -> list[ToDo]:  # unstimmigkeit ?? nur ein model?
+    def lade_alle(self) -> list[ToDo]:  
         return self._todos
 
     def finde_todo_mit_id(self, todo_id: int) -> ToDo | None:

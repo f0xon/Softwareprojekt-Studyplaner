@@ -7,7 +7,7 @@ from datetime import date
 @dataclass(frozen=True)
 class Priority:
     name: str
-    ausrufezeichen: str
+    symbol: str
 
     @classmethod
     def from_str(cls, as_str: str) -> Priority | None:
@@ -74,18 +74,16 @@ class Freizeit:
     ort: str
 
 
-# --- MAIN TODO ---
-# Todo hat eine Kategorie Todo hat optionalen Zusatzdaten
 @dataclass
 class ToDo:
     _todo_id: int
     titel: str
     notiz: str
-    priority: Priority | None
+    priority: Priority
     deadline: date
     calendar: bool
-    category: Category | None
-    extra: Studium | Haushalt | Freizeit | None = None
+    category: Category
+    extra: Studium | Haushalt | Freizeit | None = None  # hat optionalen Zusatzdaten
     _erledigt: bool = False
 
     @property
@@ -97,7 +95,4 @@ class ToDo:
         return self._erledigt
 
     def toggle_erledigt_todo(self) -> None:
-        if self._erledigt:
-            self._erledigt = False
-        else:
-            self._erledigt = True
+        self._erledigt = not self._erledigt

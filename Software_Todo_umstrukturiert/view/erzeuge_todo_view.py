@@ -8,10 +8,10 @@ from model.todo_model import (
     Freizeit,
     Haushalt,
     Studium,
-)  # view kennt model? braucht um typechekcer zufriedenzustellen
+)  
 from presenter.erzeuge_todo_presenter import TodoDetailPresenter
 
-
+#Betz: Müssen die Klassen Kategorie, StudiumKategorie, Haushaltkategorie und PrivatKategorie in eine eigene Datei?
 class Kategorie(Protocol):
     def build_ui(self) -> list[ft.Row]: ...
     def extract(self) -> dict[str, Any]: ...
@@ -21,7 +21,7 @@ class StudiumKategorie:
     def __init__(self):
         self.modul = ft.TextField(label="Modul")
         self.gruppenarbeit = ft.RadioGroup(
-            value="false",  # gehen keine bools?
+            value="false",  
             content=ft.Row(
                 controls=[
                     ft.Radio(value="true", label="Ja"),
@@ -146,7 +146,6 @@ class ErzeugeTodoView(ft.Column):
             on_change=self.category_changed,
         )
 
-        # RadioGroup Kalender
         self.calendar = ft.RadioGroup(
             value="false",
             content=ft.Row(
@@ -254,14 +253,6 @@ class ErzeugeTodoView(ft.Column):
                 self.category_fields.controls.extend(kat.build_ui())
             self.update()
 
-    # ---------------- LOAD INTO VIEW ---------------- TODO in Presenter rein
-    def von_bool_zu_str(self, wert_b: bool) -> str:
-        if wert_b:
-            return "true"
-        elif wert_b is False:
-            return "false"
-        raise ValueError(f"Ungültiger Wert: {wert_b}")
-
     def lade_ui(self) -> None:
         if self.presenter.is_edit_mode:
             # data = self.presenter.lade_todo(todo_id) if todo_id else {}
@@ -280,7 +271,7 @@ class ErzeugeTodoView(ft.Column):
                         data.extra, Studium
                     ):
                         kat.modul.value = data.extra.modul
-                        kat.gruppenarbeit.value = self.von_bool_zu_str(
+                        kat.gruppenarbeit.value = self.presenter.von_bool_zu_str(
                             data.extra.gruppenarbeit
                         )
                     self.category_fields.controls.extend(kat.build_ui())
@@ -290,14 +281,14 @@ class ErzeugeTodoView(ft.Column):
                     if isinstance(kat, HaushaltKategorie) and isinstance(
                         data.extra, Haushalt
                     ):
-                        kat.wiederkehrend.value = self.von_bool_zu_str(
+                        kat.wiederkehrend.value = self.presenter.von_bool_zu_str(
                             data.extra.wiederkehrend
                         )
                 elif category == "Freizeit":
                     kat = self.kategorien["Freizeit"]
                     self.category_fields.controls.extend(kat.build_ui())
                     if isinstance(kat, FreizeitKategorie) and isinstance(
-                        data.extra, Freizeit
+                        data.extra, Freizeit #Betz: View kennt Model? braucht um typechecker zufriedenzustellen
                     ):  # für pyrigth klasse definiert
                         kat.hobby.value = data.extra.hobby
                         kat.ort.value = data.extra.ort
