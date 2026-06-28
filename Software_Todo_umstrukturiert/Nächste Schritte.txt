@@ -43,3 +43,21 @@ was lief gut was lief schelecht
 
 10 bis 15 Min
 nicht Notenrelevant
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+todo_mongo_repo.py
+filtere_todos gibt dauch alle aus beidenen eins zutrift aus oder (nur kein unitest)
