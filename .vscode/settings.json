@@ -1,0 +1,7 @@
+{
+    "python.testing.pytestArgs": [
+        "Software_Todo_umstrukturiert"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
+}

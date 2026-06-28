@@ -1,6 +1,7 @@
 # pyright: reportUnknownMemberType=false
 import flet as ft
 import os
+os.chdir(os.path.dirname(__file__))
 
 try:
     from .View.Navigator import Navigator
