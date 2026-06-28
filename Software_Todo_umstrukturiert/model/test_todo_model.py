@@ -40,7 +40,8 @@ class TestTodoModel(unittest.TestCase):
         self.assertEqual(todo_model.KATEGORIEN_DICT["keine"], todo_model.KEINE)
         self.assertEqual(todo_model.KATEGORIEN_DICT["Studium"], todo_model.STUDIUM)
         self.assertEqual(todo_model.KATEGORIEN_DICT["Haushalt"], todo_model.HAUSHALT)
-        self.assertEqual(todo_model.KATEGORIEN_DICT["Freizeit"], todo_model.FREIZEIT)
+        self.assertEqual(todo_mod
+        expected_todo = Todel.KATEGORIEN_DICT["Freizeit"], todo_model.FREIZEIT)
 
     # --- Extra Data Model Tests ---
     def test_Studium(self):
@@ -86,11 +87,13 @@ class TestTodoModel(unittest.TestCase):
             _erledigt=False
         )
 
+        self.assertEqual(type(todo.todo_id), int)
         self.assertEqual(todo.todo_id, 1)
         self.assertEqual(todo.titel, "Mathe lernen")
         self.assertEqual(todo.notiz, "Kapitel 1-3 durcharbeiten")
         self.assertEqual(todo.priority.name, "hoch")
         self.assertEqual(todo.priority.symbol, "!!!")
+        self.assertEqual(type(todo.deadline), date)
         self.assertEqual(todo.deadline, date(2024, 12, 1))
         self.assertTrue(todo.calendar)
         self.assertEqual(todo.category.name, "Studium")
@@ -100,6 +103,7 @@ class TestTodoModel(unittest.TestCase):
             self.assertEqual(todo.extra.modul, "Mathematik")
         else:
             self.assertIsNone(todo.extra)
+       
 
     def test_ToDoModel_creation_with_Haushalt(self):
         """Test ToDoModel creation with Haushalt extra data"""
