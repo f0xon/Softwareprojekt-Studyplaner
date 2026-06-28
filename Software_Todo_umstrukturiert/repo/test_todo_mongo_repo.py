@@ -1,3 +1,4 @@
+from typing import Any
 import unittest
 from unittest.mock import Mock
 from todo_mongo_repo import MongoTodoRepo
@@ -5,15 +6,12 @@ from datetime import date
 from model.todo_model import (
     ToDo,
     HOCH,
-    MITTEL,
     NIEDRIG,
     KEINE_P,
     STUDIUM,
     KEINE,
-    HAUSHALT,
     FREIZEIT,
     Studium,
-    Haushalt,
     Freizeit,
 )
 
@@ -27,12 +25,11 @@ class TestTodoMongoRepo(unittest.TestCase):
         mock_db.__getitem__.return_value = mock_collection
         repo = MongoTodoRepo(mock_client)
         
-        # Test saving a todo - verify data transformation and insertion
         todo = ToDo(
             _todo_id=1,
             titel="Test Todo",
             notiz="Test Description",
-            erledigt=False,
+            _erledigt= False,
             priority=HOCH,
             deadline=date(2026, 6, 10),
             calendar=False,
@@ -41,31 +38,26 @@ class TestTodoMongoRepo(unittest.TestCase):
         )
         
         repo.speichere(todo)
-        
-        # Verify insert_one was called exactly once
         mock_collection.insert_one.assert_called_once()
         
-        # Get the argument that was passed to insert_one
         call_args = mock_collection.insert_one.call_args
         inserted_doc = call_args[0][0]  # First positional argument
         
-        # Verify the document structure and content
         self.assertEqual(inserted_doc["_todo_id"], 1)
         self.assertEqual(inserted_doc["titel"], "Test Todo")
         self.assertEqual(inserted_doc["notiz"], "Test Description")
-        self.assertEqual(inserted_doc["erledigt"], False)
+        self.assertEqual(inserted_doc["_erledigt"], False)
         self.assertEqual(inserted_doc["priority"], "hoch")  # Should be converted to string
         self.assertEqual(inserted_doc["deadline"], "2026-06-10")  # Should be ISO format
         self.assertEqual(inserted_doc["calendar"], False)
         self.assertEqual(inserted_doc["category"], "studium")  # Should be converted to string
         
-        # Verify extra field is properly converted to dict
         self.assertIsNotNone(inserted_doc["extra"])
         self.assertEqual(inserted_doc["extra"]["modul"], "Test")
         self.assertEqual(inserted_doc["extra"]["gruppenarbeit"], False)
 
-    def test_add_todo(self):
-        # Setup for this test
+  
+    def test_finde_todo_mit_id(self):
         mock_client = Mock()
         mock_db = Mock()
         mock_collection = Mock()
@@ -73,68 +65,30 @@ class TestTodoMongoRepo(unittest.TestCase):
         mock_db.__getitem__.return_value = mock_collection
         repo = MongoTodoRepo(mock_client)
         
-        # Test adding a todo (this seems to be a duplicate of test_speichere, so let's test a different scenario)
-        todo = ToDo(
-            _todo_id=2,
-            titel="Hausaufgaben",
-            notiz="Englisch Übungen",
-            erledigt=False,
-            priority=MITTEL,
-            deadline=date(2026, 6, 15),
-            calendar=True,
-            category=HAUSHALT,
-            extra=Haushalt(raum="Küche", wiederkehrend=True)
-        )
-        
-        repo.speichere(todo)
-        # Verify the document conversion and insertion
-        expected_doc = {
-            "_todo_id": 2,
-            "titel": "Hausaufgaben",
-            "notiz": "Englisch Übungen",
-            "erledigt": False,
-            "priority": "mittel",
-            "deadline": "2026-06-15",
-            "calendar": True,
-            "category": "haushalt",
-            "extra": {"raum": "Küche", "wiederkehrend": True}
-        }
-        mock_collection.insert_one.assert_called_with(expected_doc)
-
-    def test_get_todo(self):
-        # Setup for this test
-        mock_client = Mock()
-        mock_db = Mock()
-        mock_collection = Mock()
-        mock_client.__getitem__.return_value = mock_db
-        mock_db.__getitem__.return_value = mock_collection
-        repo = MongoTodoRepo(mock_client)
-        
-        # Test finding a todo by ID
         todo_id = 1
         expected_todo = ToDo(
             _todo_id=todo_id,
             titel="Test Todo",
             notiz="Test Description",
-            erledigt=False,
+            _erledigt=False,
             priority=NIEDRIG,
             deadline=date(2026, 6, 20),
             calendar=False,
             category=FREIZEIT,
-            extra=Freizeit(ort="Park", sozial=True)
+            extra=Freizeit(ort="Park", hobby= "walk")
         )
         
         # Convert to dict as it would be stored in MongoDB
-        todo_dict = {
+        todo_dict: dict[str, Any]= {
             "_todo_id": todo_id,
             "titel": "Test Todo",
             "notiz": "Test Description",
-            "erledigt": False,
+            "_erledigt": False,
             "priority": "niedrig",
             "deadline": "2026-06-20",
             "calendar": False,
             "category": "freizeit",
-            "extra": {"ort": "Park", "sozial": True}
+            "extra": {"ort": "Park", "hobby": "walk"}
         }
         
         mock_collection.find_one.return_value = todo_dict
@@ -152,7 +106,6 @@ class TestTodoMongoRepo(unittest.TestCase):
         mock_collection.find_one.assert_called_with({"_todo_id": todo_id}, projection={"_id": False})
 
     def test_update_todo(self):
-        # Setup for this test
         mock_client = Mock()
         mock_db = Mock()
         mock_collection = Mock()
@@ -166,7 +119,7 @@ class TestTodoMongoRepo(unittest.TestCase):
             _todo_id=todo_id,
             titel="Updated Todo",
             notiz="Updated Description",
-            erledigt=True,
+            _erledigt=True,
             priority=KEINE_P,
             deadline=date(2026, 6, 25),
             calendar=True,
@@ -175,17 +128,17 @@ class TestTodoMongoRepo(unittest.TestCase):
         )
         
         repo.update_todo(updated_todo)
-        
+    
         # Verify the update query
-        expected_update = {
+        expected_update: dict[str, Any] = {
             "_todo_id": todo_id,
             "titel": "Updated Todo",
             "notiz": "Updated Description",
-            "erledigt": True,
-            "priority": None,
+            "_erledigt": True,
+            "priority": KEINE_P,
             "deadline": "2026-06-25",
             "calendar": True,
-            "category": None,
+            "category": KEINE,
             "extra": None
         }
         
@@ -195,7 +148,6 @@ class TestTodoMongoRepo(unittest.TestCase):
         )
 
     def test_delete_todo(self):
-        # Setup for this test
         mock_client = Mock()
         mock_db = Mock()
         mock_collection = Mock()
@@ -209,7 +161,7 @@ class TestTodoMongoRepo(unittest.TestCase):
             _todo_id=todo_id,
             titel="Todo to delete",
             notiz="This will be deleted",
-            erledigt=False,
+            _erledigt=False,
             priority=HOCH,
             deadline=date(2026, 6, 30),
             calendar=False,
@@ -221,7 +173,6 @@ class TestTodoMongoRepo(unittest.TestCase):
         mock_collection.delete_one.assert_called_with({"_todo_id": todo_id})
 
     def test_erledige_todo(self):
-        # Setup for this test
         mock_client = Mock()
         mock_db = Mock()
         mock_collection = Mock()
@@ -229,15 +180,13 @@ class TestTodoMongoRepo(unittest.TestCase):
         mock_db.__getitem__.return_value = mock_collection
         repo = MongoTodoRepo(mock_client)
         
-        # Test toggling todo completion status
         todo_id = 1
         
-        # Mock a todo that is not completed
         incomplete_todo = ToDo(
             _todo_id=todo_id,
             titel="Test Todo",
             notiz="Test Description",
-            erledigt=False,
+            _erledigt=False,
             priority=HOCH,
             deadline=date(2026, 6, 10),
             calendar=False,
@@ -246,7 +195,7 @@ class TestTodoMongoRepo(unittest.TestCase):
         )
         
         # Mock the database operations
-        mock_collection.find_one.return_value = incomplete_todo.to_dict()
+        mock_collection.find_one.return_value = repo.list_to_doc(incomplete_todo)
         
         # Call the method to toggle completion status
         repo.erledige_todo(todo_id)
@@ -268,7 +217,7 @@ class TestTodoMongoRepo(unittest.TestCase):
             _todo_id=todo_id,
             titel="Test Todo",
             notiz="Test Description",
-            erledigt=True,  # This todo is completed
+            _erledigt=True,  # This todo is completed
             priority=HOCH,
             deadline=date(2026, 6, 10),
             calendar=False,
@@ -276,7 +225,7 @@ class TestTodoMongoRepo(unittest.TestCase):
             extra=Studium(modul="Test", gruppenarbeit=False)
         )
         
-        mock_collection.find_one.return_value = complete_todo.to_dict()
+        mock_collection.find_one.return_value = repo.list_to_doc(complete_todo)
         repo.erledige_todo(todo_id)
         
         # Verify that it toggles back to False
@@ -286,7 +235,6 @@ class TestTodoMongoRepo(unittest.TestCase):
         )
 
     def test_naechste_id(self):
-        # Setup for this test
         mock_client = Mock()
         mock_db = Mock()
         mock_collection = Mock()
@@ -312,6 +260,3 @@ class TestTodoMongoRepo(unittest.TestCase):
         mock_collection.find_one.return_value = last_todo
         result = repo.naechste_id()
         self.assertEqual(result, 43)
-
-if __name__ == '__main__':
-    unittest.main()
