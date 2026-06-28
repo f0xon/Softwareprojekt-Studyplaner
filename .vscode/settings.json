@@ -1,14 +1,8 @@
 {
-    "python.testing.unittestArgs": [
-        "-v",
-        "-s",
-        ".",
-        "-p",
-        "test_*.py"
-    ],
-    "python.testing.pytestEnabled": true,
-    "python.testing.unittestEnabled": false,
-    "python.testing.pytestArgs": [
-        "."
-    ]
+   "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestArgs": [
+    "Software_Todo_umstrukturiert"
+  ],
+  "python.testing.cwd": "${workspaceFolder}/Software_Todo_umstrukturiert"
 }
