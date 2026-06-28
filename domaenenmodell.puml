@@ -4,7 +4,7 @@
 skinparam classAttributeIconSize 0
 
 class ToDo {
-  - _todo_id: int
+  +# _todo_id: int
   + titel: str
   + notiz: str
   + priority: Priority
@@ -12,11 +12,11 @@ class ToDo {
   + calendar: bool
   + category: Category
   + extra: Studium | Haushalt | Freizeit | None = None
-  - _erledigt: bool = False
+  +# _erledigt: bool = False
   --
-  + todo_id: int
-  + erledigt: bool
-  + toggle_erledigt_todo(): void
+  +/ todo_id: int
+  +/ erledigt: 
+  + toggle_erledigt_todo()
 }
 
 class Priority <<Value Object>> {
