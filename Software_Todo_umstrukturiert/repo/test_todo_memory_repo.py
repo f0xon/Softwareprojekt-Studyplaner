@@ -13,7 +13,8 @@ from model.todo_model import (
 )
 
 class TestTodoMemoryRepo(unittest.TestCase):
-    def __init__(self):
+   
+    def setUp(self):
         self.repo = InMemoryTodoRepo()
 
     def test_speichere(self):
@@ -39,19 +40,17 @@ class TestTodoMemoryRepo(unittest.TestCase):
         original_todo = self.repo.finde_todo_mit_id(1)
         self.assertIsNotNone(original_todo)
         
-        updated_todo = ToDo(
-            _todo_id=1,
-            titel="Updated Title",
-            notiz="Updated Note",
-            _erledigt=True,
-            priority=NIEDRIG,
-            deadline=date(2026, 6, 20),
-            calendar=True,
-            category=FREIZEIT,
-            extra=Freizeit(hobby="Updated", ort="Updated")
-        )
+        if original_todo is not None:
+            original_todo.titel = "Updated Title"
+            original_todo.notiz = "Updated Note"
+            original_todo._erledigt = True # pyright: ignore[reportPrivateUsage]
+            original_todo.priority = NIEDRIG
+            original_todo.deadline = date(2026, 6, 20)
+            original_todo.calendar = True
+            original_todo.category = FREIZEIT
+            original_todo.extra = Freizeit(hobby="Updated", ort="Updated")
         
-        self.repo.update_todo(updated_todo)
+            self.repo.update_todo(original_todo)
         result = self.repo.finde_todo_mit_id(1)
         if result is not None:
             self.assertEqual(result.titel, "Updated Title")

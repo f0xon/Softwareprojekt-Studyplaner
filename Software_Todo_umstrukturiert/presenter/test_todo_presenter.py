@@ -45,8 +45,10 @@ class TestTodoListePresenter(unittest.TestCase):
     def test_erledige_todo_not_found(self):
         self.mock_repo.finde_todo_mit_id.return_value = None
 
-        self.presenter.erledige_todo(999)
-        self.mock_repo.update_todo.assert_not_called()
+        with self.assertRaises(ValueError) as cm:
+            self.presenter.erledige_todo(1)
+
+        self.assertEqual(str(cm.exception), "Todo nicht gefunden")
 
     def test_loesche_todo_success(self):
         mock_todo1 = Mock(spec=ToDo)
@@ -61,7 +63,10 @@ class TestTodoListePresenter(unittest.TestCase):
     def test_loesche_todo_not_found(self):
         self.mock_repo.finde_todo_mit_id.return_value = None
 
-        self.presenter.loesche_todo(999)
+        with self.assertRaises(ValueError) as cm:
+            self.presenter.loesche_todo(999)
+
+        self.assertEqual(str(cm.exception), "Todo nicht gefunden")
         self.mock_repo.loesche_todo.assert_not_called()
 
     def test_lade_todo_success(self):

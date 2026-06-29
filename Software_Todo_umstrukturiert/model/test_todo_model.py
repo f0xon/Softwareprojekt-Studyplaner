@@ -40,8 +40,7 @@ class TestTodoModel(unittest.TestCase):
         self.assertEqual(todo_model.KATEGORIEN_DICT["keine"], todo_model.KEINE)
         self.assertEqual(todo_model.KATEGORIEN_DICT["Studium"], todo_model.STUDIUM)
         self.assertEqual(todo_model.KATEGORIEN_DICT["Haushalt"], todo_model.HAUSHALT)
-        self.assertEqual(todo_mod
-        expected_todo = Todel.KATEGORIEN_DICT["Freizeit"], todo_model.FREIZEIT)
+        self.assertEqual(todo_model.KATEGORIEN_DICT["Freizeit"], todo_model.FREIZEIT)
 
     # --- Extra Data Model Tests ---
     def test_Studium(self):
