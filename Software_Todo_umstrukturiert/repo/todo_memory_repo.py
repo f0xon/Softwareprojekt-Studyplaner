@@ -184,11 +184,11 @@ class InMemoryTodoRepo(TodoRepo):
         ]
 
     def speichere(self, todo: ToDo) -> None:
-        self._todos.append(todo)
+        self._todos.insert(0, todo)
 
     def update_todo(self, todo: ToDo) -> None:
-        self._todos.remove(todo)
-        self._todos.append(todo)
+        index_in_liste =self._todos.index(todo)
+        self._todos[index_in_liste] =todo
 
     def lade_alle(self) -> list[ToDo]:  
         return self._todos

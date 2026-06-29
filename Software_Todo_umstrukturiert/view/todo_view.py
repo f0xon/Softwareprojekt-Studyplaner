@@ -24,19 +24,33 @@ class TodoView(ft.Column):
         if self.presenter_todo.ist_liste_leer():
             self.controls.append(
                 ft.Card(
-                    bgcolor=ft.Colors.SURFACE_CONTAINER_LOW,
+                    bgcolor=ft.Colors.RED_500,
                     shadow_color=ft.Colors.ON_SURFACE_VARIANT,
                     content=ft.Container(
-                        width=450,
                         padding=10,
                         content=ft.Column(
                             controls=[
-                                ft.Row(controls=[ft.Icon(ft.Icons.INFO_OUTLINE_ROUNDED, size=50)]),
-                                ft.Row(controls=[ft.Text(
-                                    "Keine Todos verfügbar",
-                                    size=20,
-                                    weight=ft.FontWeight.BOLD,
-                                )]),
+                                ft.Row(
+                                    alignment=ft.MainAxisAlignment.CENTER,
+                                    controls=[
+                                        ft.Icon(ft.Icons.INFO_OUTLINE_ROUNDED, size=50),
+                                    ],
+                                ),
+                                ft.Row(
+                                    alignment=ft.MainAxisAlignment.CENTER,
+                                    controls=[
+                                        ft.Container(
+                                            width=450,
+                                            alignment=ft.alignment.Alignment.CENTER,
+                                            content=ft.Text(
+                                                "Keine Todos vorhanden",
+                                                size=20,
+                                                weight=ft.FontWeight.BOLD,
+                                                text_align=ft.TextAlign.CENTER,
+                                            ),
+                                        )
+                                    ],
+                                ),
                             ]
                         ),
                     ),
@@ -47,28 +61,32 @@ class TodoView(ft.Column):
         ):  
             self.controls.append(
                 ft.Card(
-                    bgcolor=ft.Colors.SURFACE_CONTAINER_LOW,
+                    bgcolor=ft.Colors.RED_500,
                     shadow_color=ft.Colors.ON_SURFACE_VARIANT,
                     content=ft.Container(
-                        width=450,
                         padding=10,
                         content=ft.Column(
                             controls=[
                                 ft.Row(
+                                    alignment=ft.MainAxisAlignment.CENTER,
                                     controls=[
                                         ft.Icon(ft.Icons.INFO_OUTLINE_ROUNDED, size=50),
-                                        ft.Container(expand=True),
-                                    ]
+                                    ],
                                 ),
                                 ft.Row(
+                                    alignment=ft.MainAxisAlignment.CENTER,
                                     controls=[
-                                        ft.Text(
-                                            "Keine Todos mit ausgewählten Filtern vorhanden",
-                                            size=20,
-                                            weight=ft.FontWeight.BOLD,
-                                        ),
-                                        ft.Container(expand=True),
-                                    ]
+                                        ft.Container(
+                                            width=450,
+                                            alignment=ft.alignment.Alignment.CENTER,
+                                            content=ft.Text(
+                                                "Keine Todos mit ausgewählten Filtern vorhanden",
+                                                size=20,
+                                                weight=ft.FontWeight.BOLD,
+                                                text_align=ft.TextAlign.CENTER,
+                                            ),
+                                        )
+                                    ],
                                 ),
                             ]
                         ),

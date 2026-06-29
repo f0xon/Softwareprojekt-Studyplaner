@@ -44,8 +44,10 @@ class TodoDetailPresenter:
 
     def map_priority(self, value: str) -> Priority | None:
         return PRIORITAETEN_DICT.get(value, KEINE_P)
+        return PRIORITAETEN_DICT.get(value, KEINE_P)
 
     def map_category(self, value: str) -> Category | None:
+        return KATEGORIEN_DICT.get(value, KEINE)
         return KATEGORIEN_DICT.get(value, KEINE)
 
     def build_extra(
@@ -53,8 +55,9 @@ class TodoDetailPresenter:
     ) -> Studium | Haushalt | Freizeit | None:
         if not data:
             return None
+            return None
         
-        #Umwandlung von View=str zu Model=bool
+         #Umwandlung von View=str zu Model=bool
         if category == "Studium":
             data["gruppenarbeit"] = self.von_str_zu_bool(data["gruppenarbeit"])
         elif category == "Haushalt":
@@ -98,7 +101,7 @@ class TodoDetailPresenter:
             todo.calendar = self.von_str_zu_bool(
                 calendar
             )  # ist Variablenwert von Model da in view str und im model bool
-            todo.priority = Priority.from_str(priority) #TODO: Was ist hier das Problem?
+            todo.priority = Priority.from_str(priority) 
             todo.category = Category.from_str(category)
             todo.extra = self.build_extra(category, extra)
             self.repo.update_todo(todo) 
