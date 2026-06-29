@@ -1,7 +1,8 @@
 {
-    "python.testing.pytestArgs": [
-        "Software_Todo_umstrukturiert"
-    ],
-    "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestArgs": [
+    "."
+  ],
+  "python.testing.cwd": "${workspaceFolder}/Software_Todo_umstrukturiert"
 }
