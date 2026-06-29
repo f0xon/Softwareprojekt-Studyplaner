@@ -39,15 +39,16 @@ class MongoTodoRepo(TodoRepo):
 
     def lade_alle(self) -> list[ToDo]:
         todos: list[ToDo] = []
-        alle_eintraege = self.db.todos.find(projection={"_id": False})  # type: ignore #Betz ist das ok zu ignorieren?
+        alle_eintraege = self.db.todos.find(projection={"_id": False}, sort=[("_todo_id", -1)])  # type: ignore #Betz ist das ok zu ignorieren?
         for eintrag in alle_eintraege:  # type: ignore
             todos.append(self.doc_to_list(eintrag))  # type: ignore
         return todos
 
-    def finde_todo_mit_id(self, todo_id: int) -> ToDo:
+    def finde_todo_mit_id(self, todo_id: int) -> ToDo | None:
         todo = self.db.todos.find_one({"_todo_id": todo_id}, projection={"_id": False})  # type: ignore
         if todo is None:
-            raise ValueError(f"ToDo mit der Id: {todo_id} existiert nicht")
+            return None
+            # raise ValueError(f"ToDo mit der Id: {todo_id} existiert nicht")
         return self.doc_to_list(todo)  # type: ignore
 
     def erledige_todo(self, todo_id: int) -> None:
@@ -74,7 +75,7 @@ class MongoTodoRepo(TodoRepo):
         elif status == "erledigt":
             query["_erledigt"] = True
         todos: list[ToDo] = []
-        for doc in self.db.todos.find(query, projection={"_id": False}):  # type: ignore
+        for doc in self.db.todos.find(query, projection={"_id": False}, sort=[("_todo_id", -1)]):  # type: ignore
             todos.append(self.doc_to_list(doc))  # type: ignore
         return todos
 

@@ -29,7 +29,8 @@ class TodoListePresenter:
             if todo.todo_id == id:
                 return todo
         return None 
-
+    
+    
     def _todo_None(self, todo: ToDo | None) -> ToDo:#
         if todo is None:
             raise ValueError("Todo nicht gefunden")
