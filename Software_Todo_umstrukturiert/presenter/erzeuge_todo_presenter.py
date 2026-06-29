@@ -50,7 +50,7 @@ class TodoDetailPresenter:
 
     def build_extra(
         self, category: str, data: dict[str, Any]
-    ) -> Studium | Haushalt | Freizeit | dict[str, Any] | None:
+    ) -> Studium | Haushalt | Freizeit | None:
         if not data:
             return None
         

@@ -10,7 +10,7 @@ class Priority:
     symbol: str
 
     @classmethod
-    def from_str(cls, as_str: str) -> Priority | None:
+    def from_str(cls, as_str: str) -> Priority:
         if as_str in PRIORITAETEN_DICT:
             return PRIORITAETEN_DICT[as_str]
         else:
@@ -36,7 +36,7 @@ class Category:
     farbe: str
 
     @classmethod
-    def from_str(cls, as_str: str) -> Category | None:
+    def from_str(cls, as_str: str) -> Category:
         if as_str in KATEGORIEN_DICT:
             return KATEGORIEN_DICT[as_str]
         else:

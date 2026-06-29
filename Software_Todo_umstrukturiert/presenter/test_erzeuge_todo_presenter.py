@@ -23,15 +23,15 @@ class TestTodoDetailPresenter(unittest.TestCase):
         self.assertIsNone(self.presenter.current_todo)
 
     def test_is_create_mode_with_modus_set(self):
-        self.assertEqual(self.presenter._modus, "create")
+        self.assertEqual(self.presenter._modus, "create") # pyright: ignore[reportPrivateUsage]
         self.assertTrue(self.presenter.is_create_mode)
 
         self.presenter.set_modus("edit")
-        self.assertEqual(self.presenter._modus, "edit")
+        self.assertEqual(self.presenter._modus, "edit") # pyright: ignore[reportPrivateUsage]
         self.assertTrue(self.presenter.is_edit_mode)
 
         self.presenter.set_modus("create")
-        self.assertEqual(self.presenter._modus, "create")
+        self.assertEqual(self.presenter._modus, "create") # pyright: ignore[reportPrivateUsage]
         self.assertTrue(self.presenter.is_create_mode)
 
     def test_is_edit_mode_with_modus_set(self):
@@ -47,17 +47,17 @@ class TestTodoDetailPresenter(unittest.TestCase):
         self.assertEqual(self.presenter.map_priority("niedrig"), PRIORITAETEN_DICT["niedrig"])
         self.assertEqual(self.presenter.map_priority("mittel"), PRIORITAETEN_DICT["mittel"])
         self.assertEqual(self.presenter.map_priority("hoch"), PRIORITAETEN_DICT["hoch"])
-        self.assertIsNone(self.presenter.map_priority("invalid"))
+        self.assertEqual(self.presenter.map_priority("invalid"), PRIORITAETEN_DICT["keine"])
 
     def test_map_category(self):
         self.assertEqual(self.presenter.map_category("keine"), KATEGORIEN_DICT["keine"])
         self.assertEqual(self.presenter.map_category("Studium"), KATEGORIEN_DICT["Studium"])
         self.assertEqual(self.presenter.map_category("Haushalt"), KATEGORIEN_DICT["Haushalt"])
         self.assertEqual(self.presenter.map_category("Freizeit"), KATEGORIEN_DICT["Freizeit"])
-        self.assertIsNone(self.presenter.map_category("invalid"))
+        self.assertEqual(self.presenter.map_category("invalid"), KATEGORIEN_DICT["keine"])
 
     def test_build_extra_studium(self):
-        data: dict[str, str|bool] = {"modul": "Mathe", "gruppenarbeit": True}
+        data: dict[str, str|bool] = {"modul": "Mathe", "gruppenarbeit": "true"}
         extra = self.presenter.build_extra("Studium", data)
         self.assertIsInstance(extra, Studium)
         if isinstance(extra, Studium):
@@ -65,7 +65,7 @@ class TestTodoDetailPresenter(unittest.TestCase):
             self.assertTrue(extra.gruppenarbeit)
 
     def test_build_extra_haushalt(self):
-        data = {"wiederkehrend": False}
+        data = {"wiederkehrend": "false"}
         extra = self.presenter.build_extra("Haushalt", data)
         self.assertIsInstance(extra, Haushalt)
         if isinstance(extra, Haushalt):
@@ -81,11 +81,11 @@ class TestTodoDetailPresenter(unittest.TestCase):
 
     def test_build_extra_empty_data(self):
         extra = self.presenter.build_extra("Studium", {})
-        self.assertEqual(extra, {})
+        self.assertEqual(extra, None)
 
     def test_build_extra_invalid_category(self):
-        with self.assertRaises(TypeError):
-            self.presenter.build_extra("Invalid", {"key": "value"})
+        extra = self.presenter.build_extra("Invalid", {"key": "value"})
+        self.assertEqual(extra, None)
 
     def test_lade_todo_success(self):
         mock_todo = ToDo(
@@ -99,22 +99,22 @@ class TestTodoDetailPresenter(unittest.TestCase):
         )
 
         self.mock_repo.finde_todo_mit_id.return_value = mock_todo
-
-        result = self.presenter.lade_todo(1)
-
-        self.mock_repo.finde_todo_mit_id.assert_called_once_with(1)
-        self.assertEqual(self.presenter.current_todo, mock_todo)
-        self.assertEqual(result["Titel"], "Test Todo")
-        self.assertEqual(result["Notiz"], "Test Notiz")
-        self.assertEqual(result["Deadline"], date(2026, 6, 25))
-        self.assertFalse(result["Kalender"])
-        self.assertEqual(result["Priorität"], "hoch")
-        self.assertEqual(result["Kategorie"], "Studium")
+        self.presenter.lade_todo(1)
+        result = self.presenter.current_todo
+        self.assertIsNotNone(result)
+        if result is not None:
+            self.mock_repo.finde_todo_mit_id.assert_called_once_with(1)
+            self.assertEqual(self.presenter.current_todo, mock_todo)
+            self.assertEqual(result.titel, "Test Todo")
+            self.assertEqual(result.notiz, "Test Notiz")
+            self.assertEqual(result.deadline, date(2026, 6, 25))
+            self.assertFalse(result.calendar, "false")
+            self.assertEqual(result.priority.name, "hoch")
+            self.assertEqual(result.category.name, "Studium")
 
     def test_lade_todo_not_found(self):
         self.mock_repo.finde_todo_mit_id.return_value = None
-        result = self.presenter.lade_todo(999)
-        self.assertEqual(result, {})
+        self.presenter.lade_todo(999)
         self.assertIsNone(self.presenter.current_todo)
 
     def test_save_todo_create_mode(self):
@@ -125,10 +125,10 @@ class TestTodoDetailPresenter(unittest.TestCase):
             titel="New Todo",
             notiz="New Notiz",
             deadline=date(2026, 6, 25),
-            calendar="True",
+            calendar="true",
             priority="hoch",
             category="Studium",
-            extra={"modul": "Mathe", "gruppenarbeit": False}
+            extra={"modul": "Mathe", "gruppenarbeit": "false"}
         )
 
         self.mock_repo.speichere.assert_called_once()
@@ -162,10 +162,10 @@ class TestTodoDetailPresenter(unittest.TestCase):
             titel="Updated Todo",
             notiz="Updated Notiz",
             deadline=date(2026, 6, 25),
-            calendar="True",
+            calendar="true",
             priority="hoch",
-            category="Studium",
-            extra={"modul": "Mathe", "gruppenarbeit": True}
+            category="Freizeit",
+            extra={"hobby": "Mathe", "ort": "THU"}
         )
 
         self.assertEqual(mock_todo.titel, "Updated Todo")
@@ -173,8 +173,8 @@ class TestTodoDetailPresenter(unittest.TestCase):
         self.assertEqual(mock_todo.deadline, date(2026, 6, 25))
         self.assertTrue(mock_todo.calendar)
         self.assertEqual(mock_todo.priority, PRIORITAETEN_DICT["hoch"])
-        self.assertEqual(mock_todo.category, KATEGORIEN_DICT["Studium"])
-        self.assertIsInstance(mock_todo.extra, Studium)
-        if isinstance(mock_todo.extra, Studium):
-            self.assertEqual(mock_todo.extra.modul, "Mathe")
-            self.assertTrue(mock_todo.extra.gruppenarbeit)
+        self.assertEqual(mock_todo.category, KATEGORIEN_DICT["Freizeit"])
+        self.assertIsInstance(mock_todo.extra, Freizeit)
+        if isinstance(mock_todo.extra, Freizeit):
+            self.assertEqual(mock_todo.extra.hobby, "Mathe")
+            self.assertEqual(mock_todo.extra.ort, "THU")
