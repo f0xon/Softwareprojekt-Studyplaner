@@ -1,6 +1,5 @@
 # pyright: reportAttributeAccessIssue=false
 
-from flet.controls.core.column import Column
 import flet as ft
 from presenter.filtere_todo_presenter import FiltereTodoPresenter
 

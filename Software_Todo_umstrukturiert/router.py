@@ -58,9 +58,7 @@ class Router:
         self.page.clean()
         if self.page.route == self.todo:
             self.page.add(
-                TodoView(
-                    self.presenter_todo, self.presenter_filtern, self.presenter_detail
-                )
+                TodoView(self.presenter_todo, self.presenter_filtern)
             )
 
         elif self.page.route.startswith(self.erzeuge_todo):

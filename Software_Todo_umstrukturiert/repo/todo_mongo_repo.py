@@ -26,7 +26,7 @@ from repo.todo_repo import TodoRepo
 
 
 class MongoTodoRepo(TodoRepo):
-    def __init__(self, db) -> None:
+    def __init__(self, db) -> None:   # type: ignore
         self.db = db
 
     def speichere(self, todo: ToDo) -> None:
