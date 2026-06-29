@@ -44,17 +44,21 @@ class TodoDetailPresenter:
 
     def map_priority(self, value: str) -> Priority | None:
         return PRIORITAETEN_DICT.get(value, KEINE_P)
+        return PRIORITAETEN_DICT.get(value, KEINE_P)
 
     def map_category(self, value: str) -> Category | None:
+        return KATEGORIEN_DICT.get(value, KEINE)
         return KATEGORIEN_DICT.get(value, KEINE)
 
     def build_extra(
         self, category: str, data: dict[str, Any]
     ) -> Studium | Haushalt | Freizeit | None:
+    ) -> Studium | Haushalt | Freizeit | None:
         if not data:
             return None
+            return None
         
-        #Umwandlung von View=str zu Model=bool
+         #Umwandlung von View=str zu Model=bool
         if category == "Studium":
             data["gruppenarbeit"] = self.von_str_zu_bool(data["gruppenarbeit"])
         elif category == "Haushalt":
@@ -70,6 +74,8 @@ class TodoDetailPresenter:
         )
         if cls:
             return cls(**data)  # return Haushalt(wiederkehrend=False)
+        else:
+            return None
         else:
             return None
 
@@ -116,6 +122,11 @@ class TodoDetailPresenter:
             )
             self.repo.speichere(todo)
 
+    def von_str_zu_bool(self, string: str) -> bool:
+        if string == "false":
+            return False
+        elif string == "true":
+            return True
     def von_str_zu_bool(self, string: str) -> bool:
         if string == "false":
             return False
