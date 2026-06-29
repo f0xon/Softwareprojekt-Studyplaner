@@ -1,0 +1,65 @@
+@startuml
+!pragma layout smetana
+skinparam classAttributeIconSize 0
+
+' =========================
+' Repository Interface
+' =========================
+
+class TodoRepo <<Repository>> <<protocol>> {
+    + speichere(todo: ToDo): None
+    + update_todo(todo: ToDo): None
+    + lade_alle(): list[ToDo]
+    + finde_todo_mit_id(todo_id: int): ToDo | None
+    + erledige_todo(todo_id: int): None
+    + loesche_todo(todo: ToDo): None
+    + filtere_todos(kat: str, prio: str, status: str): list[ToDo]
+    + naechste_id(): int
+}
+
+' =========================
+' Implementierungen
+' =========================
+
+class InMemoryTodoRepo <<Repository>> {
+    - _todos: list[ToDo]
+
+    + <<constructors>> __init__()
+    + speichere(todo: ToDo): None
+    + update_todo(todo: ToDo): None
+    + lade_alle(): list[ToDo]
+    + finde_todo_mit_id(todo_id: int): ToDo | None
+    + erledige_todo(todo_id: int): None
+    + loesche_todo(todo: ToDo): None
+    + filtere_todos(kat: str, prio: str, status: str): list[ToDo]
+    + naechste_id(): int
+}
+
+class MongoTodoRepo <<Repository>> {
+    - db
+
+    + <<constructors>> __init__(db)
+    + speichere(todo: ToDo): None
+    + update_todo(todo: ToDo): None
+    + lade_alle(): list[ToDo]
+    + finde_todo_mit_id(todo_id: int): ToDo |None
+    + erledige_todo(todo_id: int): None
+    + loesche_todo(todo: ToDo): None
+    + filtere_todos(kat: str, prio: str, status: str): list[ToDo]
+    + naechste_id(): int
+
+    + list_to_doc(todo: ToDo): dict
+    + doc_to_list(doc: dict): ToDo
+}
+
+
+' =========================
+' Beziehungen
+' =========================
+
+TodoRepo <|.. InMemoryTodoRepo
+TodoRepo <|.. MongoTodoRepo
+
+
+
+@enduml
