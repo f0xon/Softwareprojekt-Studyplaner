@@ -4,7 +4,6 @@ from model.todo_model import ToDo
 import flet as ft
 from presenter.todo_presenter import TodoListePresenter
 from presenter.filtere_todo_presenter import FiltereTodoPresenter
-from presenter.erzeuge_todo_presenter import TodoDetailPresenter
 
 
 class TodoView(ft.Column):
@@ -12,12 +11,10 @@ class TodoView(ft.Column):
         self,
         presenter_todo: TodoListePresenter,
         presenter_filtere: FiltereTodoPresenter,
-        presenter_detail: TodoDetailPresenter,
     ):
         super().__init__()
         self.presenter_todo: TodoListePresenter = presenter_todo
         self.presenter_filtere: FiltereTodoPresenter = presenter_filtere
-        self.presenter_detail: TodoDetailPresenter = presenter_detail
         self.build_ui()
 
     def build_ui(self):

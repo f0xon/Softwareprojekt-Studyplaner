@@ -43,16 +43,16 @@ class TodoDetailPresenter:
         return self._modus == "edit"
 
     def map_priority(self, value: str) -> Priority | None:
-        return PRIORITAETEN_DICT.get(value, KEINE_P)
+        return PRIORITAETEN_DICT.get(value)
 
     def map_category(self, value: str) -> Category | None:
-        return KATEGORIEN_DICT.get(value, KEINE)
+        return KATEGORIEN_DICT.get(value)
 
     def build_extra(
         self, category: str, data: dict[str, Any]
-    ) -> Studium | Haushalt | Freizeit | None:
+    ) -> Studium | Haushalt | Freizeit | dict[str, Any] | None:
         if not data:
-            return None
+            return {}
         
         #Umwandlung von View=str zu Model=bool
         if category == "Studium":
@@ -70,13 +70,22 @@ class TodoDetailPresenter:
         )
         if cls:
             return cls(**data)  # return Haushalt(wiederkehrend=False)
-        else:
-            return None
+        raise TypeError(f"Ungültige Kategorie: {category}")
 
     # LOAD (Edit-Modus)
-    def lade_todo(self, todo_id: int) -> None:
+    def lade_todo(self, todo_id: int) -> dict[str, Any]:
         todo = self.repo.finde_todo_mit_id(todo_id)
         self._current_todo = todo
+        if todo is None:
+            return {}
+        return {
+            "Titel": todo.titel,
+            "Notiz": todo.notiz,
+            "Deadline": todo.deadline,
+            "Kalender": todo.calendar,
+            "Priorität": todo.priority.name if todo.priority else "keine",
+            "Kategorie": todo.category.name if todo.category else "keine",
+        }
 
     def save_todo(
         # hat Variablenwerte der View
@@ -116,11 +125,15 @@ class TodoDetailPresenter:
             )
             self.repo.speichere(todo)
 
-    def von_str_zu_bool(self, string: str) -> bool:
-        if string == "false":
-            return False
-        elif string == "true":
-            return True
+    def von_str_zu_bool(self, string: str | bool) -> bool:
+        if isinstance(string, bool):
+            return string
+        if isinstance(string, str):
+            lower_value = string.lower()
+            if lower_value == "false":
+                return False
+            elif lower_value == "true":
+                return True
         raise ValueError(f"Ungültiger Bool-String: {string}")
     
     def von_bool_zu_str(self, wert_b: bool) -> str:

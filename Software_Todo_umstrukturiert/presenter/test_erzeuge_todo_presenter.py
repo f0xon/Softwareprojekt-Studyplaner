@@ -14,23 +14,33 @@ from erzeuge_todo_presenter import TodoDetailPresenter
 
 class TestTodoDetailPresenter(unittest.TestCase):
 
-    def test_initialization(self):
+    def setUp(self):
         self.mock_repo = Mock(spec=TodoRepo)
         self.presenter = TodoDetailPresenter(self.mock_repo)
+
+    def test_initialization(self):
         self.assertIsInstance(self.presenter.repo, Mock)
         self.assertIsNone(self.presenter.current_todo)
 
     def test_is_create_mode_with_modus_set(self):
-        self.presenter._modus = "create" # pyright: ignore[reportPrivateUsage]
+        self.assertEqual(self.presenter._modus, "create")
         self.assertTrue(self.presenter.is_create_mode)
-        self.presenter._modus = "edit" # pyright: ignore[reportPrivateUsage]
-        self.assertFalse(self.presenter.is_create_mode)
+
+        self.presenter.set_modus("edit")
+        self.assertEqual(self.presenter._modus, "edit")
+        self.assertTrue(self.presenter.is_edit_mode)
+
+        self.presenter.set_modus("create")
+        self.assertEqual(self.presenter._modus, "create")
+        self.assertTrue(self.presenter.is_create_mode)
 
     def test_is_edit_mode_with_modus_set(self):
-        self.presenter._modus = "edit" # pyright: ignore[reportPrivateUsage]
+        self.presenter.set_modus("edit")
         self.assertTrue(self.presenter.is_edit_mode)
-        self.presenter._modus = "create" # pyright: ignore[reportPrivateUsage]
+
+        self.presenter.set_modus("create")
         self.assertFalse(self.presenter.is_edit_mode)
+        self.assertTrue(self.presenter.is_create_mode)
 
     def test_map_priority(self):
         self.assertEqual(self.presenter.map_priority("keine"), PRIORITAETEN_DICT["keine"])
@@ -78,13 +88,15 @@ class TestTodoDetailPresenter(unittest.TestCase):
             self.presenter.build_extra("Invalid", {"key": "value"})
 
     def test_lade_todo_success(self):
-        mock_todo = Mock(spec=ToDo)
-        mock_todo.titel = "Test Todo"
-        mock_todo.notiz = "Test Notiz"
-        mock_todo.deadline = date(2026, 6, 25)
-        mock_todo.calendar = False
-        mock_todo.priority.name = "hoch"
-        mock_todo.category.name = "Studium"
+        mock_todo = ToDo(
+            _todo_id=1,
+            titel="Test Todo",
+            notiz="Test Notiz",
+            priority=PRIORITAETEN_DICT["hoch"],
+            deadline=date(2026, 6, 25),
+            calendar=False,
+            category=KATEGORIEN_DICT["Studium"],
+        )
 
         self.mock_repo.finde_todo_mit_id.return_value = mock_todo
 
@@ -92,13 +104,12 @@ class TestTodoDetailPresenter(unittest.TestCase):
 
         self.mock_repo.finde_todo_mit_id.assert_called_once_with(1)
         self.assertEqual(self.presenter.current_todo, mock_todo)
-        if result is not None:
-            self.assertEqual(result["Titel"], "Test Todo")
-            self.assertEqual(result["Notiz"], "Test Notiz")
-            self.assertEqual(result["Deadline"], date(2026, 6, 25))
-            self.assertFalse(result["Kalender"])
-            self.assertEqual(result["Priorität"], "hoch")
-            self.assertEqual(result["Kategorie"], "Studium")
+        self.assertEqual(result["Titel"], "Test Todo")
+        self.assertEqual(result["Notiz"], "Test Notiz")
+        self.assertEqual(result["Deadline"], date(2026, 6, 25))
+        self.assertFalse(result["Kalender"])
+        self.assertEqual(result["Priorität"], "hoch")
+        self.assertEqual(result["Kategorie"], "Studium")
 
     def test_lade_todo_not_found(self):
         self.mock_repo.finde_todo_mit_id.return_value = None
@@ -134,14 +145,16 @@ class TestTodoDetailPresenter(unittest.TestCase):
         self.assertFalse(saved_todo.extra.gruppenarbeit)
 
     def test_save_todo_edit_mode(self):
-        mock_todo = Mock(spec=ToDo)
-        mock_todo.titel = "Old Todo"
-        mock_todo.notiz = "Old Notiz"
-        mock_todo.deadline = date(2026, 6, 20)
-        mock_todo.calendar = False
-        mock_todo.priority = PRIORITAETEN_DICT["niedrig"]
-        mock_todo.category = KATEGORIEN_DICT["Haushalt"]
-        mock_todo.extra = Haushalt(wiederkehrend=True)
+        mock_todo = ToDo(
+            _todo_id=1,
+            titel="Old Todo",
+            notiz="Old Notiz",
+            priority=PRIORITAETEN_DICT["niedrig"],
+            deadline=date(2026, 6, 20),
+            calendar=False,
+            category=KATEGORIEN_DICT["Haushalt"],
+            extra=Haushalt(wiederkehrend=True),
+        )
 
         self.presenter._current_todo = mock_todo  # pyright: ignore[reportPrivateUsage]
 
@@ -159,6 +172,9 @@ class TestTodoDetailPresenter(unittest.TestCase):
         self.assertEqual(mock_todo.notiz, "Updated Notiz")
         self.assertEqual(mock_todo.deadline, date(2026, 6, 25))
         self.assertTrue(mock_todo.calendar)
-        self.assertEqual(mock_todo.priority, "hoch")
-        self.assertEqual(mock_todo.category, "Studium")
-        self.assertEqual(mock_todo.extra, {"modul": "Mathe", "gruppenarbeit": True})
+        self.assertEqual(mock_todo.priority, PRIORITAETEN_DICT["hoch"])
+        self.assertEqual(mock_todo.category, KATEGORIEN_DICT["Studium"])
+        self.assertIsInstance(mock_todo.extra, Studium)
+        if isinstance(mock_todo.extra, Studium):
+            self.assertEqual(mock_todo.extra.modul, "Mathe")
+            self.assertTrue(mock_todo.extra.gruppenarbeit)
