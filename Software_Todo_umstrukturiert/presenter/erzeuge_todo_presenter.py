@@ -53,7 +53,6 @@ class TodoDetailPresenter:
     def build_extra(
         self, category: str, data: dict[str, Any]
     ) -> Studium | Haushalt | Freizeit | None:
-    ) -> Studium | Haushalt | Freizeit | None:
         if not data:
             return None
             return None
@@ -74,8 +73,6 @@ class TodoDetailPresenter:
         )
         if cls:
             return cls(**data)  # return Haushalt(wiederkehrend=False)
-        else:
-            return None
         else:
             return None
 
@@ -104,7 +101,7 @@ class TodoDetailPresenter:
             todo.calendar = self.von_str_zu_bool(
                 calendar
             )  # ist Variablenwert von Model da in view str und im model bool
-            todo.priority = Priority.from_str(priority) #TODO: Was ist hier das Problem?
+            todo.priority = Priority.from_str(priority) 
             todo.category = Category.from_str(category)
             todo.extra = self.build_extra(category, extra)
             self.repo.update_todo(todo) 
@@ -122,11 +119,6 @@ class TodoDetailPresenter:
             )
             self.repo.speichere(todo)
 
-    def von_str_zu_bool(self, string: str) -> bool:
-        if string == "false":
-            return False
-        elif string == "true":
-            return True
     def von_str_zu_bool(self, string: str) -> bool:
         if string == "false":
             return False
