@@ -1,0 +1,86 @@
+@startuml
+!pragma layout smetana
+skinparam classAttributeIconSize 0
+
+
+' =========================
+' Presenter
+' =========================
+
+class TodoListPresenter <<Presenter>> {
+    # _repo: TodoRepo
+    
+    + <<constructors>> __init__(repo: ToDoRepo): 
+    + get_todos(): list[ToDo]
+    + erledige_todo(id: int): None
+    + loesche_todo(id: int): None
+    + lade_todo(id: int): ToDo | None
+    + todo_None(todo: ToDo | None): ToDo 
+    + ist_liste_leer(): bool
+}
+
+' =========================
+' View
+' =========================
+
+class TodoView <<View>> {
+    - presenter_todo: TodoListPresenter
+    - presenter_filter: FilterTodoPresenter
+    - presenter_detail: TodoDetailPresenter
+
+    + <<constructors>> __init__(presenter_todo: TodoListePresenter, presenter_filtere: FiltereTodoPresenter): 
+    + build_ui(): 
+    + rebuild(): 
+    + on_button_clicked_done(e: ft.Event[ft.IconButton]): None
+    + on_button_clicked_delete(e: ft.Event[ft.IconButton]): None
+    + on_button_clicked_detail(e:  ft.Event[ft.IconButton]): None
+}
+
+' =========================
+' Repository
+' =========================
+
+interface TodoRepo <<Repository>> <<protocol>>{
+    + speichere(todo: ToDo): None
+    + update_todo(todo: ToDo): None
+    + lade_alle(): list[ToDo]
+    + finde_todo_mit_id(id: int): ToDo | None
+    + erledige_todo(id: int): None
+    + loesche_todo(todo: ToDo): None
+    + filtere_todos(kat: str, prio: str, status: str): list[ToDo]
+    + naechste_id(): int
+}
+
+' =========================
+' Domain
+' =========================
+
+class ToDo <<Domain>> {
+    # _todo_id: int
+    + titel: str
+    + notiz: str
+    + priority: Priority
+    + deadline: date
+    + calendar: bool
+    + category: Category
+    # _erledigt: bool
+--
+    +/ todo_id: int 
+    +/ erledigt: bool
+    + toggle_erledigt_todo(): None
+}
+
+' =========================
+' Beziehungen
+' =========================
+
+TodoView --> TodoListPresenter
+
+TodoListPresenter --> TodoRepo : greift zu auf
+TodoListPresenter --> ToDo: nutzt
+
+TodoRepo ..> ToDo : verwaltet
+
+
+
+@enduml

@@ -4,7 +4,7 @@
 skinparam classAttributeIconSize 0
 
 class ToDo {
-  +# _todo_id: int
+  # _todo_id: int
   + titel: str
   + notiz: str
   + priority: Priority
@@ -12,21 +12,21 @@ class ToDo {
   + calendar: bool
   + category: Category
   + extra: Studium | Haushalt | Freizeit | None = None
-  +# _erledigt: bool = False
+  # _erledigt: bool = False
   --
-  +/ todo_id: int
-  +/ erledigt: 
-  + toggle_erledigt_todo()
+  +/ todo_id: int {readOnly}
+  +/ erledigt: bool
+  + toggle_erledigt_todo(): None
 }
 
-class Priority <<Value Object>> {
+class Priority <<immutable>> {
   + name: str
   + ausrufezeichen: str
   --
   + from_str(value: str): Priority
 }
 
-class Category <<Value Object>> {
+class Category <<immutable>> {
   + name: str
   + farbe: str
   --
@@ -48,22 +48,22 @@ class Freizeit {
 }
 
 interface TodoRepo {
-  + speichere(todo: ToDo): void
-  + update_todo(todo: ToDo): void
+  + speichere(todo: ToDo): None
+  + update_todo(todo: ToDo): None
   + lade_alle(): List<ToDo>
   + finde_todo_mit_id(todoId: int): ToDo
-  + erledige_todo(todoId: int): void
-  + loesche_todo(todo: ToDo): void
+  + erledige_todo(todoId: int): None
+  + loesche_todo(todo: ToDo): None
   + filtere_todos(kategorie: str, prioritaet: str, status: str): List<ToDo>
   + naechste_id(): int
 }
 
-ToDo "1" *-- "1" Studium
-ToDo "1" *-- "1" Haushalt
-ToDo "1" *-- "1" Freizeit
+ToDo "0..1" <-- Studium
+ToDo "0..1" <--  Haushalt
+ToDo "0..1" <--  Freizeit
 
-ToDo "1" *-- "1" Priority
-ToDo "1" *-- "1" Category
+ToDo "1" <--  Priority
+ToDo "1" <--  Category
 TodoRepo ..> ToDo : verwaltet
 
 /'
