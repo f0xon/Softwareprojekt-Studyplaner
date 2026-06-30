@@ -44,17 +44,14 @@ class TodoDetailPresenter:
 
     def map_priority(self, value: str) -> Priority | None:
         return PRIORITAETEN_DICT.get(value, KEINE_P)
-        return PRIORITAETEN_DICT.get(value, KEINE_P)
 
     def map_category(self, value: str) -> Category | None:
         return KATEGORIEN_DICT.get(value, KEINE)
-        return KATEGORIEN_DICT.get(value, KEINE)
-
+        
     def build_extra(
         self, category: str, data: dict[str, Any]
     ) -> Studium | Haushalt | Freizeit | None:
         if not data:
-            return None
             return None
         
          #Umwandlung von View=str zu Model=bool
