@@ -88,8 +88,9 @@ class Router:
             todo_id = int(values["id"])
             self.presenter_detail.lade_todo(todo_id)
 
-    def on_nav_change(self, e: ft.ControlEvent):
+    def on_nav_change(self, e: ft.Event[ft.CupertinoNavigationBar]):
         index: int = e.control.selected_index #Betz: Was ist hier der richtige Typ?
+        #index: int = e.control.selected_index #Betz: Was ist hier der richtige Typ?
         route = self.navigation.get(index)
         if route:
             if isinstance(self.page, ft.Page):  # pyright: ignore[reportUnnecessaryIsInstance]

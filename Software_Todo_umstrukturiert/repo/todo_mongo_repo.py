@@ -26,7 +26,7 @@ from repo.todo_repo import TodoRepo
 
 
 class MongoTodoRepo(TodoRepo):
-    def __init__(self, db) -> None:   # type: ignore
+    def __init__(self, db) -> None:  # type: ignore
         self.db = db
 
     def speichere(self, todo: ToDo) -> None:
@@ -39,9 +39,11 @@ class MongoTodoRepo(TodoRepo):
 
     def lade_alle(self) -> list[ToDo]:
         todos: list[ToDo] = []
-        alle_eintraege = self.db.todos.find(projection={"_id": False}, sort=[("_todo_id", -1)])  # type: ignore #Betz ist das ok zu ignorieren?
-        for eintrag in alle_eintraege:  # type: ignore
-            todos.append(self.doc_to_list(eintrag))  # type: ignore
+        alle_eintraege = self.db.todos.find(
+            projection={"_id": False}, sort=[("_todo_id", -1)]
+        )
+        for eintrag in alle_eintraege:
+            todos.append(self.doc_to_list(eintrag))
         return todos
 
     def finde_todo_mit_id(self, todo_id: int) -> ToDo | None:
@@ -75,7 +77,9 @@ class MongoTodoRepo(TodoRepo):
         elif status == "erledigt":
             query["_erledigt"] = True
         todos: list[ToDo] = []
-        for doc in self.db.todos.find(query, projection={"_id": False}, sort=[("_todo_id", -1)]):  # type: ignore
+        for doc in self.db.todos.find(
+            query, projection={"_id": False}, sort=[("_todo_id", -1)]
+        ):  # type: ignore
             todos.append(self.doc_to_list(doc))  # type: ignore
         return todos
 

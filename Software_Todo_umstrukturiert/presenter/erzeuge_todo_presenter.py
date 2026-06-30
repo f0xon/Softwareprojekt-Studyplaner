@@ -16,7 +16,8 @@ from model.todo_model import (
 from repo.todo_repo import TodoRepo
 from datetime import date
 
-#Betz wir haben keine ViewModels ist das trotzdem ok?
+
+# Betz wir haben keine ViewModels ist das trotzdem ok?
 class TodoDetailPresenter:
     _modus: Literal["create", "edit"]
 
@@ -47,19 +48,20 @@ class TodoDetailPresenter:
 
     def map_category(self, value: str) -> Category | None:
         return KATEGORIEN_DICT.get(value, KEINE)
-        
+
     def build_extra(
         self, category: str, data: dict[str, Any]
     ) -> Studium | Haushalt | Freizeit | None:
         if not data:
             return None
-        
-         #Umwandlung von View=str zu Model=bool
+            return None
+
+        # Umwandlung von View=str zu Model=bool
         if category == "Studium":
             data["gruppenarbeit"] = self.von_str_zu_bool(data["gruppenarbeit"])
         elif category == "Haushalt":
             data["wiederkehrend"] = self.von_str_zu_bool(data["wiederkehrend"])
-        
+
         mapping: dict[str, type[Studium] | type[Haushalt] | type[Freizeit]] = {
             "Studium": Studium,
             "Haushalt": Haushalt,
@@ -98,10 +100,10 @@ class TodoDetailPresenter:
             todo.calendar = self.von_str_zu_bool(
                 calendar
             )  # ist Variablenwert von Model da in view str und im model bool
-            todo.priority = Priority.from_str(priority) 
+            todo.priority = Priority.from_str(priority)
             todo.category = Category.from_str(category)
             todo.extra = self.build_extra(category, extra)
-            self.repo.update_todo(todo) 
+            self.repo.update_todo(todo)
         else:  # CREATE
             todo = ToDo(
                 _todo_id=self.repo.naechste_id(),
@@ -122,7 +124,7 @@ class TodoDetailPresenter:
         elif string == "true":
             return True
         raise ValueError(f"Ungültiger Bool-String: {string}")
-    
+
     def von_bool_zu_str(self, wert_b: bool) -> str:
         if wert_b:
             return "true"
