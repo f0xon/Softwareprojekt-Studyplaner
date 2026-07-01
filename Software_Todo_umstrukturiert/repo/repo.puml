@@ -6,7 +6,7 @@ skinparam classAttributeIconSize 0
 ' Repository Interface
 ' =========================
 
-class TodoRepo <<Repository>> <<protocol>> {
+Interface TodoRepo <<Repository>> <<protocol>> {
     + speichere(todo: ToDo): None
     + update_todo(todo: ToDo): None
     + lade_alle(): list[ToDo]
