@@ -1,0 +1,44 @@
+@startuml
+!pragma layout smetana
+skinparam classAttributeIconSize 0
+
+
+class FiltereTodoPresenter <<Presenter>> {
+    + repo: TodoRepo
+    + kat: str = "alle"
+    + prio: str = "alle"
+    + status: str = "alle"
+    --
+    + <<constructor>> __init__(repo: TodoRepo): None
+    + set_kategorie(value: str): None
+    + set_priority(value: str): None
+    + set_status(value: str): None
+    + get_filtered_todos(): List<ToDo>
+}
+
+
+
+interface TodoRepo <<Repository>> {
+    + speichere(todo: ToDo): None
+    + update_todo(todo: ToDo): None
+    + lade_alle(): list[ToDo]
+    + finde_todo_mit_id(todo_id: int): ToDo | None
+    + erledige_todo(todo_id: int): None
+    + loesche_todo(todo: ToDo): None
+    + filtere_todos(kat: str, prio: str, status: str): list[ToDo]
+    + naechste_id(): int
+    }
+
+
+package Domain {
+
+    }
+
+
+FiltereTodoPresenter --> TodoRepo : verwendet
+FiltereTodoPresenter --> Domain: verwendet
+
+TodoRepo ..> Domain
+
+
+@enduml

@@ -32,9 +32,6 @@ class TodoDetailPresenter:
             return self._current_todo
         return None
 
-    def set_modus(self, modus: Literal["create", "edit"]):
-        self._modus: Literal["create", "edit"] = modus
-
     @property
     def is_create_mode(self) -> bool:
         return self._modus == "create"
@@ -42,6 +39,9 @@ class TodoDetailPresenter:
     @property
     def is_edit_mode(self) -> bool:
         return self._modus == "edit"
+
+    def set_modus(self, modus: Literal["create", "edit"]):
+        self._modus: Literal["create", "edit"] = modus
 
     def map_priority(self, value: str) -> Priority | None:
         return PRIORITAETEN_DICT.get(value, KEINE_P)
@@ -53,7 +53,6 @@ class TodoDetailPresenter:
         self, category: str, data: dict[str, Any]
     ) -> Studium | Haushalt | Freizeit | None:
         if not data:
-            return None
             return None
 
         # Umwandlung von View=str zu Model=bool

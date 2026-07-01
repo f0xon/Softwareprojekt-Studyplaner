@@ -1,0 +1,51 @@
+@startuml
+!pragma layout smetana
+skinparam classAttributeIconSize 0
+
+
+
+class TodoDetailPresenter <<Presenter>> {
+    - _modus: Literal["create", "edit"]
+    - _current_todo: ToDo | None
+    - _repo: TodoRepo
+    --
+    + <<constructor>> __init__(repo: TodoRepo): None
+    +/ current_todo: ToDo | None <<property>>
+    +/ is_create_mode: bool <<property>>
+    +/ is_edit_mode: bool <<property>>
+    + set_modus(m: Literal[...]): None
+    + map_priority(value: str): Priority | None
+    + map_category(value: str): Category | None
+    + build_extra(category: str, data: dict[str, Any]): Studium | Haushalt | Freizeit | None
+    + lade_todo(todo_id: int): None
+    + save_todo(titel: str, notiz: str, deadline: date, calendar: str, priority: str, category: str, extra: dict[str, Any]): None
+    + von_str_zu_bool(string: str): bool
+    + von_bool_zu_str(wert_b: bool): str
+}
+
+
+
+interface TodoRepo <<Repository>> {
+    + speichere(todo: ToDo): None
+    + update_todo(todo: ToDo): None
+    + lade_alle(): list[ToDo]
+    + finde_todo_mit_id(todo_id: int): ToDo | None
+    + erledige_todo(todo_id: int): None
+    + loesche_todo(todo: ToDo): None
+    + filtere_todos(kat: str, prio: str, status: str): list[ToDo]
+    + naechste_id(): int
+    }
+
+
+package Domain {
+
+    }
+
+
+TodoDetailPresenter --> TodoRepo : verwendet
+TodoDetailPresenter --> Domain: verwendet
+
+TodoRepo ..> Domain
+
+
+@enduml
