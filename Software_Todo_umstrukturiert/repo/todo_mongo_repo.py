@@ -39,11 +39,9 @@ class MongoTodoRepo(TodoRepo):
 
     def lade_alle(self) -> list[ToDo]:
         todos: list[ToDo] = []
-        alle_eintraege = self.db.todos.find(
-            projection={"_id": False}, sort=[("_todo_id", -1)]
-        )
-        for eintrag in alle_eintraege:
-            todos.append(self.doc_to_list(eintrag))
+        alle_eintraege = self.db.todos.find(projection={"_id": False}, sort=[("_todo_id", -1)]) # type: ignore
+        for eintrag in alle_eintraege: # type: ignore
+            todos.append(self.doc_to_list(eintrag)) # type: ignore
         return todos
 
     def finde_todo_mit_id(self, todo_id: int) -> ToDo | None:
@@ -84,12 +82,10 @@ class MongoTodoRepo(TodoRepo):
         return todos
 
     def naechste_id(self) -> int:
-        letztes_todo = self.db.todos.find_one(
-            sort=[("_todo_id", -1)]
-        )  # sortiert  absteigend #Betz warum ist das hier rot? Können wir es ignorieren?
+        letztes_todo = self.db.todos.find_one(sort=[("_todo_id", -1)])  # type: ignore # sortiert  absteigend 
         if letztes_todo is None:
             return 1
-        return letztes_todo["_todo_id"] + 1
+        return letztes_todo["_todo_id"] + 1 # type: ignore
 
     # Übersetzung von Liste in Mongo Dict:
     def list_to_doc(self, todo: ToDo) -> dict[str, Any]:

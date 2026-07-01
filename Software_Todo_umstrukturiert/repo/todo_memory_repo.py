@@ -239,4 +239,6 @@ class InMemoryTodoRepo(TodoRepo):
         return result
 
     def naechste_id(self) -> int:
+        if len(self._todos)==0:
+            return 1
         return max(todo.todo_id for todo in self._todos) + 1
