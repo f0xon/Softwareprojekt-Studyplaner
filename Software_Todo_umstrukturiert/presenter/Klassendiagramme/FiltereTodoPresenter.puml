@@ -38,7 +38,7 @@ package Domain {
 FiltereTodoPresenter --> TodoRepo : verwendet
 FiltereTodoPresenter --> Domain: verwendet
 
-TodoRepo ..> Domain
+TodoRepo --> Domain
 
 
 @enduml

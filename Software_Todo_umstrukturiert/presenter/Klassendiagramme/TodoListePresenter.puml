@@ -40,7 +40,7 @@ package Domain {
 TodoListePresenter --> TodoRepo : verwendet
 TodoListePresenter --> Domain: verwendet
 
-TodoRepo ..> Domain
+TodoRepo --> Domain
 
 
 @enduml

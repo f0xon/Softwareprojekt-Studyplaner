@@ -45,7 +45,7 @@ package Domain {
 TodoDetailPresenter --> TodoRepo : verwendet
 TodoDetailPresenter --> Domain: verwendet
 
-TodoRepo ..> Domain
+TodoRepo --> Domain
 
 
 @enduml
