@@ -12,12 +12,12 @@ from model.todo_model import (
 from presenter.erzeuge_todo_presenter import TodoDetailPresenter
 
 #Betz: Müssen die Klassen Kategorie, StudiumKategorie, Haushaltkategorie und PrivatKategorie in eine eigene Datei?
-class Kategorie(Protocol):
+class KategorieView(Protocol):
     def build_ui(self) -> list[ft.Row]: ...
     def extract(self) -> dict[str, Any]: ...
 
 
-class StudiumKategorie:
+class StudiumKategorieView(KategorieView):
     def __init__(self):
         self.modul = ft.TextField(label="Modul")
         self.gruppenarbeit = ft.RadioGroup(
@@ -52,7 +52,7 @@ class StudiumKategorie:
         return {"modul": self.modul.value, "gruppenarbeit": self.gruppenarbeit.value}
 
 
-class HaushaltKategorie:
+class HaushaltKategorieView(KategorieView):
     def __init__(self):
         self.wiederkehrend = ft.RadioGroup(
             value="false",
@@ -79,7 +79,7 @@ class HaushaltKategorie:
         return {"wiederkehrend": self.wiederkehrend.value}
 
 
-class FreizeitKategorie:
+class FreizeitKategorieView(KategorieView):
     def __init__(self):
         self.hobby = ft.TextField(label="Hobby")
         self.ort = ft.TextField(label="Ort")
@@ -108,10 +108,10 @@ class ErzeugeTodoView(ft.Column):
         self.selected_date: date = date.today()
 
         self.category_fields = ft.Column()
-        self.kategorien: dict[str, Kategorie] = {
-            "Studium": StudiumKategorie(),
-            "Haushalt": HaushaltKategorie(),
-            "Freizeit": FreizeitKategorie(),
+        self.kategorien: dict[str, KategorieView] = {
+            "Studium": StudiumKategorieView(),
+            "Haushalt": HaushaltKategorieView(),
+            "Freizeit": FreizeitKategorieView(),
         }
 
         # Eingabefelder
@@ -267,7 +267,7 @@ class ErzeugeTodoView(ft.Column):
                 category = data.category.name if data.category else "keine"
                 if category == "Studium":
                     kat = self.kategorien["Studium"]
-                    if isinstance(kat, StudiumKategorie) and isinstance(
+                    if isinstance(kat, KategorieView()) and isinstance(
                         data.extra, Studium
                     ):
                         kat.modul.value = data.extra.modul
@@ -278,7 +278,7 @@ class ErzeugeTodoView(ft.Column):
                 elif category == "Haushalt":
                     kat = self.kategorien["Haushalt"]
                     self.category_fields.controls.extend(kat.build_ui())
-                    if isinstance(kat, HaushaltKategorie) and isinstance(
+                    if isinstance(kat, KategorieView) and isinstance(
                         data.extra, Haushalt
                     ):
                         kat.wiederkehrend.value = self.presenter.von_bool_zu_str(
@@ -287,7 +287,7 @@ class ErzeugeTodoView(ft.Column):
                 elif category == "Freizeit":
                     kat = self.kategorien["Freizeit"]
                     self.category_fields.controls.extend(kat.build_ui())
-                    if isinstance(kat, FreizeitKategorie) and isinstance(
+                    if isinstance(kat, KategorieView) and isinstance(
                         data.extra, Freizeit #Betz: View kennt Model? braucht um typechecker zufriedenzustellen
                     ):  # für pyrigth klasse definiert
                         kat.hobby.value = data.extra.hobby
@@ -298,7 +298,7 @@ class ErzeugeTodoView(ft.Column):
         kat: str | None = (
             self.category.value
         )  # Selbst wenn ein Default gesetzt ist, kann Flet intern den Zustand überschreiben oder nicht initialisieren.
-        aktuelle_kat: Kategorie | None = self.kategorien.get(kat) if kat else None
+        aktuelle_kat: KategorieView | None = self.kategorien.get(kat) if kat else None
         if aktuelle_kat:
             extra: dict[str, Any] = (
                 aktuelle_kat.extract()
