@@ -267,7 +267,7 @@ class ErzeugeTodoView(ft.Column):
                 category = data.category.name if data.category else "keine"
                 if category == "Studium":
                     kat = self.kategorien["Studium"]
-                    if isinstance(kat, KategorieView()) and isinstance(
+                    if isinstance(kat, StudiumKategorieView) and isinstance(
                         data.extra, Studium
                     ):
                         kat.modul.value = data.extra.modul
@@ -278,7 +278,7 @@ class ErzeugeTodoView(ft.Column):
                 elif category == "Haushalt":
                     kat = self.kategorien["Haushalt"]
                     self.category_fields.controls.extend(kat.build_ui())
-                    if isinstance(kat, KategorieView) and isinstance(
+                    if isinstance(kat, HaushaltKategorieView) and isinstance(
                         data.extra, Haushalt
                     ):
                         kat.wiederkehrend.value = self.presenter.von_bool_zu_str(
@@ -287,7 +287,7 @@ class ErzeugeTodoView(ft.Column):
                 elif category == "Freizeit":
                     kat = self.kategorien["Freizeit"]
                     self.category_fields.controls.extend(kat.build_ui())
-                    if isinstance(kat, KategorieView) and isinstance(
+                    if isinstance(kat, FreizeitKategorieView) and isinstance(
                         data.extra, Freizeit #Betz: View kennt Model? braucht um typechecker zufriedenzustellen
                     ):  # für pyrigth klasse definiert
                         kat.hobby.value = data.extra.hobby
