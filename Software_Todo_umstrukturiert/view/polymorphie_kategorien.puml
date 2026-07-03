@@ -2,29 +2,22 @@
 !pragma layout smetana
 skinparam classAttributeIconSize 0
 
-interface Kategorie <<protocol>>{
+interface KategorieView <<protocol>>{
     +build_ui(): list[ft.Row]
     +extract(): list[ft.Row]
 }
 
-class StudiumKategorie
-class HaushaltKategorie
-class FreizeitKategorie
 
-Kategorie <|.. StudiumKategorie
-Kategorie <|.. HaushaltKategorie
-Kategorie <|.. FreizeitKategorie
-
-class StudiumKategorie {
+class StudiumKategorieView {
     -modul: TextField
     -gruppenarbeit: RadioGroup
 
     +<<constructor>> __init__()
-    +build_ui(): dict[str, Any]
+    +build_ui(): list[ft.Row]
     +extract(): dict[str, Any]
 }
 
-class HaushaltKategorie {
+class HaushaltKategorieView {
     -wiederkehrend: RadioGroup
 
     +<<constructor>>__init__()
@@ -32,7 +25,7 @@ class HaushaltKategorie {
     +extract(): dict[str, Any]
 }
 
-class FreizeitKategorie {
+class FreizeitKategorieView {
     -hobby: TextField
     -ort: TextField
 
@@ -40,5 +33,10 @@ class FreizeitKategorie {
     +build_ui(): list[ft.Row]
     +extract(): dict[str, Any]
 }
+
+KategorieView <|.. StudiumKategorieView
+KategorieView <|.. HaushaltKategorieView
+KategorieView <|.. FreizeitKategorieView
+
 
 @enduml
