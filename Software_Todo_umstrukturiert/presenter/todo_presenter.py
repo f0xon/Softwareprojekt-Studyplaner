@@ -14,13 +14,13 @@ class TodoListePresenter:
         return self._repo.lade_alle()
 
     def erledige_todo(self, id: int) -> None:#
-        todo: ToDo = self._todo_None(todo=self._repo.finde_todo_mit_id(todo_id=id))
+        todo: ToDo = self.todo_None(todo=self._repo.finde_todo_mit_id(todo_id=id))
         todo.toggle_erledigt_todo()
         self._repo.update_todo(todo)
 
 
     def loesche_todo(self, id: int) -> None:#
-        todo: ToDo = self._todo_None(todo=self._repo.finde_todo_mit_id(todo_id=id))
+        todo: ToDo = self.todo_None(todo=self._repo.finde_todo_mit_id(todo_id=id))
         self._repo.loesche_todo(todo)
 
 
@@ -31,7 +31,7 @@ class TodoListePresenter:
         return None 
     
     
-    def _todo_None(self, todo: ToDo | None) -> ToDo:#
+    def todo_None(self, todo: ToDo | None) -> ToDo:#
         if todo is None:
             raise ValueError("Todo nicht gefunden")
         return todo
