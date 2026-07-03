@@ -8,10 +8,10 @@ from model.todo_model import (
     Freizeit,
     Haushalt,
     Studium,
-)  
+)
 from presenter.erzeuge_todo_presenter import TodoDetailPresenter
 
-#Betz: Müssen die Klassen Kategorie, StudiumKategorie, Haushaltkategorie und PrivatKategorie in eine eigene Datei?
+
 class KategorieView(Protocol):
     def build_ui(self) -> list[ft.Row]: ...
     def extract(self) -> dict[str, Any]: ...
@@ -21,7 +21,7 @@ class StudiumKategorieView(KategorieView):
     def __init__(self):
         self.modul = ft.TextField(label="Modul")
         self.gruppenarbeit = ft.RadioGroup(
-            value="false",  
+            value="false",
             content=ft.Row(
                 controls=[
                     ft.Radio(value="true", label="Ja"),
@@ -222,7 +222,7 @@ class ErzeugeTodoView(ft.Column):
                 ),
             )
         )
-    
+
     def show_datepicker(self, e: ft.Event[ft.Button]) -> None:
         if isinstance(e.control.page, ft.Page):
             e.control.page.show_dialog(
@@ -292,7 +292,8 @@ class ErzeugeTodoView(ft.Column):
                     kat = self.kategorien["Freizeit"]
                     self.category_fields.controls.extend(kat.build_ui())
                     if isinstance(kat, FreizeitKategorieView) and isinstance(
-                        data.extra, Freizeit #Betz: View kennt Model? braucht um typechecker zufriedenzustellen
+                        data.extra,
+                        Freizeit,
                     ):  # für pyrigth klasse definiert
                         kat.hobby.value = data.extra.hobby
                         kat.ort.value = data.extra.ort

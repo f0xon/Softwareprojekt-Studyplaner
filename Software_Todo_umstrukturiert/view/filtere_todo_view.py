@@ -130,7 +130,6 @@ class FiltereTodoView(ft.Column):
             )
         ]
 
-    #Betz: verstößt gegen DRY, trotzdem ok?
     def on_switch_changed_status(self, e: ft.Event[ft.Switch]):
         self.status_container.visible = e.control.value
         self.presenter.status = "alle"

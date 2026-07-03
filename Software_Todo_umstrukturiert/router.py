@@ -1,6 +1,7 @@
 # pyright: ignore[reportArgumentType]
 import flet as ft
 from typing import Any
+
 # from model.todo_model import ToDoModel, Priority, hoch, mittel, niedrig, keine_p, Category, studium, haushalt, freizeit
 from view.todo_view import TodoView
 from view.filtere_todo_view import FiltereTodoView
@@ -31,12 +32,14 @@ class Router:
         page.on_route_change = self.on_route_change
 
         # Repo erzeugen und an Presenter übergeben
-        db: Database[Any] = MongoClient(DB_URL, username=DB_USER, password=DB_PASSWORD).get_database(DB_NAME) # type: ignore
+        db: Database[Any] = MongoClient(
+            DB_URL, username=DB_USER, password=DB_PASSWORD
+        ).get_database(DB_NAME)  # type: ignore
         self.repo_mongo = MongoTodoRepo(db)
         self.repo_memory = InMemoryTodoRepo()
-    # wähle hier dein gewünschtes Repo aus:
+        # wähle hier dein gewünschtes Repo aus:
         self.ausgewaehltes_repo = self.repo_memory
-        #self.ausgewaehltes_repo = self.repo_mongo
+        # self.ausgewaehltes_repo = self.repo_mongo
 
         # Presenter erzeugen
         self.presenter_todo = TodoListePresenter(self.ausgewaehltes_repo)
@@ -57,9 +60,7 @@ class Router:
 
         self.page.clean()
         if self.page.route == self.todo:
-            self.page.add(
-                TodoView(self.presenter_todo, self.presenter_filtern)
-            )
+            self.page.add(TodoView(self.presenter_todo, self.presenter_filtern))
 
         elif self.page.route.startswith(self.erzeuge_todo):
             if "?" in self.page.route:
@@ -89,8 +90,7 @@ class Router:
             self.presenter_detail.lade_todo(todo_id)
 
     def on_nav_change(self, e: ft.Event[ft.CupertinoNavigationBar]):
-        index: int = e.control.selected_index #Betz: Was ist hier der richtige Typ?
-        #index: int = e.control.selected_index #Betz: Was ist hier der richtige Typ?
+        index: int = e.control.selected_index
         route = self.navigation.get(index)
         if route:
             if isinstance(self.page, ft.Page):  # pyright: ignore[reportUnnecessaryIsInstance]
