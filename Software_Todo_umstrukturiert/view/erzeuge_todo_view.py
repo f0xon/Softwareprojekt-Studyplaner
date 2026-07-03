@@ -123,14 +123,7 @@ class ErzeugeTodoView(ft.Column):
         self.deadline = ft.Button(
             "Pick date",
             icon=ft.Icons.CALENDAR_MONTH,
-            on_click=lambda e: e.control.page.show_dialog(
-                ft.DatePicker(
-                    first_date=date(2026, 1, 1),
-                    last_date=date(2028, 12, 1),
-                    value=self.selected_date,
-                    on_change=self.date_changed,
-                )
-            ),
+            on_click=self.show_datepicker,
         )
 
         self.category = ft.RadioGroup(
@@ -229,6 +222,17 @@ class ErzeugeTodoView(ft.Column):
                 ),
             )
         )
+    
+    def show_datepicker(self, e: ft.Event[ft.Button]) -> None:
+        if isinstance(e.control.page, ft.Page):
+            e.control.page.show_dialog(
+                ft.DatePicker(
+                    first_date=date(2026, 1, 1),
+                    last_date=date(2028, 12, 1),
+                    value=self.selected_date,
+                    on_change=self.date_changed,
+                )
+            )
 
     def date_changed(self, e: ft.Event[ft.DatePicker]) -> None:
         value = e.control.value
